@@ -1,0 +1,186 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background: white;
+}
+
+.admin-sidebar {
+  background: var(--brand); /* Dark blue */
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-brand {
+  font-size: 1.25rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+  color: #9CA3AF;
+}
+
+.admin-brand .text-orange {
+  color: var(--brand-alt);
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.admin-nav a {
+  padding: 1rem 2rem;
+  color: #9CA3AF;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-left: 3px solid transparent;
+}
+
+.admin-nav a.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-left-color: var(--brand-alt);
+}
+
+.admin-nav a:hover {
+  background: rgba(255, 255, 255, 0.02);
+  color: white;
+}
+
+.admin-content {
+  padding: 2.5rem 3rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.admin-header h1 {
+  font-size: 1.5rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.admin-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.admin-kpi-card {
+  background: var(--bg-soft);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.admin-kpi-card h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.admin-kpi-card span {
+  color: #9CA3AF;
+  font-size: 0.9rem;
+}
+
+.admin-table-wrapper {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  color: #9CA3AF;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.admin-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.table-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.table-user .avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 0.85rem;
+}
+
+.table-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.table-user-info strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.text-blue-light {
+  color: #60A5FA !important;
+}
+
+.table-user-info span {
+  font-size: 0.85rem;
+}
+
+.status-pill {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+.status-pending {
+  background: #FEF3C7;
+  color: #D97706;
+}

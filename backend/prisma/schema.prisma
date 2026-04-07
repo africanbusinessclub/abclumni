@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  passwordHash    String
+  role            String // member, moderator, admin
+  status          String // active, inactive, pending
+  acceptedTermsAt DateTime?
+  createdAt       DateTime  @default(now())
+  lastLoginAt     DateTime?
+
+  profile       Profile?
+  loginHistory  LoginHistory[]
+  articles      Article[]
+  notifications Notification[]
+}
+
+model Profile {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  firstName    String
+  lastName     String
+  promotion    String
+  photo        String
+  bio          String
+  city         String
+  position     String
+  company      String
+  sector       String
+  linkedin     String
+  phone        String
+  skills       String[]
+  interests    String[]
+  availability String // networking, mentoring, recruiting, none
+  isMasked     Boolean  @default(false)
+  visibility   Json // Storing ProfileVisibility as JSON for simplicity
+}
+
+model LoginHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime
+  ip        String
+  userAgent String
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String
+  category    String
+  tags        String[]
+  coverImage  String
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  publishedAt DateTime
+  createdAt   DateTime @default(now())
+  isUrgent    Boolean  @default(false)
+  views       Int      @default(0)
+}
+
+model Resource {
+  id          String   @id @default(uuid())
+  title       String
+  type        String
+  url         String
+  description String
+  memberOnly  Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       String
+  message    String
+  readAt     DateTime?
+  archivedAt DateTime?
+  createdAt  DateTime  @default(now())
+}

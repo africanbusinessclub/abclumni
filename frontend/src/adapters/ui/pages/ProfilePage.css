@@ -1,0 +1,48 @@
+.stack-form {
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-6);
+}
+
+.stack-form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.stack-form input,
+.stack-form select,
+.stack-form textarea {
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--line);
+  border-radius: var(--border-radius-md);
+  background-color: var(--bg-soft);
+}
+
+.visibility-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.visibility-grid label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-4);
+}

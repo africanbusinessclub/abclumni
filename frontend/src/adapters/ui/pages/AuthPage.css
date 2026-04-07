@@ -1,0 +1,262 @@
+.home-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  background: white;
+  z-index: 10;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.connexion-btn {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 1.5rem;
+}
+
+.rejoindre-btn {
+  background: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.5rem;
+}
+
+.hero-section {
+  background: var(--brand);
+  color: white;
+  padding: 5rem 3rem 0rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 800px;
+  z-index: 1;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: #D1D5DB;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #9CA3AF;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.cta-yellow {
+  background: var(--brand-alt) !important;
+  color: white !important;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.outline-btn {
+  background: transparent !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem 0 3rem;
+}
+
+.hero-stats .stat h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--brand-alt);
+  margin-bottom: 0.25rem;
+}
+
+.hero-stats .stat span {
+  color: #9CA3AF;
+  font-size: 0.9rem;
+}
+
+.news-preview {
+  padding: 4rem 3rem;
+  background: white;
+}
+
+.news-preview h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: var(--ink-soft);
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.news-cover {
+  height: 200px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.bg-gray { background: #4B5563; }
+.bg-amber { background: #D97706; }
+.bg-green { background: #059669; }
+
+.news-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.news-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+
+.text-blue { color: #1E3A8A; }
+.bg-blue-light { background: #DBEAFE; }
+
+.news-body h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.news-body time {
+  color: #9CA3AF;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .home-nav {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .nav-center {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .hero-section {
+    padding: 3rem 1.5rem 0rem;
+    text-align: center;
+  }
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .cta-yellow, .hero-actions .outline-btn {
+    width: 100%;
+  }
+  .hero-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .news-preview {
+    padding: 2rem 1.5rem;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .home-nav {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .nav-center {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .hero-section {
+    padding: 3rem 1.5rem 0rem;
+    text-align: center;
+  }
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .cta-yellow, .hero-actions .outline-btn {
+    width: 100%;
+  }
+  .hero-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .news-preview {
+    padding: 2rem 1.5rem;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,114 @@
+.directory-page {
+  padding: 1rem 0;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: none;
+  background: var(--bg-soft); /* light gray */
+  border-color: var(--line);
+}
+
+.search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-input-wrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-input-wrapper input::placeholder {
+  color: #9CA3AF;
+}
+
+.filter-btn {
+  background: white;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  padding: 0.6rem 1.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.pill {
+  background: white;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pill.active {
+  background: var(--brand);
+  color: white;
+  border-color: var(--brand);
+}
+
+.alumni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.alumni-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.alumni-card .avatar-lg {
+  width: 64px;
+  height: 64px;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.alumni-card h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.alumni-card p {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
+
+.availability-pill {
+  font-size: 0.8rem;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.pill-blue { background: #E0E7FF; color: #3730A3; }
+.pill-green { background: #DCFCE7; color: #166534; }
+.pill-amber { background: #FEF3C7; color: #92400E; }
+.pill-gray { background: #F3F4F6; color: #4B5563; }

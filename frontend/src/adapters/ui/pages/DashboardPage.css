@@ -1,0 +1,151 @@
+.dashboard-content {
+  padding: 2.5rem 3rem;
+  background: white;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.kpi-card {
+  padding: 1.5rem 2rem;
+  background: var(--bg-soft);
+  border: none;
+  box-shadow: none;
+}
+
+.kpi-card h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.kpi-card p {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.section-split {
+  margin-bottom: 3rem;
+}
+
+.section-split h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border-bottom: none;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.suggestion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem;
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.suggestion-card .avatar-lg {
+  margin-bottom: 1rem;
+}
+
+.suggestion-card h4 {
+  font-size: 1rem;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.suggestion-card p {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notif-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.notif-icon.blue { background: #EBF4FA; color: #2563EB; }
+.notif-icon.gray { background: #F3F4F6; color: #6B7280; }
+.notif-icon.amber { background: #FEF3C7; color: #D97706; }
+
+.notif-content p {
+  margin-bottom: 0.25rem;
+  color: var(--ink-soft);
+}
+
+.notif-content strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.notif-content span {
+  font-size: 0.8rem;
+  color: #9CA3AF;
+}
+
+.notification-item.unread .notif-content p {
+  color: var(--ink);
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1.5rem 1rem;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
