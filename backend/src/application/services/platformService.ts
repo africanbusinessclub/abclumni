@@ -551,6 +551,7 @@ function createPlatformService({
 
     async function adminStats() {
         const activeMembers = await db.user.count({ where: { status: "active" } });
+        const inactiveMembers = await db.user.count({ where: { status: "inactive" } });
         const pendingMembers = await db.user.count({ where: { status: "pending" } });
 
         const thirtyDaysAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 30);
@@ -564,7 +565,7 @@ function createPlatformService({
         });
         const topArticles = topArticlesDb.map((item: any) => ({ id: item.id, title: item.title, views: item.views }));
 
-        return { activeMembers, pendingMembers, recentSignups, unreadNotifications, topArticles };
+        return { activeMembers, inactiveMembers, pendingMembers, recentSignups, unreadNotifications, topArticles };
     }
 
     async function exportUsersCsvRecords() {

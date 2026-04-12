@@ -180,6 +180,7 @@ export interface AdminUsersResponse {
 
 export interface AdminStats {
     activeMembers: number;
+    inactiveMembers: number;
     pendingMembers: number;
     recentSignups: number;
     unreadNotifications: number;
