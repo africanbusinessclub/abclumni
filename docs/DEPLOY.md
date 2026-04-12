@@ -206,6 +206,7 @@ cd /home/deploy/abclumni
 echo "<your-github-pat>" | docker login ghcr.io -u <your-github-username> --password-stdin
 
 # Pull and start all services
+# Note: GITHUB_REPOSITORY must be lowercase for Docker image names (GHCR requirement)
 export GITHUB_REPOSITORY=atepir/abclumni
 export IMAGE_TAG=latest
 docker compose -f docker-compose.prod.yml pull
