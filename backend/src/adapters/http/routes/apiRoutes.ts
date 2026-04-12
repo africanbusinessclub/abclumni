@@ -32,7 +32,7 @@ function createApiRouter({
     message: { error: "Too many authentication attempts. Try again later." },
   });
 
-  router.get("/health", async (_req: Request, res: Response) => {
+  router.get("/api/v1/health", async (_req: Request, res: Response) => {
     res.json({ ok: true, service: "abc-alumni-api" });
   });
 

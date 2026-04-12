@@ -107,6 +107,7 @@ Frontend runs on `http://localhost:5173` and points to backend API.
 
 ## Main API Endpoints
 
+- `GET /api/v1/health`
 - `POST /api/v1/auth/register`
 - `POST /api/v1/auth/login`
 - `GET /api/v1/me`
@@ -126,6 +127,10 @@ Frontend runs on `http://localhost:5173` and points to backend API.
 - `PATCH /api/v1/admin/users/:id/role`
 - `GET /api/v1/admin/users/export.csv`
 - `GET /api/v1/admin/stats`
+
+## Deployment
+
+See [docs/DEPLOY.md](docs/DEPLOY.md) for the full IONOS deployment guide (Docker Compose + GitHub Actions CI/CD).
 
 ## Notes
 
