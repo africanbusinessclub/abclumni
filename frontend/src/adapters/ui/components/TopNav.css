@@ -4,6 +4,8 @@
 
 .brand { display: flex; align-items: center; gap: 0.6rem; }
 
+.brand img { border-radius: 6px; }
+
 .brand .dot { width: 10px; height: 10px; background: var(--brand-alt); border-radius: 50%; display: inline-block; }
 
 .brand strong { font-weight: 500; color: var(--brand); font-size: 1.15rem; }
@@ -229,6 +231,18 @@
 }
 
 .mobile-only { display: none !important; }
+
+.app-footer {
+  background: var(--brand);
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 2.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+}
 
 @media (max-width: 768px) {
   .mobile-only {

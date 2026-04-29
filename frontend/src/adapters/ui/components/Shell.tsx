@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import type { AuthUser } from '../../../domain/types'
 import { Button } from './Button'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
+import { AbcLogo } from '../../../assets/AbcLogo'
 import './TopNav.css'
 
 type ShellProps = {
@@ -55,8 +56,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
     return (
         <header className="top-nav">
             <div className="brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                <span className="dot"></span>
-                <strong>African Business Club</strong>
+                <AbcLogo size={34} />
             </div>
 
             <div className="user-chip" ref={dropdownRef} style={{ position: 'relative' }}>
@@ -133,6 +133,10 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                 </aside>
                 <main className="app-content">{children}</main>
             </div>
+            <footer className="app-footer">
+                <AbcLogo size={28} />
+                <span>© {new Date().getFullYear()} Alumni ABC · African Business Club</span>
+            </footer>
         </div>
     )
 }
