@@ -6,7 +6,7 @@
   }
 }
 
-.abc-logo { object-fit: contain; display: block; border-radius: 4px; }
+.abc-logo { object-fit: contain; display: block; border-radius: 4px; flex-shrink: 0; }
 
 #next-steps ul {
   list-style: none;
