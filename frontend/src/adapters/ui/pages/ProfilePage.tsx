@@ -56,16 +56,16 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
             const payload = { ...form, skills: splitCsv(form.skills), interests: splitCsv(form.interests) }
             const response = await platformGateway.updateProfile(payload)
             onUserUpdate((prev) => (prev ? { ...prev, profile: response.data.profile } : prev))
-            setStatus('Profile updated.')
+            setStatus('Profil mis à jour.')
         } catch (error) {
-            setStatus(getApiErrorMessage(error, 'Unable to update profile'))
+            setStatus(getApiErrorMessage(error, 'Impossible de mettre à jour le profil'))
         } finally {
             setBusy(false)
         }
     }
 
     const deleteAccount = async () => {
-        const confirmed = window.confirm('Delete your account and all related data?')
+        const confirmed = window.confirm('Supprimer votre compte et toutes les données associées ?')
         if (!confirmed) return
         await platformGateway.deleteAccount()
         onLogout()
@@ -73,31 +73,31 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
 
     return (
         <section className="page-stack">
-            <h1>Profile & Privacy</h1>
+            <h1>Profil & Confidentialité</h1>
             <form className="panel stack-form" onSubmit={save}>
                 <div className="grid-two">
-                    <label>First name<input value={form.firstName || ''} onChange={(event) => setForm((prev) => ({ ...prev, firstName: event.target.value }))} /></label>
-                    <label>Last name<input value={form.lastName || ''} onChange={(event) => setForm((prev) => ({ ...prev, lastName: event.target.value }))} /></label>
+                    <label>Prénom<input value={form.firstName || ''} onChange={(event) => setForm((prev) => ({ ...prev, firstName: event.target.value }))} /></label>
+                    <label>Nom de famille<input value={form.lastName || ''} onChange={(event) => setForm((prev) => ({ ...prev, lastName: event.target.value }))} /></label>
                 </div>
                 <div className="grid-two">
                     <label>Promotion<input value={form.promotion || ''} onChange={(event) => setForm((prev) => ({ ...prev, promotion: event.target.value }))} /></label>
-                    <label>Availability<select value={form.availability || 'none'} onChange={(event) => setForm((prev) => ({ ...prev, availability: event.target.value as Availability }))}><option value="none">Not specified</option><option value="networking">Networking</option><option value="mentoring">Mentoring</option><option value="recruiting">Recruiting</option></select></label>
+                    <label>Disponibilité<select value={form.availability || 'none'} onChange={(event) => setForm((prev) => ({ ...prev, availability: event.target.value as Availability }))}><option value="none">Non renseigné</option><option value="networking">Networking</option><option value="mentoring">Mentorat</option><option value="recruiting">Recrutement</option></select></label>
                 </div>
                 <div className="grid-two">
-                    <label>Position<input value={form.position || ''} onChange={(event) => setForm((prev) => ({ ...prev, position: event.target.value }))} /></label>
-                    <label>Company<input value={form.company || ''} onChange={(event) => setForm((prev) => ({ ...prev, company: event.target.value }))} /></label>
+                    <label>Poste<input value={form.position || ''} onChange={(event) => setForm((prev) => ({ ...prev, position: event.target.value }))} /></label>
+                    <label>Entreprise<input value={form.company || ''} onChange={(event) => setForm((prev) => ({ ...prev, company: event.target.value }))} /></label>
                 </div>
                 <div className="grid-two">
-                    <label>City<input value={form.city || ''} onChange={(event) => setForm((prev) => ({ ...prev, city: event.target.value }))} /></label>
-                    <label>Sector<input value={form.sector || ''} onChange={(event) => setForm((prev) => ({ ...prev, sector: event.target.value }))} /></label>
+                    <label>Ville<input value={form.city || ''} onChange={(event) => setForm((prev) => ({ ...prev, city: event.target.value }))} /></label>
+                    <label>Secteur<input value={form.sector || ''} onChange={(event) => setForm((prev) => ({ ...prev, sector: event.target.value }))} /></label>
                 </div>
                 <label>Bio<textarea value={form.bio || ''} onChange={(event) => setForm((prev) => ({ ...prev, bio: event.target.value }))} rows={4} /></label>
                 <div className="grid-two">
-                    <label>Skills<input value={form.skills || ''} onChange={(event) => setForm((prev) => ({ ...prev, skills: event.target.value }))} /></label>
-                    <label>Interests<input value={form.interests || ''} onChange={(event) => setForm((prev) => ({ ...prev, interests: event.target.value }))} /></label>
+                    <label>Compétences<input value={form.skills || ''} onChange={(event) => setForm((prev) => ({ ...prev, skills: event.target.value }))} /></label>
+                    <label>Centres d'intérêt<input value={form.interests || ''} onChange={(event) => setForm((prev) => ({ ...prev, interests: event.target.value }))} /></label>
                 </div>
 
-                <h3>Visibility controls</h3>
+                <h3>Paramètres de visibilité</h3>
                 <div className="visibility-grid">
                     {Object.entries(form.visibility || {}).map(([key, value]) => (
                         <label key={key}>
@@ -117,8 +117,8 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
                 </div>
 
                 <div className="form-actions">
-                    <Button type="submit" disabled={busy}>{busy ? 'Saving...' : 'Save changes'}</Button>
-                    <Button type="button" variant="danger" onClick={deleteAccount}>Delete account</Button>
+                    <Button type="submit" disabled={busy}>{busy ? 'Sauvegarde...' : 'Enregistrer'}</Button>
+                    <Button type="button" variant="danger" onClick={deleteAccount}>Supprimer le compte</Button>
                 </div>
                 {status && <p>{status}</p>}
             </form>

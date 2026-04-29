@@ -41,8 +41,8 @@ export function NotificationsPage() {
                                 <small>{new Date(item.createdAt).toLocaleString()}</small>
                             </div>
                             <div className="notice-actions">
-                                {!item.readAt && <Button size="sm" variant="secondary" type="button" onClick={() => update(item.id, 'read')}>Mark read</Button>}
-                                <Button size="sm" variant="secondary" type="button" onClick={() => update(item.id, 'archive')}>Archive</Button>
+                                {!item.readAt && <Button size="sm" variant="secondary" type="button" onClick={() => update(item.id, 'read')}>Marquer comme lu</Button>}
+                                <Button size="sm" variant="secondary" type="button" onClick={() => update(item.id, 'archive')}>Archiver</Button>
                             </div>
                         </div>
                     ))}

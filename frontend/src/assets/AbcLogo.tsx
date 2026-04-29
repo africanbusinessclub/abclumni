@@ -10,7 +10,7 @@ export function AbcLogo({ size = 36 }: AbcLogoProps) {
 
     return (
         <img
-            src="/logo.jpeg"
+            src="/logo.png"
             alt="African Business Club - Alumni ABC"
             width={width}
             height={height}

@@ -46,3 +46,28 @@
   align-items: center;
   margin-top: var(--spacing-4);
 }
+
+@media (max-width: 768px) {
+  .stack-form {
+    padding: var(--spacing-4);
+    gap: var(--spacing-4);
+  }
+
+  .grid-two {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+  }
+
+  .form-actions button,
+  .form-actions a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}

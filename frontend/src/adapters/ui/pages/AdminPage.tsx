@@ -4,6 +4,7 @@ import { getApiErrorMessage } from '../../../domain/httpError'
 import type { AdminStats, AdminUser } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { Button } from '../components/Button'
+import { LayoutDashboard, Newspaper, FolderOpen } from 'lucide-react'
 import './AdminPage.css'
 
 export function AdminPage() {
@@ -93,9 +94,9 @@ export function AdminPage() {
                     ABC <span className="text-orange">Admin</span>
                 </div>
                 <nav className="admin-nav">
-                    <a href="#members" className={activeTab === 'members' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('members'); }}>🎛️ Dashboard & Membres</a>
-                    <a href="#news" className={activeTab === 'news' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('news'); }}>📰 Publier Actualité</a>
-                    <a href="#resources" className={activeTab === 'resources' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('resources'); }}>📁 Publier Ressource</a>
+                    <a href="#members" className={activeTab === 'members' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('members'); }}><LayoutDashboard size={16} /> Dashboard & Membres</a>
+                    <a href="#news" className={activeTab === 'news' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('news'); }}><Newspaper size={16} /> Publier Actualité</a>
+                    <a href="#resources" className={activeTab === 'resources' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('resources'); }}><FolderOpen size={16} /> Publier Ressource</a>
                 </nav>
             </aside>
             <main className="admin-content">

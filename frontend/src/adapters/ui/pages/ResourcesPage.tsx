@@ -18,7 +18,7 @@ export function ResourcesPage() {
     return (
         <section className="page-stack">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>Member Resources</h1>
+                <h1>Ressources membres</h1>
                 {auth.user?.role === 'admin' && (
                     <Button onClick={() => navigate('/admin#resources')}>+ Publier une ressource</Button>
                 )}
@@ -27,8 +27,8 @@ export function ResourcesPage() {
                 {items.map((item) => (
                     <article key={item.id} className="panel resource-card">
                         <h3>{item.title}</h3>
-                        <p>Type: {item.type}</p>
-                        <a href={item.url} target="_blank" rel="noreferrer">Open resource</a>
+                        <p>Type : {item.type}</p>
+                        <a href={item.url} target="_blank" rel="noreferrer">Ouvrir la ressource</a>
                     </article>
                 ))}
             </div>

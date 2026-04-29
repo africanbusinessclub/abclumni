@@ -31,14 +31,14 @@ export function NewsPage() {
     return (
         <section className="page-stack">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>Association News</h1>
+                <h1>Actualités de l'association</h1>
                 {auth.user?.role === 'admin' && (
                     <Button onClick={() => navigate('/admin#news')}>+ Publier une actualité</Button>
                 )}
             </div>
             <form className="panel inline-form" onSubmit={(event) => { event.preventDefault(); void load(query) }}>
-                <input value={query} placeholder="Search by title, content or tag" onChange={(event) => setQuery(event.target.value)} />
-                <Button type="submit">Filter</Button>
+                <input value={query} placeholder="Rechercher par titre, contenu ou tag" onChange={(event) => setQuery(event.target.value)} />
+                <Button type="submit">Filtrer</Button>
             </form>
 
             {loading ? <SkeletonGrid /> : (

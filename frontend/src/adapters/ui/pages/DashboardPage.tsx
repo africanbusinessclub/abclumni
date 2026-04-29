@@ -5,6 +5,7 @@ import type { DashboardData, NotificationItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
 import { useAuthState } from '../../../application/hooks/useAuthState'
+import { UserCircle, Newspaper, Diamond } from 'lucide-react'
 import './DashboardPage.css'
 
 type DashboardState = {
@@ -60,7 +61,7 @@ export function DashboardPage() {
     if (!state.data) return null
 
     const profile = user?.profile
-    const firstName = profile?.fullName?.split(' ')[0] || user?.email?.split('@')[0] || 'Member'
+    const firstName = profile?.fullName?.split(' ')[0] || user?.email?.split('@')[0] || 'Membre'
     const recentNotifs = state.notifications.slice(0, 3)
 
     return (
@@ -111,7 +112,7 @@ export function DashboardPage() {
                     {recentNotifs.map((item) => (
                         <div key={item.id} className={`notification-item ${!item.readAt ? 'unread' : ''}`}>
                             <span className={`notif-icon ${item.type === 'profile' ? 'blue' : item.type === 'article' ? 'amber' : 'gray'}`}>
-                                {item.type === 'profile' ? '👤' : item.type === 'article' ? '📰' : '◆'}
+                                {item.type === 'profile' ? <UserCircle size={18} /> : item.type === 'article' ? <Newspaper size={18} /> : <Diamond size={18} />}
                             </span>
                             <div className="notif-content">
                                 <p><strong>{item.type}</strong> {item.message}</p>

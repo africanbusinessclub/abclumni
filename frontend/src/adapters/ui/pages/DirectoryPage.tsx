@@ -4,6 +4,7 @@ import { initialDirectoryQuery } from '../../../domain/directoryQuery'
 import { DirectoryQuery, PublicProfile } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
+import { Search } from 'lucide-react'
 import './DirectoryPage.css'
 
 type DirectoryState = {
@@ -45,7 +46,7 @@ export function DirectoryPage() {
             const response = await platformGateway.getAlumni(params)
             setResult({ loading: false, items: response.data.items, total: response.data.meta.total, error: '' })
         } catch (error) {
-            setResult({ loading: false, items: [], total: 0, error: getApiErrorMessage(error, 'Unable to load alumni') })
+            setResult({ loading: false, items: [], total: 0, error: getApiErrorMessage(error, 'Impossible de charger l\'annuaire') })
         }
     }
 
@@ -58,7 +59,7 @@ export function DirectoryPage() {
                 setResult({ loading: false, items: response.data.items, total: response.data.meta.total, error: '' })
             } catch (error) {
                 if (!isMounted) return
-                setResult({ loading: false, items: [], total: 0, error: getApiErrorMessage(error, 'Unable to load alumni') })
+                setResult({ loading: false, items: [], total: 0, error: getApiErrorMessage(error, 'Impossible de charger l\'annuaire') })
             }
         }
         void bootstrap()
@@ -71,7 +72,7 @@ export function DirectoryPage() {
         <section className="directory-page">
             <div className="search-bar-container panel">
                 <div className="search-input-wrapper">
-                    <span className="search-icon">🔍</span>
+                    <span className="search-icon"><Search size={18} /></span>
                     <input
                         type="text"
                         placeholder="Rechercher un alumni par nom, entreprise, compétence..."
@@ -97,8 +98,8 @@ export function DirectoryPage() {
                 >
                     <option value="">Disponibilité : Toutes</option>
                     <option value="networking">Networking</option>
-                    <option value="mentoring">Mentoring</option>
-                    <option value="recruiting">Recruiting</option>
+                    <option value="mentoring">Mentorat</option>
+                    <option value="recruiting">Recrutement</option>
                 </select>
 
                 <select
@@ -142,7 +143,7 @@ export function DirectoryPage() {
                                 {getInitials(item.fullName)}
                             </div>
                             <h3>{item.fullName}</h3>
-                            <p>{item.position || 'Role not set'}, {item.company || 'Unknown company'}</p>
+                            <p>{item.position || 'Poste non renseigné'}, {item.company || 'Entreprise inconnue'}</p>
                             {item.availability && item.availability !== 'none' && (
                                 <span className={'availability-pill ' + getAvailabilityColor(item.availability)}>
                                     {item.availability}

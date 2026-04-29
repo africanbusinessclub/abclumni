@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import type { NewsArticleDetail } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { Button } from '../components/Button'
+import { AlertTriangle } from 'lucide-react'
 import './NewsDetailPage.css'
 
 export function NewsDetailPage() {
@@ -49,7 +50,7 @@ export function NewsDetailPage() {
                 </div>
 
                 {article.isUrgent && (
-                    <div className="news-detail-urgent">⚠ Actualité urgente</div>
+                    <div className="news-detail-urgent"><AlertTriangle size={16} /> Actualité urgente</div>
                 )}
 
                 <h1 className="news-detail-title">{article.title}</h1>
