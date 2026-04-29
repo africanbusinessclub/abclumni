@@ -23,15 +23,21 @@ export function ResourcesPage() {
                     <Button onClick={() => navigate('/admin#resources')}>+ Publier une ressource</Button>
                 )}
             </div>
-            <div className="card-grid">
-                {items.map((item) => (
-                    <article key={item.id} className="panel resource-card">
-                        <h3>{item.title}</h3>
-                        <p>Type : {item.type}</p>
-                        <a href={item.url} target="_blank" rel="noreferrer">Ouvrir la ressource</a>
-                    </article>
-                ))}
-            </div>
+            {items.length === 0 ? (
+                <div className="empty-state panel">
+                    <p>Aucune ressource disponible pour le moment.</p>
+                </div>
+            ) : (
+                <div className="card-grid">
+                    {items.map((item) => (
+                        <article key={item.id} className="panel resource-card">
+                            <h3>{item.title}</h3>
+                            <p>Type : {item.type}</p>
+                            <a href={item.url} target="_blank" rel="noreferrer">Ouvrir la ressource</a>
+                        </article>
+                    ))}
+                </div>
+            )}
         </section>
     )
 }

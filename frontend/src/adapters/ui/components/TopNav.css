@@ -331,6 +331,6 @@
   }
 
   .app-footer {
-    margin-bottom: 60px;
+    display: none;
   }
 }

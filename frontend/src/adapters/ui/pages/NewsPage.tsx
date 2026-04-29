@@ -41,7 +41,11 @@ export function NewsPage() {
                 <Button type="submit">Filtrer</Button>
             </form>
 
-            {loading ? <SkeletonGrid /> : (
+            {loading ? <SkeletonGrid /> : items.length === 0 ? (
+                <div className="empty-state panel">
+                    <p>Aucune actualité disponible pour le moment.</p>
+                </div>
+            ) : (
                 <div className="card-grid">
                     {items.map((article) => (
                         <article key={article.id} className="panel article-card" onClick={() => navigate(`/news/${article.id}`)} style={{ cursor: 'pointer' }}>

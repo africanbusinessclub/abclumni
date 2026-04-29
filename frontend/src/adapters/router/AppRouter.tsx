@@ -12,6 +12,7 @@ import { ResourcesPage } from '../ui/pages/ResourcesPage'
 import { NotificationsPage } from '../ui/pages/NotificationsPage'
 import { ProfilePage } from '../ui/pages/ProfilePage'
 import { AdminPage } from '../ui/pages/AdminPage'
+import { MemberProfilePage } from '../ui/pages/MemberProfilePage'
 
 export function AppRouter() {
     const auth = useAuthState()
@@ -70,6 +71,10 @@ export function AppRouter() {
             <Route
                 path="/admin"
                 element={<AdminRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><AdminPage /></Shell></AdminRoute>}
+            />
+            <Route
+                path="/members/:id"
+                element={<ProtectedRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><MemberProfilePage /></Shell></ProtectedRoute>}
             />
             <Route path="*" element={<Navigate to={auth.user ? '/dashboard' : '/auth'} replace />} />
         </Routes>

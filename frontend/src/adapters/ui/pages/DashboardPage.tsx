@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
 import type { DashboardData, NotificationItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
@@ -38,6 +38,7 @@ function timeAgo(dateStr: string) {
 
 export function DashboardPage() {
     const { user } = useAuthState()
+    const navigate = useNavigate()
     const [state, setState] = useState<DashboardState>({ loading: true, data: null, notifications: [], error: '' })
 
     useEffect(() => {
@@ -91,7 +92,7 @@ export function DashboardPage() {
                 <div className="suggestions-grid">
                     {state.data.suggestions.length === 0 && <p style={{ color: '#666' }}>Aucune suggestion pour le moment.</p>}
                     {state.data.suggestions.map((item) => (
-                        <div key={item.id} className="panel suggestion-card">
+                        <div key={item.id} className="panel suggestion-card" onClick={() => navigate(`/members/${item.id}`)} style={{ cursor: 'pointer' }}>
                             <div className={'avatar avatar-lg ' + getAvatarColor(item.fullName)}>
                                 {getInitials(item.fullName)}
                             </div>

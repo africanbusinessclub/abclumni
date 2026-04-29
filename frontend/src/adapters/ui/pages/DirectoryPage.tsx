@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
 import { initialDirectoryQuery } from '../../../domain/directoryQuery'
 import { DirectoryQuery, PublicProfile } from '../../../domain/types'
@@ -36,6 +37,7 @@ function getAvailabilityColor(label: string) {
 export function DirectoryPage() {
     const [query, setQuery] = useState(initialDirectoryQuery)
     const [result, setResult] = useState<DirectoryState>({ loading: true, items: [], error: '', total: 0 })
+    const navigate = useNavigate()
 
     const load = async (nextQuery: DirectoryQuery, options = { showLoading: true }) => {
         if (options.showLoading) {
@@ -86,15 +88,16 @@ export function DirectoryPage() {
                 </div>
             </div>
 
-            <div className="filter-bar panel" style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap', padding: '1rem', background: '#fff', borderRadius: '8px' }}>
+            <div className="filter-bar panel">
                 <select
+                    aria-label="Filtrer par disponibilité"
+                    title="Filtrer par disponibilité"
                     value={query.availability}
                     onChange={(e) => {
                         const newQuery = { ...query, availability: e.target.value }
                         setQuery(newQuery)
                         void load(newQuery)
                     }}
-                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
                     <option value="">Disponibilité : Toutes</option>
                     <option value="networking">Networking</option>
@@ -103,13 +106,14 @@ export function DirectoryPage() {
                 </select>
 
                 <select
+                    aria-label="Filtrer par secteur"
+                    title="Filtrer par secteur"
                     value={query.sector}
                     onChange={(e) => {
                         const newQuery = { ...query, sector: e.target.value }
                         setQuery(newQuery)
                         void load(newQuery)
                     }}
-                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
                     <option value="">Secteur : Tous</option>
                     <option value="finance">Finance</option>
@@ -119,13 +123,15 @@ export function DirectoryPage() {
                 </select>
 
                 <select
+                    aria-label="Trier les résultats"
+                    title="Trier les résultats"
+                    className="filter-select--right"
                     value={query.sort}
                     onChange={(e) => {
                         const newQuery = { ...query, sort: e.target.value as DirectoryQuery['sort'] }
                         setQuery(newQuery)
                         void load(newQuery)
                     }}
-                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc', marginLeft: 'auto' }}
                 >
                     <option value="relevance">Trier par pertinence</option>
                     <option value="name">Trier par nom</option>
@@ -135,10 +141,15 @@ export function DirectoryPage() {
 
             {result.loading && <SkeletonGrid />}
             {result.error && <p className="error-text">{result.error}</p>}
-            {!result.loading && !result.error && (
+            {!result.loading && !result.error && result.items.length === 0 && (
+                <div className="empty-state panel">
+                    <p>Aucun alumni trouvé pour cette recherche.</p>
+                </div>
+            )}
+            {!result.loading && !result.error && result.items.length > 0 && (
                 <div className="alumni-grid">
                     {result.items.map((item) => (
-                        <article key={item.id} className="alumni-card panel">
+                        <article key={item.id} className="alumni-card alumni-card--clickable panel" onClick={() => navigate(`/members/${item.id}`)}>
                             <div className={'avatar avatar-lg ' + getAvatarColor(item.fullName)}>
                                 {getInitials(item.fullName)}
                             </div>

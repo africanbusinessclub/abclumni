@@ -342,6 +342,13 @@ textarea {
   padding: 1rem;
 }
 
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--ink-soft);
+  font-size: var(--font-size-sm);
+}
+
 .mini-card p,
 .article-card p,
 .profile-card p {

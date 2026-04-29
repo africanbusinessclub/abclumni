@@ -32,6 +32,9 @@ export const platformGateway = {
     getAlumni(params: Partial<DirectoryQuery> = {}) {
         return apiClient.get<DirectoryResponse>('/alumni', { params })
     },
+    getAlumniById(id: string) {
+        return apiClient.get<PublicProfile>(`/alumni/${id}`)
+    },
     getArticles(params: Partial<Record<'q' | 'category' | 'tag', string>> = {}) {
         return apiClient.get<NewsResponse>('/articles', { params })
     },
