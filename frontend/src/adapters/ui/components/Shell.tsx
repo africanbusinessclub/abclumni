@@ -102,8 +102,50 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
     )
 }
 
+function BottomNav({ user, unreadCount }: { user: AuthUser; unreadCount: number }) {
+    const location = useLocation()
+    const isActive = (path: string) => location.pathname.startsWith(path)
+
+    return (
+        <nav className="bottom-nav">
+            <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
+                <span className="bottom-nav-icon">🎛️</span>
+                <span>Home</span>
+            </Link>
+            <Link to="/directory" className={isActive('/directory') ? 'active' : ''}>
+                <span className="bottom-nav-icon">👥</span>
+                <span>Annuaire</span>
+            </Link>
+            <Link to="/news" className={isActive('/news') ? 'active' : ''}>
+                <span className="bottom-nav-icon">📰</span>
+                <span>Actus</span>
+            </Link>
+            <Link to="/resources" className={isActive('/resources') ? 'active' : ''}>
+                <span className="bottom-nav-icon">📁</span>
+                <span>Ressources</span>
+            </Link>
+            <Link to="/profile" className={isActive('/profile') || isActive('/notifications') ? 'active' : ''}>
+                <span className="bottom-nav-icon bottom-nav-avatar-wrap">
+                    <span className={'avatar avatar-sm ' + getAvatarColor(user?.profile?.fullName || '')}>
+                        {getInitials(user?.profile?.fullName || '')}
+                    </span>
+                    {unreadCount > 0 && <span className="bottom-nav-dot"></span>}
+                </span>
+                <span>Moi</span>
+            </Link>
+        </nav>
+    )
+}
+
 export function Shell({ user, onLogout, children }: ShellProps) {
     const location = useLocation()
+    const [unreadCount, setUnreadCount] = useState(0)
+
+    useEffect(() => {
+        platformGateway.getDashboard()
+            .then(res => setUnreadCount(res.data.unreadNotifications))
+            .catch(() => setUnreadCount(0))
+    }, [location.pathname])
 
     const profile = user?.profile
 
@@ -124,9 +166,11 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                         <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}><span className="icon">👤</span> Mon profil</Link>
                         <Link to="/directory" className={location.pathname.startsWith('/directory') ? 'active' : ''}><span className="icon">👥</span> Annuaire</Link>
                         <Link to="/news" className={location.pathname.startsWith('/news') ? 'active' : ''}><span className="icon">📰</span> Actualités</Link>
-                        <Link to="/resources" className={location.pathname.startsWith('/resources') ? 'active' : ''}><span className="icon">📁</span> Ressources</Link>                    {user?.role === 'admin' && (
+                        <Link to="/resources" className={location.pathname.startsWith('/resources') ? 'active' : ''}><span className="icon">📁</span> Ressources</Link>
+                        {user?.role === 'admin' && (
                             <Link to="/admin" className={location.pathname.startsWith('/admin') ? 'active' : ''}><span className="icon">🛡️</span> Administration</Link>
-                        )}                        <button className="logout-btn" onClick={onLogout} style={{ marginTop: 'auto', background: 'none', border: 'none', color: 'inherit', fontWeight: '500', cursor: 'pointer', textAlign: 'left', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        )}
+                        <button className="logout-btn" onClick={onLogout} style={{ marginTop: 'auto', background: 'none', border: 'none', color: 'inherit', fontWeight: '500', cursor: 'pointer', textAlign: 'left', padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                             <span className="icon">🚪</span> Déconnexion
                         </button>
                     </nav>
@@ -137,6 +181,7 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                 <AbcLogo size={28} />
                 <span>© {new Date().getFullYear()} Alumni ABC · African Business Club</span>
             </footer>
+            <BottomNav user={user} unreadCount={unreadCount} />
         </div>
     )
 }

@@ -7,6 +7,7 @@ import { AuthPage } from '../ui/pages/AuthPage'
 import { DashboardPage } from '../ui/pages/DashboardPage'
 import { DirectoryPage } from '../ui/pages/DirectoryPage'
 import { NewsPage } from '../ui/pages/NewsPage'
+import { NewsDetailPage } from '../ui/pages/NewsDetailPage'
 import { ResourcesPage } from '../ui/pages/ResourcesPage'
 import { NotificationsPage } from '../ui/pages/NotificationsPage'
 import { ProfilePage } from '../ui/pages/ProfilePage'
@@ -49,6 +50,10 @@ export function AppRouter() {
             <Route
                 path="/news"
                 element={<ProtectedRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><NewsPage /></Shell></ProtectedRoute>}
+            />
+            <Route
+                path="/news/:id"
+                element={<ProtectedRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><NewsDetailPage /></Shell></ProtectedRoute>}
             />
             <Route
                 path="/resources"

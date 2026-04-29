@@ -321,6 +321,16 @@ function createPlatformService({
         return profile;
     }
 
+    async function getArticle(id: string) {
+        const article = await db.article.findUnique({ where: { id } });
+        if (!article) throw new Error("ARTICLE_NOT_FOUND");
+        return {
+            ...article,
+            publishedAt: article.publishedAt.toISOString(),
+            createdAt: article.createdAt.toISOString()
+        };
+    }
+
     async function listArticles(query: QueryInput) {
         const q = getQueryText(query, "q").toLowerCase();
         const category = getQueryText(query, "category").toLowerCase();
@@ -608,6 +618,7 @@ function createPlatformService({
         listAlumni,
         getAlumni,
         listArticles,
+        getArticle,
         dashboard,
         listResources,
         listNotifications,

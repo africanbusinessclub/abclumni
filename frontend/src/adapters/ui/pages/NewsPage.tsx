@@ -44,7 +44,7 @@ export function NewsPage() {
             {loading ? <SkeletonGrid /> : (
                 <div className="card-grid">
                     {items.map((article) => (
-                        <article key={article.id} className="panel article-card">
+                        <article key={article.id} className="panel article-card" onClick={() => navigate(`/news/${article.id}`)} style={{ cursor: 'pointer' }}>
                             <div className="article-meta"><span>{article.category}</span><small>{new Date(article.publishedAt).toLocaleDateString()}</small></div>
                             <h3>{article.title}</h3>
                             <p>{article.excerpt}</p>

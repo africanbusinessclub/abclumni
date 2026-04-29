@@ -7,6 +7,7 @@ import type {
     DirectoryQuery,
     DirectoryResponse,
     LoginPayload,
+    NewsArticleDetail,
     NewsResponse,
     NotificationsResponse,
     PublicProfile,
@@ -33,6 +34,9 @@ export const platformGateway = {
     },
     getArticles(params: Partial<Record<'q' | 'category' | 'tag', string>> = {}) {
         return apiClient.get<NewsResponse>('/articles', { params })
+    },
+    getArticle(id: string) {
+        return apiClient.get<NewsArticleDetail>(`/articles/${id}`)
     },
     getNotifications() {
         return apiClient.get<NotificationsResponse>('/notifications')

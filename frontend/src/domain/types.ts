@@ -114,6 +114,17 @@ export interface NewsArticle {
     tags: string[];
 }
 
+export interface NewsArticleDetail {
+    id: string;
+    title: string;
+    category: string;
+    publishedAt: string;
+    content: string;
+    tags: string[];
+    coverImage: string;
+    isUrgent: boolean;
+}
+
 export interface NewsResponse {
     items: NewsArticle[];
 }

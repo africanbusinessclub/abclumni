@@ -171,6 +171,21 @@ function createApiRouter({
   });
 
   router.get(
+    "/api/v1/articles/:id",
+    authMiddleware.authRequired,
+    async (req: Request, res: Response) => {
+      try {
+        return res.json(await platformService.getArticle(req.params['id'] as string));
+      } catch (error) {
+        if (hasErrorCode(error, "ARTICLE_NOT_FOUND")) {
+          return res.status(404).json({ error: "Article not found" });
+        }
+        throw error;
+      }
+    },
+  );
+
+  router.get(
     "/api/v1/dashboard",
     authMiddleware.authRequired,
     async (req: Request, res: Response) => {
