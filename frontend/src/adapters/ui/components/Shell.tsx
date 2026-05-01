@@ -62,7 +62,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
 
             <div className="user-chip" ref={dropdownRef} style={{ position: 'relative' }}>
                 <button className="bell-btn" aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} non lues)` : ''}`} onClick={() => navigate('/notifications')}>
-                    <Bell size={28} />
+                    <Bell size={32} />
                     {unreadCount > 0 && <span className="bell-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>}
                 </button>
                 <div

@@ -24,11 +24,14 @@
 
 .user-chip { display: flex; align-items: center; gap: var(--spacing-5); }
 
-.bell-btn { appearance: none; -webkit-appearance: none; background-color: transparent; border: none; position: relative; cursor: pointer; color: var(--ink-soft); padding: 0; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px; border-radius: var(--border-radius-full); transition: background-color var(--transition-fast), color var(--transition-fast); }
+/* Higher specificity to override global `.top-nav button { ... }` rules */
+.top-nav .bell-btn { appearance: none; -webkit-appearance: none; background: transparent; border: none; position: relative; cursor: pointer; color: var(--ink-soft); padding: 0; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px; border-radius: var(--border-radius-full); line-height: 0; transition: background-color var(--transition-fast), color var(--transition-fast); }
 
-.bell-btn:hover { background-color: var(--bg-soft); color: var(--ink); }
+.top-nav .bell-btn:hover { background-color: var(--bg-soft); color: var(--ink); transform: none; }
 
-.bell-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.top-nav .bell-btn:active { transform: none; }
+
+.top-nav .bell-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 .bell-badge { position: absolute; top: 1px; right: 1px; min-width: 18px; height: 18px; padding: 0 4px; background: var(--brand-alt); color: white; border-radius: 999px; border: 2px solid white; font-size: 10px; font-weight: var(--font-weight-semibold); line-height: 14px; text-align: center; pointer-events: none; }
 
