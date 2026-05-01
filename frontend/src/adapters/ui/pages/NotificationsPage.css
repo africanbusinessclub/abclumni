@@ -16,6 +16,33 @@
   transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
+.notice-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+  min-width: 0;
+}
+
+.notice-content {
+  min-width: 0;
+}
+
+.notif-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  min-width: 40px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+.notif-icon.blue  { background: var(--color-notif-blue-bg);  color: var(--color-notif-blue-fg); }
+.notif-icon.gray  { background: var(--bg);                  color: var(--ink-soft); }
+.notif-icon.amber { background: var(--color-notif-amber-bg); color: var(--color-notif-amber-fg); }
+
 .notice-item:hover {
   box-shadow: var(--shadow-sm);
   transform: translateY(-1px);

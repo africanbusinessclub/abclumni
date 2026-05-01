@@ -102,6 +102,7 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
                     <label>Ville<input value={form.city || ''} onChange={(event) => setForm((prev) => ({ ...prev, city: event.target.value }))} /></label>
                     <label>Secteur<input value={form.sector || ''} onChange={(event) => setForm((prev) => ({ ...prev, sector: event.target.value }))} /></label>
                 </div>
+                <label>Téléphone<input value={form.phone || ''} onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))} /></label>
                 <label>Bio<textarea value={form.bio || ''} onChange={(event) => setForm((prev) => ({ ...prev, bio: event.target.value }))} rows={4} /></label>
                 <div className="grid-two">
                     <label>Compétences<input value={form.skills || ''} onChange={(event) => setForm((prev) => ({ ...prev, skills: event.target.value }))} /></label>

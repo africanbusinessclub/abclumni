@@ -71,7 +71,7 @@ export function AdminPage() {
             setArticleForm({ title: '', content: '', category: '', tags: [], urgent: false })
             setTimeout(() => setStatusMessage(''), 3000)
         } catch (error) {
-            setStatusMessage('Erreur lors de la publication.')
+            setStatusMessage(getApiErrorMessage(error, 'Erreur lors de la publication.'))
         }
     }
 
@@ -83,7 +83,7 @@ export function AdminPage() {
             setResourceForm({ title: '', type: 'pdf', url: '', description: '', memberOnly: true })
             setTimeout(() => setStatusMessage(''), 3000)
         } catch (error) {
-            setStatusMessage('Erreur lors de la publication.')
+            setStatusMessage(getApiErrorMessage(error, 'Erreur lors de la publication.'))
         }
     }
 
@@ -144,30 +144,30 @@ export function AdminPage() {
                                 <tbody>
                                     {users.length > 0 ? users.map((user) => (
                                         <tr key={user.id}>
-                                            <td>
+                                            <td className="admin-member-cell" data-label="Membre">
                                                 <div className="table-user">
                                                     <div className={'avatar ' + getAvatarColor(user.profile.fullName)}>
                                                         {getInitials(user.profile.fullName)}
                                                     </div>
                                                     <div className="table-user-info">
                                                         <strong>{user.profile.fullName}</strong>
-                                                        <span>[email protected]</span>
+                                                        <span className="text-blue-light">{user.email || user.profile.email || '[email protected]'}</span>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{user.profile.promotion || '2022'}</td>
-                                            <td>{user.profile.skills?.[0] || 'Conseil'}</td>
-                                            <td>
+                                            <td data-label="Promotion">{user.profile.promotion || '2022'}</td>
+                                            <td data-label="Secteur">{user.profile.skills?.[0] || 'Conseil'}</td>
+                                            <td data-label="Statut">
                                                 <span className={`status-pill ${user.status === 'active' ? 'status-active' : 'status-pending'}`}>
                                                     {user.status === 'active' ? 'Actif' : 'En attente'}
                                                 </span>
                                             </td>
-                                            <td>Mars 2026</td>
+                                            <td data-label="Inscription">Mars 2026</td>
                                         </tr>
                                     )) : (
                                         <>
                                             <tr>
-                                                <td>
+                                                <td className="admin-member-cell" data-label="Membre">
                                                     <div className="table-user">
                                                         <div className="avatar avatar-blue">AK</div>
                                                         <div className="table-user-info">
@@ -176,13 +176,13 @@ export function AdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>2022</td>
-                                                <td>Conseil</td>
-                                                <td><span className="status-pill status-active">Actif</span></td>
-                                                <td>Jany, 2023</td>
+                                                <td data-label="Promotion">2022</td>
+                                                <td data-label="Secteur">Conseil</td>
+                                                <td data-label="Statut"><span className="status-pill status-active">Actif</span></td>
+                                                <td data-label="Inscription">Janv. 2023</td>
                                             </tr>
                                             <tr>
-                                                <td>
+                                                <td className="admin-member-cell" data-label="Membre">
                                                     <div className="table-user">
                                                         <div className="avatar avatar-orange">SD</div>
                                                         <div className="table-user-info">
@@ -191,13 +191,13 @@ export function AdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>2021</td>
-                                                <td>Tech</td>
-                                                <td><span className="status-pill status-active">Actif</span></td>
-                                                <td>Mars 2022</td>
+                                                <td data-label="Promotion">2021</td>
+                                                <td data-label="Secteur">Tech</td>
+                                                <td data-label="Statut"><span className="status-pill status-active">Actif</span></td>
+                                                <td data-label="Inscription">Mars 2022</td>
                                             </tr>
                                             <tr>
-                                                <td>
+                                                <td className="admin-member-cell" data-label="Membre">
                                                     <div className="table-user">
                                                         <div className="avatar avatar-green">MN</div>
                                                         <div className="table-user-info">
@@ -206,10 +206,10 @@ export function AdminPage() {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>2023</td>
-                                                <td>Data</td>
-                                                <td><span className="status-pill status-pending">En attente</span></td>
-                                                <td>Mars 2026</td>
+                                                <td data-label="Promotion">2023</td>
+                                                <td data-label="Secteur">Data</td>
+                                                <td data-label="Statut"><span className="status-pill status-pending">En attente</span></td>
+                                                <td data-label="Inscription">Mars 2026</td>
                                             </tr>
                                         </>
                                     )}
@@ -228,15 +228,15 @@ export function AdminPage() {
                             <form className="admin-form" onSubmit={handlePublishNews}>
                                 <div className="admin-form-field">
                                     <label htmlFor="news-title">Titre</label>
-                                    <input id="news-title" value={articleForm.title} onChange={e => setArticleForm({ ...articleForm, title: e.target.value })} required />
+                                    <input id="news-title" minLength={5} value={articleForm.title} onChange={e => setArticleForm({ ...articleForm, title: e.target.value })} required />
                                 </div>
                                 <div className="admin-form-field">
                                     <label htmlFor="news-category">Catégorie</label>
-                                    <input id="news-category" placeholder="Ex: vie associative, carrière..." value={articleForm.category} onChange={e => setArticleForm({ ...articleForm, category: e.target.value })} required />
+                                    <input id="news-category" minLength={2} placeholder="Ex: vie associative, carrière..." value={articleForm.category} onChange={e => setArticleForm({ ...articleForm, category: e.target.value })} required />
                                 </div>
                                 <div className="admin-form-field">
                                     <label htmlFor="news-content">Contenu</label>
-                                    <textarea id="news-content" value={articleForm.content} onChange={e => setArticleForm({ ...articleForm, content: e.target.value })} required />
+                                    <textarea id="news-content" minLength={10} value={articleForm.content} onChange={e => setArticleForm({ ...articleForm, content: e.target.value })} required />
                                 </div>
                                 <label className="admin-form-checkbox">
                                     <input type="checkbox" checked={articleForm.urgent} onChange={e => setArticleForm({ ...articleForm, urgent: e.target.checked })} />
@@ -257,7 +257,7 @@ export function AdminPage() {
                             <form className="admin-form" onSubmit={handlePublishResource}>
                                 <div className="admin-form-field">
                                     <label htmlFor="res-title">Titre de la ressource</label>
-                                    <input id="res-title" value={resourceForm.title} onChange={e => setResourceForm({ ...resourceForm, title: e.target.value })} required />
+                                    <input id="res-title" minLength={5} value={resourceForm.title} onChange={e => setResourceForm({ ...resourceForm, title: e.target.value })} required />
                                 </div>
                                 <div className="admin-form-field">
                                     <label htmlFor="res-type">Type</label>

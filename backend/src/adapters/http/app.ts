@@ -19,6 +19,9 @@ import { createApiRouter } from "./routes/apiRoutes";
 function createApp() {
     const app = express();
 
+    // Dynamic API responses should never be served from browser/proxy cache.
+    app.set("etag", false);
+
     const port = Number(process.env.PORT || 4000);
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
@@ -68,6 +71,14 @@ function createApp() {
 
     app.use(express.json({ limit: "1mb" }));
     app.use(morgan("dev"));
+
+    app.use("/api/v1", (_req, res, next) => {
+        res.setHeader("Cache-Control", "no-store");
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+        next();
+    });
+
     app.use(createApiRouter({ platformService, authMiddleware }));
 
     // Ensure thrown domain errors are converted to a predictable API shape.

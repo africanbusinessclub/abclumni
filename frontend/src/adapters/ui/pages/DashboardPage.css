@@ -121,8 +121,15 @@
   place-items: center;
   width: 40px;
   height: 40px;
+  flex: 0 0 40px;
+  min-width: 40px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   font-size: 1rem;
+}
+
+.notif-content {
+  min-width: 0;
 }
 
 .notif-icon.blue  { background: var(--color-notif-blue-bg);  color: var(--color-notif-blue-fg); }

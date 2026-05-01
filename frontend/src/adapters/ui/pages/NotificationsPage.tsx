@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BellOff } from 'lucide-react'
+import { BellOff, Diamond, Newspaper, UserCircle } from 'lucide-react'
 import type { NotificationItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
@@ -41,10 +41,15 @@ export function NotificationsPage() {
                 <div className="panel list-panel">
                     {items.map((item) => (
                         <div key={item.id} className={`notice-item ${item.readAt ? 'read' : ''}`}>
-                            <div>
-                                <strong>{item.type}</strong>
-                                <p>{item.message}</p>
-                                <small>{new Date(item.createdAt).toLocaleString()}</small>
+                            <div className="notice-main">
+                                <span className={`notif-icon ${item.type === 'profile' ? 'blue' : item.type === 'article' ? 'amber' : 'gray'}`}>
+                                    {item.type === 'profile' ? <UserCircle size={18} /> : item.type === 'article' ? <Newspaper size={18} /> : <Diamond size={18} />}
+                                </span>
+                                <div className="notice-content">
+                                    <strong>{item.type}</strong>
+                                    <p>{item.message}</p>
+                                    <small>{new Date(item.createdAt).toLocaleString()}</small>
+                                </div>
                             </div>
                             <div className="notice-actions">
                                 {!item.readAt && <Button size="sm" variant="secondary" type="button" onClick={() => update(item.id, 'read')}>Marquer comme lu</Button>}
