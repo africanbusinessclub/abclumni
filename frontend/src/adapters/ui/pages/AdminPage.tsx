@@ -105,16 +105,59 @@ export function AdminPage() {
         <div className="admin-layout">
             <aside className="admin-sidebar">
                 <div className="admin-brand">
-                    ABC <span className="text-orange">Admin</span>
+                    <span className="admin-brand-abc">ABC</span>
+                    <span className="admin-brand-admin"> <span className="text-orange">Admin</span></span>
                 </div>
                 <nav className="admin-nav">
-                    <a href="#members" className={activeTab === 'members' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('members'); }}><LayoutDashboard size={16} /> Dashboard & Membres</a>
-                    <a href="#news" className={activeTab === 'news' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('news'); }}><Newspaper size={16} /> Publier Actualité</a>
-                    <a href="#events" className={activeTab === 'events' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('events'); }}><FolderOpen size={16} /> Publier Événement</a>
-                    <a href="#resources" className={activeTab === 'resources' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('resources'); }}><FolderOpen size={16} /> Publier Ressource</a>
+                    <div className="admin-nav-section">
+                        <div className="admin-nav-section-title">Gestion</div>
+                        <div className="admin-nav-section-links">
+                            <a href="#members" className={activeTab === 'members' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('members'); }}><LayoutDashboard size={16} /> Dashboard & Membres</a>
+                        </div>
+                    </div>
+
+                    <div className="admin-nav-section">
+                        <div className="admin-nav-section-title">Publications</div>
+                        <div className="admin-nav-section-links">
+                            <a href="#news" className={activeTab === 'news' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('news'); }}><Newspaper size={16} /> Publier Actualité</a>
+                            <a href="#events" className={activeTab === 'events' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('events'); }}><FolderOpen size={16} /> Publier Événement</a>
+                            <a href="#resources" className={activeTab === 'resources' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('resources'); }}><FolderOpen size={16} /> Publier Ressource</a>
+                        </div>
+                    </div>
                 </nav>
             </aside>
             <main className="admin-content">
+                <nav className="admin-mobile-tabs" aria-label="Sections admin">
+                    <button
+                        type="button"
+                        className={activeTab === 'members' ? 'active' : ''}
+                        onClick={() => handleTabClick('members')}
+                    >
+                        Membres
+                    </button>
+                    <button
+                        type="button"
+                        className={activeTab === 'news' ? 'active' : ''}
+                        onClick={() => handleTabClick('news')}
+                    >
+                        Actualité
+                    </button>
+                    <button
+                        type="button"
+                        className={activeTab === 'events' ? 'active' : ''}
+                        onClick={() => handleTabClick('events')}
+                    >
+                        Événements
+                    </button>
+                    <button
+                        type="button"
+                        className={activeTab === 'resources' ? 'active' : ''}
+                        onClick={() => handleTabClick('resources')}
+                    >
+                        Ressources
+                    </button>
+                </nav>
+
                 {statusMessage && (
                     <div className="admin-status-message">{statusMessage}</div>
                 )}
@@ -128,20 +171,16 @@ export function AdminPage() {
 
                         <div className="admin-kpis">
                             <div className="admin-kpi-card">
-                                <h2>{stats?.activeMembers || 480}</h2>
+                                <h2>{stats?.activeMembers ?? '—'}</h2>
                                 <span>Membres actifs</span>
                             </div>
                             <div className="admin-kpi-card">
-                                <h2>{stats?.pendingMembers || 12}</h2>
+                                <h2>{stats?.pendingMembers ?? '—'}</h2>
                                 <span>En attente</span>
                             </div>
                             <div className="admin-kpi-card">
-                                <h2>{stats?.inactiveMembers || 8}</h2>
+                                <h2>{stats?.inactiveMembers ?? '—'}</h2>
                                 <span>Inactifs</span>
-                            </div>
-                            <div className="admin-kpi-card">
-                                <h2>94%</h2>
-                                <span>Profils complets</span>
                             </div>
                         </div>
 
