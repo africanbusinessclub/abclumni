@@ -103,6 +103,7 @@
 
 .member-section:hover {
   box-shadow: var(--shadow-sm);
+}
 
 .member-section h2 {
     font-size: var(--font-size-base);
