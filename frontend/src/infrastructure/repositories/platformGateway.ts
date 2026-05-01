@@ -6,6 +6,7 @@ import type {
     DashboardData,
     DirectoryQuery,
     DirectoryResponse,
+    EventsResponse,
     LoginPayload,
     NewsArticleDetail,
     NewsResponse,
@@ -13,6 +14,7 @@ import type {
     PublicProfile,
     ProfileUpdatePayload,
     PublishArticlePayload,
+    PublishEventPayload,
     RegisterPayload,
     ResourcesResponse,
     UserRole,
@@ -50,6 +52,9 @@ export const platformGateway = {
     getResources() {
         return apiClient.get<ResourcesResponse>('/resources')
     },
+    getEvents() {
+        return apiClient.get<EventsResponse>('/events')
+    },
     updateProfile(payload: ProfileUpdatePayload) {
         return apiClient.put<{ profile: PublicProfile }>('/me/profile', payload)
     },
@@ -67,6 +72,9 @@ export const platformGateway = {
     },
     publishResource(payload: any) {
         return apiClient.post<{ resource: unknown }>('/admin/resources', payload)
+    },
+    publishEvent(payload: PublishEventPayload) {
+        return apiClient.post<{ event: unknown }>('/admin/events', payload)
     },
     updateAdminUser(id: string, key: 'role' | 'status', value: UserRole | UserStatus) {
         return apiClient.patch(`/admin/users/${id}/${key}`, { [key]: value })

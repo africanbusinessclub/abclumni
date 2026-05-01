@@ -86,10 +86,19 @@ export interface Notification {
     createdAt: string;
 }
 
+export interface Event {
+    id: string;
+    title: string;
+    description: string;
+    url: string;
+    createdAt: string;
+}
+
 export interface DatabaseState {
     users: User[];
     articles: Article[];
     resources: Resource[];
+    events: Event[];
     notifications: Notification[];
 }
 

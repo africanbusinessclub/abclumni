@@ -1,0 +1,43 @@
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+.event-card {
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.event-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.event-card h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.event-card p {
+  color: var(--ink-soft);
+}
+
+.event-card a {
+  margin-top: var(--spacing-4);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+  color: var(--brand);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.event-card a:hover {
+  text-decoration: underline;
+}

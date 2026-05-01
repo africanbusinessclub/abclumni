@@ -9,6 +9,7 @@ import { DirectoryPage } from '../ui/pages/DirectoryPage'
 import { NewsPage } from '../ui/pages/NewsPage'
 import { NewsDetailPage } from '../ui/pages/NewsDetailPage'
 import { ResourcesPage } from '../ui/pages/ResourcesPage'
+import { EventsPage } from '../ui/pages/EventsPage'
 import { NotificationsPage } from '../ui/pages/NotificationsPage'
 import { ProfilePage } from '../ui/pages/ProfilePage'
 import { AdminPage } from '../ui/pages/AdminPage'
@@ -59,6 +60,10 @@ export function AppRouter() {
             <Route
                 path="/resources"
                 element={<ProtectedRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><ResourcesPage /></Shell></ProtectedRoute>}
+            />
+            <Route
+                path="/events"
+                element={<ProtectedRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><EventsPage /></Shell></ProtectedRoute>}
             />
             <Route
                 path="/notifications"
