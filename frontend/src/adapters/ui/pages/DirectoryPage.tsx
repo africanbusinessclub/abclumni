@@ -27,10 +27,17 @@ function getInitials(name: string) {
     return (name || '??').substring(0, 2).toUpperCase()
 }
 
+function getAvailabilityLabel(value: string) {
+    if (value === 'networking') return 'Networking'
+    if (value === 'mentoring') return 'Mentorat'
+    if (value === 'recruiting') return 'Recrutement'
+    return null
+}
+
 function getAvailabilityColor(label: string) {
     if (label === 'Networking') return 'pill-blue'
-    if (label === 'Mentoring' || label === 'Mentorat') return 'pill-green'
-    if (label === 'Recruiting' || label === 'Recrutement') return 'pill-amber'
+    if (label === 'Mentorat') return 'pill-green'
+    if (label === 'Recrutement') return 'pill-amber'
     return 'pill-gray'
 }
 
@@ -155,11 +162,14 @@ export function DirectoryPage() {
                             </div>
                             <h3>{item.fullName}</h3>
                             <p>{item.position || 'Poste non renseigné'}, {item.company || 'Entreprise inconnue'}</p>
-                            {item.availability && item.availability !== 'none' && (
-                                <span className={'availability-pill ' + getAvailabilityColor(item.availability)}>
-                                    {item.availability}
-                                </span>
-                            )}
+                            {item.availability && item.availability !== 'none' && (() => {
+                                const label = getAvailabilityLabel(item.availability)
+                                return label ? (
+                                    <span className={'availability-pill ' + getAvailabilityColor(label)}>
+                                        {label}
+                                    </span>
+                                ) : null
+                            })()}
                         </article>
                     ))}
                 </div>

@@ -7,25 +7,25 @@ function createAuthMiddleware({ tokenService, platformService }: { tokenService:
         const header = req.headers.authorization || "";
         const token = header.startsWith("Bearer ") ? header.slice(7) : null;
         if (!token) {
-            return res.status(401).json({ error: "Authentication required" });
+            return res.status(401).json({ error: "Authentification requise" });
         }
 
         try {
             const payload = tokenService.verify(token);
             const user = await platformService.getUserForAuth(payload.sub);
             if (!user) {
-                return res.status(401).json({ error: "Invalid user session" });
+                return res.status(401).json({ error: "Session utilisateur invalide" });
             }
             req.user = user;
             return next();
         } catch (_err) {
-            return res.status(401).json({ error: "Invalid token" });
+            return res.status(401).json({ error: "Jeton invalide" });
         }
     }
 
     function adminRequired(req: Request, res: Response, next: NextFunction) {
         if (!req.user || req.user.role !== "admin") {
-            return res.status(403).json({ error: "Admin access required" });
+            return res.status(403).json({ error: "Accès administrateur requis" });
         }
         return next();
     }

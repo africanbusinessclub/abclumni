@@ -61,9 +61,9 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
             </div>
 
             <div className="user-chip" ref={dropdownRef} style={{ position: 'relative' }}>
-                <button className="bell-btn" onClick={() => navigate('/notifications')}>
+                <button className="bell-btn" aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} non lues)` : ''}`} onClick={() => navigate('/notifications')}>
                     <Bell size={20} />
-                    {unreadCount > 0 && <span className="bell-dot"></span>}
+                    {unreadCount > 0 && <span className="bell-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>}
                 </button>
                 <div
                     className={'avatar ' + getAvatarColor(user?.profile?.fullName || '')}
@@ -81,7 +81,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
                         </div>
 
                         <div className="mobile-only" style={{ flexDirection: 'column', padding: 0 }}>
-                            <Link to="/dashboard" onClick={() => setDropdownOpen(false)}><LayoutDashboard size={16} /> Dashboard</Link>
+                            <Link to="/dashboard" onClick={() => setDropdownOpen(false)}><LayoutDashboard size={16} /> Tableau de bord</Link>
                             <Link to="/directory" onClick={() => setDropdownOpen(false)}><Users size={16} /> Annuaire</Link>
                             <Link to="/news" onClick={() => setDropdownOpen(false)}><Newspaper size={16} /> Actualités</Link>
                             <Link to="/resources" onClick={() => setDropdownOpen(false)}><FolderOpen size={16} /> Ressources</Link>

@@ -65,7 +65,7 @@ export function AuthPage({
             }
         } catch (error) {
             setLoading(false)
-            setError(getApiErrorMessage(error, 'Authentication failed'))
+            setError(getApiErrorMessage(error, 'Échec de l\'authentification'))
         }
     }
 

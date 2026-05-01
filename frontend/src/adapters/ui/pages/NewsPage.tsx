@@ -30,7 +30,7 @@ export function NewsPage() {
 
     return (
         <section className="page-stack">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="news-header">
                 <h1>Actualités de l'association</h1>
                 {auth.user?.role === 'admin' && (
                     <Button onClick={() => navigate('/admin#news')}>+ Publier une actualité</Button>

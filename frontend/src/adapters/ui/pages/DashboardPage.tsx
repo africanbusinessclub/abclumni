@@ -51,7 +51,7 @@ export function DashboardPage() {
                 ])
                 setState({ loading: false, data: dashRes.data, notifications: notifRes.data.items, error: '' })
             } catch (error) {
-                setState({ loading: false, data: null, notifications: [], error: getApiErrorMessage(error, 'Unable to load dashboard') })
+                setState({ loading: false, data: null, notifications: [], error: getApiErrorMessage(error, 'Impossible de charger le tableau de bord') })
             }
         }
         void run()

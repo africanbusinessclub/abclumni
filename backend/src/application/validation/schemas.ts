@@ -5,9 +5,9 @@ const registerSchema = z.object({
     password: z
         .string()
         .min(8)
-        .regex(/[A-Z]/, "Password must include an uppercase letter")
-        .regex(/[a-z]/, "Password must include a lowercase letter")
-        .regex(/[0-9]/, "Password must include a number"),
+        .regex(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule")
+        .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
+        .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre"),
     firstName: z.string().min(1),
     lastName: z.string().min(1),
     promotion: z.string().min(2),
@@ -21,7 +21,7 @@ const registerSchema = z.object({
     interests: z.array(z.string()).default([]),
     availability: z.enum(["networking", "mentoring", "recruiting", "none"]).default("none"),
     acceptedTerms: z.boolean().refine((value: boolean) => value === true, {
-        message: "Consent is required"
+        message: "Vous devez accepter les conditions d'utilisation"
     })
 });
 

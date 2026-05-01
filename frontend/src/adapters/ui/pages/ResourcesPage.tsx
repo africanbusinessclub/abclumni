@@ -32,7 +32,7 @@ export function ResourcesPage() {
                     {items.map((item) => (
                         <article key={item.id} className="panel resource-card">
                             <h3>{item.title}</h3>
-                            <p>Type : {item.type}</p>
+                            <p>Type : {item.type === 'pdf' ? 'Document / PDF' : item.type === 'job' ? "Offre d'emploi / Stage" : 'Lien externe'}</p>
                             <a href={item.url} target="_blank" rel="noreferrer">Ouvrir la ressource</a>
                         </article>
                     ))}

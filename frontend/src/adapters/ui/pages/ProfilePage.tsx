@@ -71,6 +71,17 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
         onLogout()
     }
 
+    const visibilityLabels: Record<string, string> = {
+        email: 'E-mail',
+        linkedin: 'LinkedIn',
+        phone: 'Téléphone',
+        city: 'Ville',
+        company: 'Entreprise',
+        position: 'Poste',
+        skills: 'Compétences',
+        interests: "Centres d'intérêt"
+    }
+
     return (
         <section className="page-stack">
             <h1>Profil & Confidentialité</h1>
@@ -111,7 +122,7 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
                                     }))
                                 }
                             />
-                            {key}
+                            {visibilityLabels[key] || key}
                         </label>
                     ))}
                 </div>

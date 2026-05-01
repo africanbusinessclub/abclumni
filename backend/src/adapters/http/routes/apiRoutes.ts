@@ -29,7 +29,7 @@ function createApiRouter({
     max: 20,
     standardHeaders: true,
     legacyHeaders: false,
-    message: { error: "Too many authentication attempts. Try again later." },
+    message: { error: "Trop de tentatives. Réessayez plus tard." },
   });
 
   router.get("/api/v1/health", async (_req: Request, res: Response) => {
@@ -45,7 +45,7 @@ function createApiRouter({
         return res
           .status(400)
           .json({
-            error: "Invalid registration data",
+            error: "Données d'inscription invalides",
             issues: parsed.error.issues,
           });
       }
@@ -56,7 +56,7 @@ function createApiRouter({
           .json(await platformService.register(parsed.data));
       } catch (error) {
         if (hasErrorCode(error, "EMAIL_EXISTS")) {
-          return res.status(409).json({ error: "Email already exists" });
+          return res.status(409).json({ error: "Cette adresse e-mail est déjà utilisée" });
         }
         throw error;
       }
@@ -69,7 +69,7 @@ function createApiRouter({
     async (req: Request, res: Response) => {
       const parsed = loginSchema.safeParse(req.body);
       if (!parsed.success) {
-        return res.status(400).json({ error: "Invalid login payload" });
+        return res.status(400).json({ error: "Données de connexion invalides" });
       }
 
       try {
@@ -83,7 +83,7 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "INVALID_CREDENTIALS")) {
-          return res.status(401).json({ error: "Invalid credentials" });
+          return res.status(401).json({ error: "Identifiants incorrects" });
         }
         throw error;
       }
@@ -107,7 +107,7 @@ function createApiRouter({
         return res
           .status(400)
           .json({
-            error: "Invalid profile payload",
+            error: "Données de profil invalides",
             issues: parsed.error.issues,
           });
       }
@@ -118,7 +118,7 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "USER_NOT_FOUND")) {
-          return res.status(404).json({ error: "User not found" });
+          return res.status(404).json({ error: "Utilisateur introuvable" });
         }
         throw error;
       }
@@ -156,9 +156,9 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "PROFILE_NOT_FOUND"))
-          return res.status(404).json({ error: "Profile not found" });
+          return res.status(404).json({ error: "Profil introuvable" });
         if (hasErrorCode(error, "PROFILE_HIDDEN"))
-          return res.status(404).json({ error: "Profile hidden by user" });
+          return res.status(404).json({ error: "Profil masqué par l'utilisateur" });
         throw error;
       }
     },
@@ -178,7 +178,7 @@ function createApiRouter({
         return res.json(await platformService.getArticle(req.params['id'] as string));
       } catch (error) {
         if (hasErrorCode(error, "ARTICLE_NOT_FOUND")) {
-          return res.status(404).json({ error: "Article not found" });
+          return res.status(404).json({ error: "Article introuvable" });
         }
         throw error;
       }
@@ -222,7 +222,7 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "NOTIFICATION_NOT_FOUND"))
-          return res.status(404).json({ error: "Notification not found" });
+          return res.status(404).json({ error: "Notification introuvable" });
         throw error;
       }
     },
@@ -241,7 +241,7 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "NOTIFICATION_NOT_FOUND"))
-          return res.status(404).json({ error: "Notification not found" });
+          return res.status(404).json({ error: "Notification introuvable" });
         throw error;
       }
     },
@@ -257,7 +257,7 @@ function createApiRouter({
         return res
           .status(400)
           .json({
-            error: "Invalid article payload",
+            error: "Données d'article invalides",
             issues: parsed.error.issues,
           });
       }
@@ -280,7 +280,7 @@ function createApiRouter({
         return res
           .status(400)
           .json({
-            error: "Invalid resource payload",
+            error: "Données de ressource invalides",
             issues: parsed.error.issues,
           });
       }
@@ -309,7 +309,7 @@ function createApiRouter({
     async (req: Request, res: Response) => {
       const status = String(req.body.status || "").toLowerCase();
       if (!["active", "inactive", "pending"].includes(status)) {
-        return res.status(400).json({ error: "Invalid status" });
+        return res.status(400).json({ error: "Statut invalide" });
       }
 
       try {
@@ -321,7 +321,7 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "USER_NOT_FOUND"))
-          return res.status(404).json({ error: "User not found" });
+          return res.status(404).json({ error: "Utilisateur introuvable" });
         throw error;
       }
     },
@@ -334,7 +334,7 @@ function createApiRouter({
     async (req: Request, res: Response) => {
       const role = String(req.body.role || "").toLowerCase();
       if (!["member", "moderator", "admin"].includes(role)) {
-        return res.status(400).json({ error: "Invalid role" });
+        return res.status(400).json({ error: "Rôle invalide" });
       }
 
       try {
@@ -346,7 +346,7 @@ function createApiRouter({
         );
       } catch (error) {
         if (hasErrorCode(error, "USER_NOT_FOUND"))
-          return res.status(404).json({ error: "User not found" });
+          return res.status(404).json({ error: "Utilisateur introuvable" });
         throw error;
       }
     },

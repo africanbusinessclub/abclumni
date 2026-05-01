@@ -130,7 +130,7 @@ function createPlatformService({
         });
 
         await createNotification(id, "system", "Bienvenue sur la plateforme African Business Club.");
-        await createNotification(id, "profile", "Completez votre profil pour apparaitre en tete des recherches.");
+        await createNotification(id, "profile", "Complétez votre profil pour apparaître en tête des résultats.");
 
         const user = await findActiveUserById(id);
         if (!user) throw new Error("REGISTRATION_FAILED");
@@ -168,8 +168,6 @@ function createPlatformService({
                 userAgent: context.userAgent || "unknown"
             }
         });
-
-        await createNotification(userRec.id, "system", "Connexion reussie.");
 
         const user = await findActiveUserById(userRec.id);
         if (!user) throw new Error("INVALID_CREDENTIALS");
@@ -225,7 +223,7 @@ function createPlatformService({
             data: updateData
         });
 
-        await createNotification(userId, "profile", "Votre profil a ete mis a jour.");
+        await createNotification(userId, "profile", "Votre profil a été mis à jour.");
 
         const updatedUser = await findActiveUserById(userId);
         return { profile: presentProfile(updatedUser!, updatedUser!) };
@@ -233,7 +231,7 @@ function createPlatformService({
 
     async function deleteMyAccount(userId: string) {
         await db.user.delete({ where: { id: userId } });
-        return { ok: true, message: "Account and associated data deleted." };
+        return { ok: true, message: "Compte et données associées supprimés." };
     }
 
     async function listAlumni(viewerId: string, query: QueryInput) {
@@ -315,7 +313,7 @@ function createPlatformService({
         if (!profile) throw new Error("PROFILE_HIDDEN");
 
         if (viewer.id !== target.id) {
-            await createNotification(target.id, "profile-view", `${viewer.profile.firstName} ${viewer.profile.lastName} a consulte votre profil.`);
+            await createNotification(target.id, "profile-view", `${viewer.profile.firstName} ${viewer.profile.lastName} a consulté votre profil.`);
         }
 
         return profile;

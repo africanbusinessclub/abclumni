@@ -5,6 +5,21 @@
   align-items: center;
 }
 
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+@media (max-width: 740px) {
+  .inline-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .inline-form input {
   flex-grow: 1;
   padding: var(--spacing-2) var(--spacing-3);
