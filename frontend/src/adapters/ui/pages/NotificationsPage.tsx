@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { BellOff } from 'lucide-react'
 import type { NotificationItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
@@ -31,7 +32,12 @@ export function NotificationsPage() {
     return (
         <section className="page-stack">
             <h1>Notifications</h1>
-            {loading ? <SkeletonGrid /> : (
+            {loading ? <SkeletonGrid /> : items.length === 0 ? (
+                <div className="empty-state panel">
+                    <BellOff size={40} className="empty-state-icon" />
+                    <p>Vous n'avez aucune notification pour le moment.</p>
+                </div>
+            ) : (
                 <div className="panel list-panel">
                     {items.map((item) => (
                         <div key={item.id} className={`notice-item ${item.readAt ? 'read' : ''}`}>

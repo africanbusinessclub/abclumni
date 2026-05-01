@@ -5,7 +5,7 @@ import { initialDirectoryQuery } from '../../../domain/directoryQuery'
 import { DirectoryQuery, PublicProfile } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
-import { Search } from 'lucide-react'
+import { Search, Users } from 'lucide-react'
 import './DirectoryPage.css'
 
 type DirectoryState = {
@@ -150,6 +150,7 @@ export function DirectoryPage() {
             {result.error && <p className="error-text">{result.error}</p>}
             {!result.loading && !result.error && result.items.length === 0 && (
                 <div className="empty-state panel">
+                    <Users size={40} className="empty-state-icon" />
                     <p>Aucun alumni trouvé pour cette recherche.</p>
                 </div>
             )}

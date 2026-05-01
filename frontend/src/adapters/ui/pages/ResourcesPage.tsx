@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FolderOpen } from 'lucide-react'
 import { useAuthState } from '../../../application/hooks/useAuthState'
 import type { ResourceItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
@@ -25,6 +26,7 @@ export function ResourcesPage() {
             </div>
             {items.length === 0 ? (
                 <div className="empty-state panel">
+                    <FolderOpen size={40} className="empty-state-icon" />
                     <p>Aucune ressource disponible pour le moment.</p>
                 </div>
             ) : (

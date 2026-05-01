@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Newspaper } from 'lucide-react'
 import { useAuthState } from '../../../application/hooks/useAuthState'
 import type { NewsArticle } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
@@ -43,6 +44,7 @@ export function NewsPage() {
 
             {loading ? <SkeletonGrid /> : items.length === 0 ? (
                 <div className="empty-state panel">
+                    <Newspaper size={40} className="empty-state-icon" />
                     <p>Aucune actualité disponible pour le moment.</p>
                 </div>
             ) : (
