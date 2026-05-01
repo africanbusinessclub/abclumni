@@ -24,6 +24,15 @@
     gap: var(--spacing-5);
 }
 
+@media (max-width: 640px) {
+  .news-detail-body {
+    padding: var(--spacing-4);
+  }
+  .news-detail-title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
 .news-detail-urgent {
     background-color: var(--color-badge-amber-bg);
     color: var(--color-badge-amber-fg);

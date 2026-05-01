@@ -43,3 +43,14 @@
   display: flex;
   gap: var(--spacing-4);
 }
+
+@media (max-width: 640px) {
+  .notice-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+  .notice-actions {
+    align-self: flex-end;
+  }
+}

@@ -57,6 +57,16 @@ textarea {
   gap: 1.25rem;
 }
 
+@media (max-width: 768px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+    margin: 1rem auto;
+  }
+  .auth-hero {
+    display: none;
+  }
+}
+
 .auth-hero {
   padding: 2rem;
   display: grid;

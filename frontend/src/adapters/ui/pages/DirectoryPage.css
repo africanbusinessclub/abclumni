@@ -98,7 +98,7 @@
 
 .alumni-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -166,6 +166,7 @@
   background: var(--panel);
   font-size: var(--font-size-sm);
   color: var(--ink);
+  min-height: 44px;
 }
 
 .filter-select--right {
