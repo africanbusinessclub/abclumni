@@ -3,6 +3,7 @@ import { stringify } from "csv-stringify/sync";
 import rateLimit from "express-rate-limit";
 import {
   articleSchema,
+  eventSchema,
   loginSchema,
   profileUpdateSchema,
   registerSchema,
@@ -202,6 +203,14 @@ function createApiRouter({
   );
 
   router.get(
+    "/api/v1/events",
+    authMiddleware.authRequired,
+    async (req: Request, res: Response) => {
+      return res.json(await platformService.listEvents(req.user!.id));
+    },
+  );
+
+  router.get(
     "/api/v1/notifications",
     authMiddleware.authRequired,
     async (req: Request, res: Response) => {
@@ -290,6 +299,27 @@ function createApiRouter({
         .json(
           await platformService.adminCreateResource(req.user!.id, parsed.data),
         );
+    },
+  );
+
+  router.post(
+    "/api/v1/admin/events",
+    authMiddleware.authRequired,
+    authMiddleware.adminRequired,
+    async (req: Request, res: Response) => {
+      const parsed = eventSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res
+          .status(400)
+          .json({
+            error: "Données d'événement invalides",
+            issues: parsed.error.issues,
+          });
+      }
+
+      return res
+        .status(201)
+        .json(await platformService.adminCreateEvent(req.user!.id, parsed.data));
     },
   );
 

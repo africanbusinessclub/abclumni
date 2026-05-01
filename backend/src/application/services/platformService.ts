@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { presentProfile } from "../../domain/services/profile";
 import { sanitize, slugify } from "../../domain/services/text";
-import type { ArticleInput, LoginInput, ProfileUpdateInput, RegisterInput, ResourceInput } from "../validation/schemas";
+import type { ArticleInput, EventInput, LoginInput, ProfileUpdateInput, RegisterInput, ResourceInput } from "../validation/schemas";
 import type {
     IdGenerator,
     Notification,
@@ -422,6 +422,22 @@ function createPlatformService({
         return { items: resources.filter((item) => !item.memberOnly || user.status === "active") };
     }
 
+    async function listEvents(userId: string) {
+        const user = await findActiveUserById(userId);
+        if (!user) throw new Error("INVALID_USER_SESSION");
+
+        const eventsFromDb = await db.event.findMany({
+            orderBy: { createdAt: "desc" }
+        });
+
+        return {
+            items: eventsFromDb.map((e: any) => ({
+                ...e,
+                createdAt: e.createdAt.toISOString()
+            }))
+        };
+    }
+
     async function listNotifications(userId: string) {
         const notesFromDb = await db.notification.findMany({
             where: { userId, archivedAt: null },
@@ -508,6 +524,28 @@ function createPlatformService({
         }
 
         return { ok: true, resource: { ...resource, createdAt: resource.createdAt.toISOString() } };
+    }
+
+    async function adminCreateEvent(adminUserId: string, payload: EventInput) {
+        const admin = await findActiveUserById(adminUserId);
+        if (!admin) throw new Error("INVALID_USER_SESSION");
+
+        const eventData = {
+            id: idGenerator.newId(),
+            title: sanitize(payload.title),
+            description: sanitize(payload.description),
+            url: payload.url,
+            createdAt: new Date()
+        };
+
+        const event = await db.event.create({ data: eventData });
+
+        const activeUsers = await db.user.findMany({ where: { status: "active" } });
+        for (const u of activeUsers) {
+            await createNotification(u.id, "event", `Nouvel événement: ${event.title}`);
+        }
+
+        return { ok: true, event: { ...event, createdAt: event.createdAt.toISOString() } };
     }
 
     async function adminUsers() {
@@ -619,6 +657,7 @@ function createPlatformService({
         getArticle,
         dashboard,
         listResources,
+        listEvents,
         listNotifications,
         markNotificationRead,
         archiveNotification,
@@ -629,6 +668,7 @@ function createPlatformService({
         adminStats,
         exportUsersCsvRecords,
         adminCreateResource,
+        adminCreateEvent,
         getUserForAuth
     };
 }

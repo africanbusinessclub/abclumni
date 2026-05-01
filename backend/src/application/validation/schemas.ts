@@ -77,11 +77,18 @@ const resourceSchema = z.object({
     memberOnly: z.boolean().default(true)
 });
 
+const eventSchema = z.object({
+    title: z.string().min(5),
+    description: z.string().default(""),
+    url: z.string().url()
+});
+
 type RegisterInput = z.infer<typeof registerSchema>;
 type LoginInput = z.infer<typeof loginSchema>;
 type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>;
 type ArticleInput = z.infer<typeof articleSchema>;
 type ResourceInput = z.infer<typeof resourceSchema>;
+type EventInput = z.infer<typeof eventSchema>;
 
-export { registerSchema, loginSchema, profileUpdateSchema, articleSchema, resourceSchema };
-export type { RegisterInput, LoginInput, ProfileUpdateInput, ArticleInput, ResourceInput };
+export { registerSchema, loginSchema, profileUpdateSchema, articleSchema, resourceSchema, eventSchema };
+export type { RegisterInput, LoginInput, ProfileUpdateInput, ArticleInput, ResourceInput, EventInput };

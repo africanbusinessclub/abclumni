@@ -10,8 +10,8 @@ import './AdminPage.css'
 export function AdminPage() {
     const location = useLocation()
     const navigate = useNavigate()
-    const [activeTab, setActiveTab] = useState<'members' | 'news' | 'resources'>(
-        ['#news', '#resources'].includes(location.hash) ? (location.hash.substring(1) as any) : 'members'
+    const [activeTab, setActiveTab] = useState<'members' | 'news' | 'resources' | 'events'>(
+        ['#news', '#resources', '#events'].includes(location.hash) ? (location.hash.substring(1) as any) : 'members'
     )
     const [users, setUsers] = useState<AdminUser[]>([])
     const [stats, setStats] = useState<AdminStats | null>(null)
@@ -19,6 +19,7 @@ export function AdminPage() {
     // Forms
     const [articleForm, setArticleForm] = useState({ title: '', content: '', category: '', tags: [] as string[], urgent: false })
     const [resourceForm, setResourceForm] = useState({ title: '', type: 'pdf', url: '', description: '', memberOnly: true })
+    const [eventForm, setEventForm] = useState({ title: '', description: '', url: '' })
     const [statusMessage, setStatusMessage] = useState('')
 
     useEffect(() => {
@@ -55,10 +56,11 @@ export function AdminPage() {
     useEffect(() => {
         if (location.hash === '#news') setActiveTab('news')
         else if (location.hash === '#resources') setActiveTab('resources')
+        else if (location.hash === '#events') setActiveTab('events')
         else setActiveTab('members')
     }, [location.hash])
 
-    const handleTabClick = (tab: 'members' | 'news' | 'resources') => {
+    const handleTabClick = (tab: 'members' | 'news' | 'resources' | 'events') => {
         setActiveTab(tab)
         navigate(`/admin#${tab}`, { replace: true })
     }
@@ -87,6 +89,18 @@ export function AdminPage() {
         }
     }
 
+    async function handlePublishEvent(e: React.FormEvent) {
+        e.preventDefault()
+        try {
+            await platformGateway.publishEvent(eventForm)
+            setStatusMessage('Événement publié avec succès!')
+            setEventForm({ title: '', description: '', url: '' })
+            setTimeout(() => setStatusMessage(''), 3000)
+        } catch (error) {
+            setStatusMessage(getApiErrorMessage(error, 'Erreur lors de la publication.'))
+        }
+    }
+
     return (
         <div className="admin-layout">
             <aside className="admin-sidebar">
@@ -96,6 +110,7 @@ export function AdminPage() {
                 <nav className="admin-nav">
                     <a href="#members" className={activeTab === 'members' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('members'); }}><LayoutDashboard size={16} /> Dashboard & Membres</a>
                     <a href="#news" className={activeTab === 'news' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('news'); }}><Newspaper size={16} /> Publier Actualité</a>
+                    <a href="#events" className={activeTab === 'events' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('events'); }}><FolderOpen size={16} /> Publier Événement</a>
                     <a href="#resources" className={activeTab === 'resources' ? "active" : ""} onClick={(e) => { e.preventDefault(); handleTabClick('resources'); }}><FolderOpen size={16} /> Publier Ressource</a>
                 </nav>
             </aside>
@@ -280,6 +295,31 @@ export function AdminPage() {
                                     <span>Réservé aux membres validés</span>
                                 </label>
                                 <Button type="submit">Publier la ressource</Button>
+                            </form>
+                        </div>
+                    </>
+                )}
+
+                {activeTab === 'events' && (
+                    <>
+                        <header className="admin-header">
+                            <h1>Publier un événement</h1>
+                        </header>
+                        <div className="admin-table-wrapper admin-form-panel">
+                            <form className="admin-form" onSubmit={handlePublishEvent}>
+                                <div className="admin-form-field">
+                                    <label htmlFor="event-title">Titre</label>
+                                    <input id="event-title" minLength={5} value={eventForm.title} onChange={e => setEventForm({ ...eventForm, title: e.target.value })} required />
+                                </div>
+                                <div className="admin-form-field">
+                                    <label htmlFor="event-url">Lien</label>
+                                    <input id="event-url" type="url" placeholder="https://..." value={eventForm.url} onChange={e => setEventForm({ ...eventForm, url: e.target.value })} required />
+                                </div>
+                                <div className="admin-form-field">
+                                    <label htmlFor="event-description">Description</label>
+                                    <textarea id="event-description" rows={3} value={eventForm.description} onChange={e => setEventForm({ ...eventForm, description: e.target.value })} />
+                                </div>
+                                <Button type="submit">Publier l'événement</Button>
                             </form>
                         </div>
                     </>

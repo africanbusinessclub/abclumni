@@ -84,6 +84,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
                             <Link to="/dashboard" onClick={() => setDropdownOpen(false)}><LayoutDashboard size={16} /> Tableau de bord</Link>
                             <Link to="/directory" onClick={() => setDropdownOpen(false)}><Users size={16} /> Annuaire</Link>
                             <Link to="/news" onClick={() => setDropdownOpen(false)}><Newspaper size={16} /> Actualités</Link>
+                            <Link to="/events" onClick={() => setDropdownOpen(false)}><ChevronDown size={16} /> Événements</Link>
                             <Link to="/resources" onClick={() => setDropdownOpen(false)}><FolderOpen size={16} /> Ressources</Link>
                             <hr />
                         </div>
@@ -120,6 +121,10 @@ function BottomNav({ user, unreadCount }: { user: AuthUser; unreadCount: number 
             <Link to="/news" className={isActive('/news') ? 'active' : ''}>
                 <span className="bottom-nav-icon"><Newspaper size={22} /></span>
                 <span>Actus</span>
+            </Link>
+            <Link to="/events" className={isActive('/events') ? 'active' : ''}>
+                <span className="bottom-nav-icon"><ChevronDown size={22} /></span>
+                <span>Événements</span>
             </Link>
             <Link to="/resources" className={isActive('/resources') ? 'active' : ''}>
                 <span className="bottom-nav-icon"><FolderOpen size={22} /></span>
@@ -167,6 +172,7 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                         <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}><span className="icon"><UserCircle size={18} /></span> Mon profil</Link>
                         <Link to="/directory" className={location.pathname.startsWith('/directory') ? 'active' : ''}><span className="icon"><Users size={18} /></span> Annuaire</Link>
                         <Link to="/news" className={location.pathname.startsWith('/news') ? 'active' : ''}><span className="icon"><Newspaper size={18} /></span> Actualités</Link>
+                        <Link to="/events" className={location.pathname.startsWith('/events') ? 'active' : ''}><span className="icon"><ChevronDown size={18} /></span> Événements</Link>
                         <Link to="/resources" className={location.pathname.startsWith('/resources') ? 'active' : ''}><span className="icon"><FolderOpen size={18} /></span> Ressources</Link>
                         {user?.role === 'admin' && (
                             <Link to="/admin" className={location.pathname.startsWith('/admin') ? 'active' : ''}><span className="icon"><ShieldCheck size={18} /></span> Administration</Link>

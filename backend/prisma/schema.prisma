@@ -90,3 +90,11 @@ model Notification {
   archivedAt DateTime?
   createdAt  DateTime  @default(now())
 }
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  url         String
+  createdAt   DateTime @default(now())
+}

@@ -156,6 +156,18 @@ export interface ResourcesResponse {
     items: ResourceItem[];
 }
 
+export interface EventItem {
+    id: string;
+    title: string;
+    description: string;
+    url: string;
+    createdAt: string;
+}
+
+export interface EventsResponse {
+    items: EventItem[];
+}
+
 export interface ProfileUpdatePayload {
     firstName: string;
     lastName: string;
@@ -204,4 +216,10 @@ export interface PublishArticlePayload {
     category: string;
     tags: string[];
     urgent: boolean;
+}
+
+export interface PublishEventPayload {
+    title: string;
+    description: string;
+    url: string;
 }
