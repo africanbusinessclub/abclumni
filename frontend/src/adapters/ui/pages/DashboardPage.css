@@ -15,7 +15,7 @@
 
 .dashboard-header p {
   color: var(--ink-soft);
-  font-size: 0.95rem;
+  font-size: var(--font-size-sm);
 }
 
 .kpi-grid {
@@ -26,10 +26,16 @@
 }
 
 .kpi-card {
-  padding: 1.5rem 2rem;
+  padding: var(--spacing-6) var(--spacing-8);
   background: var(--bg-soft);
   border: none;
   box-shadow: none;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.kpi-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .kpi-card h2 {
@@ -41,7 +47,7 @@
 
 .kpi-card p {
   color: var(--ink-soft);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
 .section-split {
@@ -66,9 +72,15 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2rem 1rem;
+  padding: var(--spacing-8) var(--spacing-4);
   border: 1px solid var(--line);
   box-shadow: none;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.suggestion-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .suggestion-card .avatar-lg {
@@ -83,7 +95,7 @@
 }
 
 .suggestion-card p {
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
   color: var(--ink-soft);
 }
 
@@ -113,9 +125,9 @@
   font-size: 1rem;
 }
 
-.notif-icon.blue { background: #EBF4FA; color: #2563EB; }
-.notif-icon.gray { background: #F3F4F6; color: #6B7280; }
-.notif-icon.amber { background: #FEF3C7; color: #D97706; }
+.notif-icon.blue  { background: var(--color-notif-blue-bg);  color: var(--color-notif-blue-fg); }
+.notif-icon.gray  { background: var(--bg-soft);               color: var(--ink-soft); }
+.notif-icon.amber { background: var(--color-notif-amber-bg); color: var(--color-notif-amber-fg); }
 
 .notif-content p {
   margin-bottom: 0.25rem;
@@ -128,12 +140,44 @@
 }
 
 .notif-content span {
-  font-size: 0.8rem;
-  color: #9CA3AF;
+  font-size: var(--font-size-xs);
+  color: var(--ink-muted);
 }
 
 .notification-item.unread .notif-content p {
   color: var(--ink);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.section-header h2 {
+  margin-bottom: 0;
+}
+
+.section-link {
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  color: var(--brand);
+  transition: color var(--transition-fast);
+}
+
+.section-link:hover {
+  color: var(--color-brand-hover);
+}
+
+.empty-text {
+  color: var(--ink-soft);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-4);
+}
+
+.suggestion-card {
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

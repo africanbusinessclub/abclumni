@@ -1,70 +1,149 @@
 :root {
-  --bg: #FAFAFA;
-  --bg-soft: #F3F4F6;
-  --ink: #111827;
-  --ink-soft: #6B7280;
-  --line: #E5E7EB;
-  --brand: #1F3A5A;
-  --brand-alt: #E59A2F;
-  --brand-light: #EEF2F6;
-  --danger: #EF4444;
-  --panel: #FFFFFF;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  /* --------------------------------------------------------------------------
+     Brand palette
+     -------------------------------------------------------------------------- */
+  --color-brand:        #1F3A5A;
+  --color-brand-hover:  #162C47;
+  --color-brand-light:  #EEF2F6;
+  --color-brand-alt:    #E59A2F;
+  --color-brand-alt-hover: #C8851F;
+  --color-danger:       #EF4444;
+  --color-danger-hover: #B91C1C;
+  --color-success:      #059669;
+  --color-warning:      #D97706;
 
+  /* --------------------------------------------------------------------------
+     Semantic color aliases
+     -------------------------------------------------------------------------- */
+  --bg:         #FAFAFA;
+  --bg-soft:    #F3F4F6;
+  --ink:        #111827;
+  --ink-soft:   #4B5563;   /* darkened from #6B7280 to meet WCAG AA on white */
+  --ink-muted:  #6B7280;   /* use only for large text / decorative */
+  --line:       #E5E7EB;
+  --panel:      #FFFFFF;
+
+  /* Short-hand aliases used throughout the app */
+  --brand:       var(--color-brand);
+  --brand-alt:   var(--color-brand-alt);
+  --brand-light: var(--color-brand-light);
+  --danger:      var(--color-danger);
+
+  /* Semantic badge / status backgrounds (replaces inline hex in components) */
+  --color-badge-blue-bg:   #E0E7FF;
+  --color-badge-blue-fg:   #3730A3;
+  --color-badge-green-bg:  #DCFCE7;
+  --color-badge-green-fg:  #166534;
+  --color-badge-amber-bg:  #FEF3C7;
+  --color-badge-amber-fg:  #92400E;
+  --color-badge-gray-bg:   #F3F4F6;
+  --color-badge-gray-fg:   #374151;
+
+  /* Notification icon backgrounds */
+  --color-notif-blue-bg:   #EBF4FA;
+  --color-notif-blue-fg:   #2563EB;
+  --color-notif-amber-bg:  #FEF3C7;
+  --color-notif-amber-fg:  #D97706;
+
+  /* Avatar palette */
+  --color-avatar-orange: #E59A2F;
+  --color-avatar-blue:   #A0C4FF;
+  --color-avatar-blue-fg: #1F3A5A;
+  --color-avatar-green:  #86EFAC;
+  --color-avatar-green-fg: #1F3A5A;
+  --color-avatar-purple: #C4B5FD;
+  --color-avatar-purple-fg: #1F3A5A;
+
+  /* --------------------------------------------------------------------------
+     Typography
+     -------------------------------------------------------------------------- */
   --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-family-serif: 'Inter', system-ui, -apple-system, sans-serif;
 
-  --font-size-xs: 0.78rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  --font-size-6xl: 3.75rem;
-  --font-size-7xl: 4.5rem;
-  --font-size-8xl: 6rem;
-  --font-size-9xl: 8rem;
+  --font-size-xs:   0.75rem;   /* 12px */
+  --font-size-sm:   0.875rem;  /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg:   1.125rem;  /* 18px */
+  --font-size-xl:   1.25rem;   /* 20px */
+  --font-size-2xl:  1.5rem;    /* 24px */
+  --font-size-3xl:  1.875rem;  /* 30px */
+  --font-size-4xl:  2.25rem;   /* 36px */
+  --font-size-5xl:  3rem;
+  --font-size-6xl:  3.75rem;
 
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  --font-weight-light:     300;
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
   --font-weight-extrabold: 800;
-  --font-weight-black: 900;
 
-  --line-height-none: 1;
-  --line-height-tight: 1.25;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
+  --line-height-none:    1;
+  --line-height-tight:   1.25;
+  --line-height-snug:    1.375;
+  --line-height-normal:  1.5;
   --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
+  --line-height-loose:   2;
 
-  --border-radius-sm: 0.125rem;
-  --border-radius: 0.25rem;
-  --border-radius-md: 0.375rem;
-  --border-radius-lg: 0.5rem;
-  --border-radius-xl: 0.75rem;
-  --border-radius-2xl: 1rem;
-  --border-radius-3xl: 1.5rem;
+  /* --------------------------------------------------------------------------
+     Spacing — 4px base grid
+     -------------------------------------------------------------------------- */
+  --spacing-px: 1px;
+  --spacing-0:  0;
+  --spacing-1:  0.25rem;   /* 4px  */
+  --spacing-2:  0.5rem;    /* 8px  */
+  --spacing-3:  0.75rem;   /* 12px */
+  --spacing-4:  1rem;      /* 16px */
+  --spacing-5:  1.25rem;   /* 20px */
+  --spacing-6:  1.5rem;    /* 24px */
+  --spacing-8:  2rem;      /* 32px */
+  --spacing-10: 2.5rem;    /* 40px */
+  --spacing-12: 3rem;      /* 48px */
+  --spacing-16: 4rem;      /* 64px */
+  --spacing-20: 5rem;      /* 80px */
+  --spacing-24: 6rem;      /* 96px */
+  --spacing-32: 8rem;      /* 128px */
+
+  /* --------------------------------------------------------------------------
+     Border radius
+     -------------------------------------------------------------------------- */
+  --border-radius-sm:   0.125rem;  /* 2px  */
+  --border-radius:      0.25rem;   /* 4px  */
+  --border-radius-md:   0.375rem;  /* 6px  */
+  --border-radius-lg:   0.5rem;    /* 8px  */
+  --border-radius-xl:   0.75rem;   /* 12px */
+  --border-radius-2xl:  1rem;      /* 16px */
   --border-radius-full: 9999px;
 
-  --spacing-px: 1px;
-  --spacing-0: 0;
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.25rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
-  --spacing-20: 5rem;
-  --spacing-24: 6rem;
-  --spacing-32: 8rem;
+  /* --------------------------------------------------------------------------
+     Shadows — elevation scale
+     -------------------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow:    0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -1px rgb(0 0 0 / 0.03);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.10), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.10), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.10), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+
+  /* --------------------------------------------------------------------------
+     Transitions
+     -------------------------------------------------------------------------- */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* --------------------------------------------------------------------------
+     Breakpoints (for reference — use @media in CSS)
+     -------------------------------------------------------------------------- */
+  --breakpoint-sm:  640px;
+  --breakpoint-md:  1024px;
+  --breakpoint-lg:  1280px;
+
+  /* --------------------------------------------------------------------------
+     Z-index scale
+     -------------------------------------------------------------------------- */
+  --z-sticky:   200;
+  --z-dropdown: 100;
+  --z-modal:    400;
+  --z-toast:    500;
 }

@@ -8,36 +8,59 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2.5rem;
+  padding: var(--spacing-4) var(--spacing-10);
   background: white;
-  z-index: 10;
+  z-index: var(--z-sticky);
 }
 
 .nav-actions {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-4);
 }
 
 .connexion-btn {
   background: transparent;
   color: var(--ink-soft);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius-full);
+  padding: var(--spacing-2) var(--spacing-6);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.connexion-btn:hover {
+  background-color: var(--bg-soft);
+  color: var(--ink);
+}
+
+.connexion-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 
 .rejoindre-btn {
   background: var(--brand);
   color: white;
   border: none;
-  border-radius: 999px;
-  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius-full);
+  padding: var(--spacing-2) var(--spacing-6);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.rejoindre-btn:hover {
+  background-color: var(--color-brand-hover);
+}
+
+.rejoindre-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 
 .hero-section {
   background: var(--brand);
   color: white;
-  padding: 5rem 3rem 0rem;
+  padding: var(--spacing-20) var(--spacing-12) 0;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -52,94 +75,115 @@
 .eyebrow {
   display: inline-block;
   background: rgba(255, 255, 255, 0.1);
-  color: #D1D5DB;
-  padding: 0.3rem 0.8rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-8);
 }
 
 .hero-content h1 {
-  font-size: 3.5rem;
-  font-weight: 500;
-  line-height: 1.1;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
   color: white;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-6);
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  color: #9CA3AF;
-  line-height: 1.6;
+  font-size: var(--font-size-lg);
+  color: rgba(255, 255, 255, 0.6);
+  line-height: var(--line-height-relaxed);
   max-width: 600px;
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--spacing-10);
 }
 
 .hero-actions {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 4rem;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-16);
 }
 
 .cta-yellow {
-  background: var(--brand-alt) !important;
-  color: white !important;
-  font-size: 1rem;
-  padding: 0.8rem 2rem;
-  border-radius: 8px;
+  background: var(--brand-alt);
+  color: white;
+  font-size: var(--font-size-base);
+  padding: var(--spacing-3) var(--spacing-8);
+  border-radius: var(--border-radius-lg);
   border: none;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--transition-fast);
+}
+
+.cta-yellow:hover {
+  background-color: var(--color-brand-alt-hover);
+}
+
+.cta-yellow:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
 
 .outline-btn {
-  background: transparent !important;
-  color: white !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  font-size: 1rem;
-  padding: 0.8rem 2rem;
-  border-radius: 8px;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: var(--font-size-base);
+  padding: var(--spacing-3) var(--spacing-8);
+  border-radius: var(--border-radius-lg);
   cursor: pointer;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.outline-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.outline-btn:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
 }
 
 .hero-stats {
   display: flex;
-  gap: 3rem;
+  gap: var(--spacing-12);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2rem 0 3rem;
+  padding: var(--spacing-8) 0 var(--spacing-12);
 }
 
 .hero-stats .stat h2 {
-  font-size: 2rem;
-  font-weight: 500;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-medium);
   color: var(--brand-alt);
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--spacing-1);
 }
 
 .hero-stats .stat span {
-  color: #9CA3AF;
-  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--font-size-sm);
 }
 
 .news-preview {
-  padding: 4rem 3rem;
+  padding: var(--spacing-16) var(--spacing-12);
   background: white;
 }
 
 .news-preview h2 {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-bottom: 2rem;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-8);
   color: var(--ink-soft);
 }
 
 .news-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: var(--spacing-8);
 }
 
 .news-card {
@@ -149,13 +193,13 @@
 
 .news-cover {
   height: 200px;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: var(--spacing-4);
 }
 
-.bg-gray { background: #4B5563; }
-.bg-amber { background: #D97706; }
-.bg-green { background: #059669; }
+.bg-gray  { background: var(--ink-soft); }
+.bg-amber { background: var(--color-warning); }
+.bg-green { background: var(--color-success); }
 
 .news-body {
   display: flex;
@@ -164,97 +208,58 @@
 }
 
 .news-tag {
-  font-size: 0.75rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  margin-bottom: 0.8rem;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-3);
 }
 
-.text-blue { color: #1E3A8A; }
-.bg-blue-light { background: #DBEAFE; }
+.text-blue     { color: var(--brand); }
+.bg-blue-light { background: var(--brand-light); }
 
 .news-body h3 {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
   color: var(--ink);
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
+  margin-bottom: var(--spacing-2);
+  line-height: var(--line-height-snug);
 }
 
 .news-body time {
-  color: #9CA3AF;
-  font-size: 0.85rem;
+  color: var(--ink-muted);
+  font-size: var(--font-size-sm);
 }
 
 @media (max-width: 768px) {
   .home-nav {
     flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--spacing-4);
+    gap: var(--spacing-4);
   }
   .nav-center {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
+    gap: var(--spacing-4);
   }
   .hero-section {
-    padding: 3rem 1.5rem 0rem;
+    padding: var(--spacing-12) var(--spacing-6) 0;
     text-align: center;
-  }
-  .hero-content h1 {
-    font-size: 2.2rem;
   }
   .hero-actions {
     flex-direction: column;
     width: 100%;
   }
-  .hero-actions .cta-yellow, .hero-actions .outline-btn {
+  .hero-actions .cta-yellow,
+  .hero-actions .outline-btn {
     width: 100%;
   }
   .hero-stats {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--spacing-6);
     align-items: center;
   }
   .news-preview {
-    padding: 2rem 1.5rem;
-  }
-  .news-grid {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 768px) {
-  .home-nav {
-    flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
-  }
-  .nav-center {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-  .hero-section {
-    padding: 3rem 1.5rem 0rem;
-    text-align: center;
-  }
-  .hero-content h1 {
-    font-size: 2.2rem;
-  }
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  .hero-actions .cta-yellow, .hero-actions .outline-btn {
-    width: 100%;
-  }
-  .hero-stats {
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: center;
-  }
-  .news-preview {
-    padding: 2rem 1.5rem;
+    padding: var(--spacing-8) var(--spacing-6);
   }
   .news-grid {
     grid-template-columns: 1fr;
@@ -268,7 +273,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: var(--spacing-8) var(--spacing-4);
 }
 
 .auth-card {
@@ -276,8 +281,8 @@
   max-width: 420px;
   background: white;
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 2.5rem 2rem;
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-10) var(--spacing-8);
   box-shadow: var(--shadow);
 }
 
@@ -285,14 +290,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-6);
   border-bottom: 1px solid var(--line);
 }
 
 .auth-tagline {
-  font-size: 0.8rem;
+  font-size: var(--font-size-xs);
   color: var(--ink-soft);
   text-align: center;
   margin: 0;
@@ -300,9 +305,66 @@
 }
 
 .auth-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
   color: var(--ink);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-6);
   text-align: center;
+}
+
+.auth-error {
+  padding: var(--spacing-2) var(--spacing-3);
+  background: #fee2e2;
+  color: var(--danger);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-4);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.auth-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.auth-form-field label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--ink);
+}
+
+.auth-form-hint {
+  font-size: var(--font-size-xs);
+  color: var(--ink-muted);
+  margin-top: var(--spacing-1);
+}
+
+.auth-form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.auth-form-checkbox label {
+  font-size: var(--font-size-sm);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.auth-form .btn {
+  margin-top: var(--spacing-4);
+  width: 100%;
+}
+
+.auth-form-footer {
+  margin-top: var(--spacing-4);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--ink-soft);
 }

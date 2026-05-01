@@ -81,12 +81,12 @@ export function AuthPage({
                     {mode === 'login' ? 'Connexion' : 'Inscription'}
                 </h2>
 
-                {error && <div style={{ color: 'red', marginBottom: '1rem', padding: '0.5rem', backgroundColor: '#fee' }}>{error}</div>}
+                {error && <div className="auth-error">{error}</div>}
 
-                <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <form className="auth-form" onSubmit={submit}>
                     {mode === 'register' && (
                         <>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className="auth-form-field">
                                 <label htmlFor="firstName">Prénom</label>
                                 <input
                                     type="text"
@@ -95,10 +95,9 @@ export function AuthPage({
                                     value={credentials.firstName}
                                     onChange={(e) => setCredentials({ ...credentials, firstName: e.target.value })}
                                     required
-                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                                 />
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className="auth-form-field">
                                 <label htmlFor="lastName">Nom de famille</label>
                                 <input
                                     type="text"
@@ -107,10 +106,9 @@ export function AuthPage({
                                     value={credentials.lastName}
                                     onChange={(e) => setCredentials({ ...credentials, lastName: e.target.value })}
                                     required
-                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                                 />
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className="auth-form-field">
                                 <label htmlFor="promotion">Promotion (ex: 2024)</label>
                                 <input
                                     type="text"
@@ -118,13 +116,12 @@ export function AuthPage({
                                     value={credentials.promotion}
                                     onChange={(e) => setCredentials({ ...credentials, promotion: e.target.value })}
                                     required
-                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                                 />
                             </div>
                         </>
                     )}
 
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className="auth-form-field">
                         <label htmlFor="email">Email</label>
                         <input
                             type="email"
@@ -133,11 +130,10 @@ export function AuthPage({
                             value={credentials.email}
                             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                             required
-                            style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                         />
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className="auth-form-field">
                         <label htmlFor="password">Mot de passe</label>
                         <input
                             type="password"
@@ -146,17 +142,16 @@ export function AuthPage({
                             value={credentials.password}
                             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                             required
-                            style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
                         />
                         {mode === 'register' && (
-                            <small style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.25rem' }}>
+                            <small className="auth-form-hint">
                                 Min 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre.
                             </small>
                         )}
                     </div>
 
                     {mode === 'register' && (
-                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        <div className="auth-form-checkbox">
                             <input
                                 type="checkbox"
                                 id="acceptedTerms"
@@ -164,18 +159,18 @@ export function AuthPage({
                                 onChange={(e) => setCredentials({ ...credentials, acceptedTerms: e.target.checked })}
                                 required
                             />
-                            <label htmlFor="acceptedTerms" style={{ fontSize: '0.9rem' }}>
+                            <label htmlFor="acceptedTerms">
                                 J'accepte les conditions d'utilisation
                             </label>
                         </div>
                     )}
 
-                    <Button type="submit" disabled={loading} style={{ marginTop: '1rem' }}>
+                    <Button type="submit" disabled={loading}>
                         {loading ? 'Chargement...' : mode === 'login' ? 'Se connecter' : "S'inscrire"}
                     </Button>
                 </form>
 
-                <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                <div className="auth-form-footer">
                     {mode === 'login' ? (
                         <p>Pas encore de compte ? <Link to="?m=register">S'inscrire</Link></p>
                     ) : (

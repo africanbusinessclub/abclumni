@@ -25,9 +25,9 @@
 }
 
 .news-detail-urgent {
-    background-color: #FEF3C7;
-    color: #92400E;
-    border: 1px solid #FCD34D;
+    background-color: var(--color-badge-amber-bg);
+    color: var(--color-badge-amber-fg);
+    border: 1px solid var(--brand-alt);
     padding: var(--spacing-2) var(--spacing-4);
     border-radius: var(--border-radius-md);
     font-size: var(--font-size-sm);

@@ -13,6 +13,12 @@
   border: 1px solid var(--line);
   border-radius: var(--border-radius-lg);
   background-color: var(--bg-soft);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.notice-item:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
 .notice-item.read {

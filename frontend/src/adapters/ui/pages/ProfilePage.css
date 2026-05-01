@@ -25,6 +25,16 @@
   border: 1px solid var(--line);
   border-radius: var(--border-radius-md);
   background-color: var(--bg-soft);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.stack-form input:focus-visible,
+.stack-form select:focus-visible,
+.stack-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(31, 58, 90, 0.12);
+  background-color: white;
 }
 
 .visibility-grid {

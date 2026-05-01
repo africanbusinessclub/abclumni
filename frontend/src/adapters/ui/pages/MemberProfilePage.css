@@ -5,19 +5,25 @@
 .back-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: var(--spacing-1);
     background: none;
     border: none;
     color: var(--ink-soft);
     cursor: pointer;
     font-size: var(--font-size-sm);
-    padding: 0.4rem 0;
-    margin-bottom: 1.5rem;
-    transition: color 0.15s;
+    padding: var(--spacing-1) 0;
+    margin-bottom: var(--spacing-6);
+    transition: color var(--transition-fast);
 }
 
 .back-btn:hover {
     color: var(--brand);
+}
+
+.back-btn:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 .member-profile-layout {
@@ -29,11 +35,11 @@
 
 /* Aside */
 .member-profile-aside {
-    padding: 2rem 1.5rem;
+    padding: var(--spacing-8) var(--spacing-6);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--spacing-3);
     text-align: center;
 }
 
@@ -58,10 +64,10 @@
 
 .member-contact-list {
     width: 100%;
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-2);
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: var(--spacing-2);
     text-align: left;
 }
 
@@ -91,8 +97,12 @@
 }
 
 .member-section {
-    padding: 1.5rem;
+  padding: var(--spacing-6);
+  transition: box-shadow var(--transition-fast);
 }
+
+.member-section:hover {
+  box-shadow: var(--shadow-sm);
 
 .member-section h2 {
     font-size: var(--font-size-base);
@@ -119,15 +129,15 @@
 .tag {
     background: var(--brand-light);
     color: var(--brand);
-    padding: 0.3rem 0.75rem;
+    padding: var(--spacing-1) var(--spacing-3);
     border-radius: var(--border-radius-full);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
 }
 
 .tag-alt {
-    background: #FEF3C7;
-    color: #92400E;
+    background: var(--color-badge-amber-bg);
+    color: var(--color-badge-amber-fg);
 }
 
 /* Skeleton */

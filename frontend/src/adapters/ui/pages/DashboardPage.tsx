@@ -90,9 +90,9 @@ export function DashboardPage() {
             <div className="dashboard-section section-split">
                 <h2>Alumni suggérés</h2>
                 <div className="suggestions-grid">
-                    {state.data.suggestions.length === 0 && <p style={{ color: '#666' }}>Aucune suggestion pour le moment.</p>}
+                    {state.data.suggestions.length === 0 && <p className="empty-text">Aucune suggestion pour le moment.</p>}
                     {state.data.suggestions.map((item) => (
-                        <div key={item.id} className="panel suggestion-card" onClick={() => navigate(`/members/${item.id}`)} style={{ cursor: 'pointer' }}>
+                        <div key={item.id} className="panel suggestion-card" onClick={() => navigate(`/members/${item.id}`)}>
                             <div className={'avatar avatar-lg ' + getAvatarColor(item.fullName)}>
                                 {getInitials(item.fullName)}
                             </div>
@@ -104,12 +104,12 @@ export function DashboardPage() {
             </div>
 
             <div className="dashboard-section section-split">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="section-header">
                     <h2>Notifications récentes</h2>
-                    {recentNotifs.length > 0 && <Link to="/notifications" style={{ textDecoration: 'none', fontSize: '0.9rem', color: 'var(--brand)' }}>Voir tout</Link>}
+                    {recentNotifs.length > 0 && <Link to="/notifications" className="section-link">Voir tout</Link>}
                 </div>
                 <div className="notifications-list">
-                    {recentNotifs.length === 0 && <p style={{ color: '#666', marginTop: '1rem' }}>Aucune notification récente.</p>}
+                    {recentNotifs.length === 0 && <p className="empty-text">Aucune notification récente.</p>}
                     {recentNotifs.map((item) => (
                         <div key={item.id} className={`notification-item ${!item.readAt ? 'unread' : ''}`}>
                             <span className={`notif-icon ${item.type === 'profile' ? 'blue' : item.type === 'article' ? 'amber' : 'gray'}`}>

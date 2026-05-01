@@ -43,9 +43,10 @@ textarea {
 
 .panel {
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--border-radius-lg);
   background: var(--panel);
   box-shadow: var(--shadow);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .auth-shell {
@@ -64,11 +65,11 @@ textarea {
 }
 
 .eyebrow {
-  font-size: 0.78rem;
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--brand);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .auth-hero h1 {
@@ -141,8 +142,17 @@ select,
 textarea {
   border: 1px solid var(--line);
   background: #fff;
-  border-radius: 12px;
-  padding: 0.62rem 0.72rem;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-2) var(--spacing-3);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(31, 58, 90, 0.12);
 }
 
 textarea {
@@ -156,11 +166,11 @@ textarea {
 .notice-actions button,
 .between-row button {
   border: none;
-  border-radius: 12px;
-  padding: 0.6rem 0.85rem;
-  font-weight: 700;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-2) var(--spacing-4);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  transition: transform 0.18s ease;
+  transition: transform var(--transition-fast);
 }
 
 .cta {
@@ -183,7 +193,7 @@ textarea {
 }
 
 .hint {
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
   color: var(--ink-soft);
 }
 
@@ -342,11 +352,37 @@ textarea {
   padding: 1rem;
 }
 
+.skeleton {
+  min-height: 160px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-soft) 25%,
+    var(--line) 50%,
+    var(--bg-soft) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
 .empty-state {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: var(--spacing-12) var(--spacing-4);
   color: var(--ink-soft);
   font-size: var(--font-size-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .mini-card p,
@@ -466,21 +502,20 @@ td {
 }
 
 .skeleton {
-  min-height: 140px;
-  animation: pulse 1.15s infinite ease-in-out;
-  background: linear-gradient(100deg, rgba(255, 255, 255, 0.5), rgba(247, 226, 196, 0.85));
+  min-height: 160px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-soft) 25%,
+    var(--line) 50%,
+    var(--bg-soft) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.65;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.65;
-  }
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
 }
 
 @media (max-width: 1080px) {

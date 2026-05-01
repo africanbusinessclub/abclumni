@@ -100,13 +100,15 @@ export function AdminPage() {
                 </nav>
             </aside>
             <main className="admin-content">
-                {statusMessage && <div style={{ padding: '1rem', background: '#d4edda', color: '#155724', marginBottom: '1.5rem', borderRadius: '8px', fontWeight: 500 }}>{statusMessage}</div>}
+                {statusMessage && (
+                    <div className="admin-status-message">{statusMessage}</div>
+                )}
 
                 {activeTab === 'members' && (
                     <>
                         <header className="admin-header">
                             <h1>Gestion des membres</h1>
-                            <button className="btn-primary">+ Inviter un membre</button>
+                            <Button>+ Inviter un membre</Button>
                         </header>
 
                         <div className="admin-kpis">
@@ -222,25 +224,25 @@ export function AdminPage() {
                         <header className="admin-header">
                             <h1>Publier une actualité</h1>
                         </header>
-                        <div className="admin-table-wrapper" style={{ padding: '2rem' }}>
-                            <form onSubmit={handlePublishNews} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '600px' }}>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>Titre</label>
-                                    <input style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px' }} value={articleForm.title} onChange={e => setArticleForm({ ...articleForm, title: e.target.value })} required />
+                        <div className="admin-table-wrapper admin-form-panel">
+                            <form className="admin-form" onSubmit={handlePublishNews}>
+                                <div className="admin-form-field">
+                                    <label htmlFor="news-title">Titre</label>
+                                    <input id="news-title" value={articleForm.title} onChange={e => setArticleForm({ ...articleForm, title: e.target.value })} required />
                                 </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>Catégorie</label>
-                                    <input style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px' }} placeholder="Ex: vie associative, carrière..." value={articleForm.category} onChange={e => setArticleForm({ ...articleForm, category: e.target.value })} required />
+                                <div className="admin-form-field">
+                                    <label htmlFor="news-category">Catégorie</label>
+                                    <input id="news-category" placeholder="Ex: vie associative, carrière..." value={articleForm.category} onChange={e => setArticleForm({ ...articleForm, category: e.target.value })} required />
                                 </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>Contenu</label>
-                                    <textarea style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px', minHeight: '150px', fontFamily: 'inherit' }} value={articleForm.content} onChange={e => setArticleForm({ ...articleForm, content: e.target.value })} required />
+                                <div className="admin-form-field">
+                                    <label htmlFor="news-content">Contenu</label>
+                                    <textarea id="news-content" value={articleForm.content} onChange={e => setArticleForm({ ...articleForm, content: e.target.value })} required />
                                 </div>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: 'var(--ink)' }}>
+                                <label className="admin-form-checkbox">
                                     <input type="checkbox" checked={articleForm.urgent} onChange={e => setArticleForm({ ...articleForm, urgent: e.target.checked })} />
                                     <span>Communication urgente (Email à tous)</span>
                                 </label>
-                                <Button type="submit" style={{ alignSelf: 'flex-start' }}>Publier l'actualité</Button>
+                                <Button type="submit">Publier l'actualité</Button>
                             </form>
                         </div>
                     </>
@@ -251,33 +253,33 @@ export function AdminPage() {
                         <header className="admin-header">
                             <h1>Publier une ressource</h1>
                         </header>
-                        <div className="admin-table-wrapper" style={{ padding: '2rem' }}>
-                            <form onSubmit={handlePublishResource} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '600px' }}>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>Titre de la ressource</label>
-                                    <input style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px' }} value={resourceForm.title} onChange={e => setResourceForm({ ...resourceForm, title: e.target.value })} required />
+                        <div className="admin-table-wrapper admin-form-panel">
+                            <form className="admin-form" onSubmit={handlePublishResource}>
+                                <div className="admin-form-field">
+                                    <label htmlFor="res-title">Titre de la ressource</label>
+                                    <input id="res-title" value={resourceForm.title} onChange={e => setResourceForm({ ...resourceForm, title: e.target.value })} required />
                                 </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>Type</label>
-                                    <select style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px', background: 'white' }} value={resourceForm.type} onChange={e => setResourceForm({ ...resourceForm, type: e.target.value })}>
+                                <div className="admin-form-field">
+                                    <label htmlFor="res-type">Type</label>
+                                    <select id="res-type" value={resourceForm.type} onChange={e => setResourceForm({ ...resourceForm, type: e.target.value })}>
                                         <option value="pdf">Document / PDF</option>
                                         <option value="job">Offre d'emploi / Stage</option>
                                         <option value="link">Lien externe</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>URL</label>
-                                    <input style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px' }} type="url" placeholder="https://..." value={resourceForm.url} onChange={e => setResourceForm({ ...resourceForm, url: e.target.value })} required />
+                                <div className="admin-form-field">
+                                    <label htmlFor="res-url">URL</label>
+                                    <input id="res-url" type="url" placeholder="https://..." value={resourceForm.url} onChange={e => setResourceForm({ ...resourceForm, url: e.target.value })} required />
                                 </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--ink)' }}>Description</label>
-                                    <textarea style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--line)', borderRadius: '8px', fontFamily: 'inherit' }} rows={3} value={resourceForm.description} onChange={e => setResourceForm({ ...resourceForm, description: e.target.value })} />
+                                <div className="admin-form-field">
+                                    <label htmlFor="res-description">Description</label>
+                                    <textarea id="res-description" rows={3} value={resourceForm.description} onChange={e => setResourceForm({ ...resourceForm, description: e.target.value })} />
                                 </div>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: 'var(--ink)' }}>
+                                <label className="admin-form-checkbox">
                                     <input type="checkbox" checked={resourceForm.memberOnly} onChange={e => setResourceForm({ ...resourceForm, memberOnly: e.target.checked })} />
                                     <span>Réservé aux membres validés</span>
                                 </label>
-                                <Button type="submit" style={{ alignSelf: 'flex-start' }}>Publier la ressource</Button>
+                                <Button type="submit">Publier la ressource</Button>
                             </form>
                         </div>
                     </>

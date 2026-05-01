@@ -13,11 +13,11 @@
 }
 
 .admin-brand {
-  font-size: 1.25rem;
-  padding: 1.5rem 2rem;
+  font-size: var(--font-size-xl);
+  padding: var(--spacing-6) var(--spacing-8);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  font-weight: 500;
-  color: #9CA3AF;
+  font-weight: var(--font-weight-medium);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .admin-brand .text-orange {
@@ -31,14 +31,15 @@
 }
 
 .admin-nav a {
-  padding: 1rem 2rem;
-  color: #9CA3AF;
+  padding: var(--spacing-4) var(--spacing-8);
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: var(--spacing-3);
   border-left: 3px solid transparent;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .admin-nav a.active {
@@ -48,66 +49,63 @@
 }
 
 .admin-nav a:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.04);
   color: white;
 }
 
+.admin-nav a:focus-visible {
+  outline: 2px solid var(--brand-alt);
+  outline-offset: -2px;
+}
+
 .admin-content {
-  padding: 2.5rem 3rem;
+  padding: var(--spacing-10) var(--spacing-12);
 }
 
 .admin-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--spacing-10);
 }
 
 .admin-header h1 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-2xl);
   color: var(--ink);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
-.btn-primary {
-  background: var(--brand);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-}
+/* Note: use the global .btn.btn-primary from Button.css — do not redefine here */
 
 .admin-kpis {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-12);
 }
 
 .admin-kpi-card {
   background: var(--bg-soft);
-  padding: 1.5rem;
-  border-radius: 8px;
+  padding: var(--spacing-6);
+  border-radius: var(--border-radius-lg);
 }
 
 .admin-kpi-card h2 {
-  font-size: 2rem;
-  font-weight: 400;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-normal);
   color: var(--ink);
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--spacing-1);
 }
 
 .admin-kpi-card span {
-  color: #9CA3AF;
-  font-size: 0.9rem;
+  color: var(--ink-muted);
+  font-size: var(--font-size-sm);
 }
 
 .admin-table-wrapper {
   background: white;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
 }
 
@@ -118,23 +116,31 @@
 
 .admin-table th {
   text-align: left;
-  padding: 1rem 1.5rem;
+  padding: var(--spacing-4) var(--spacing-6);
   border-bottom: 1px solid var(--line);
-  color: #9CA3AF;
-  font-weight: 500;
-  font-size: 0.9rem;
+  color: var(--ink-muted);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
 }
 
 .admin-table td {
-  padding: 1rem 1.5rem;
+  padding: var(--spacing-4) var(--spacing-6);
   border-bottom: 1px solid var(--line);
   color: var(--ink-soft);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   vertical-align: middle;
 }
 
 .admin-table tr:last-child td {
   border-bottom: none;
+}
+
+.admin-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--bg-soft);
 }
 
 .table-user {
@@ -161,26 +167,138 @@
 }
 
 .text-blue-light {
-  color: #60A5FA !important;
+  color: var(--color-notif-blue-fg);
 }
 
 .table-user-info span {
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
 }
 
 .status-pill {
-  padding: 0.3rem 0.8rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 500;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
 }
 
 .status-active {
-  background: #DCFCE7;
-  color: #16A34A;
+  background: var(--color-badge-green-bg);
+  color: var(--color-badge-green-fg);
 }
 
 .status-pending {
-  background: #FEF3C7;
-  color: #D97706;
+  background: var(--color-badge-amber-bg);
+  color: var(--color-badge-amber-fg);
+}
+
+@media (max-width: 1024px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+  .admin-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .admin-nav {
+    flex-direction: row;
+    padding-top: 0;
+  }
+  .admin-nav a {
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+  }
+  .admin-nav a.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--brand-alt);
+  }
+  .admin-content {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+  .admin-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-kpis {
+    grid-template-columns: 1fr;
+  }
+  .admin-table-wrapper {
+    overflow-x: auto;
+  }
+}
+
+/* ── Status message ── */
+.admin-status-message {
+  padding: var(--spacing-4);
+  background: var(--color-badge-green-bg);
+  color: var(--color-badge-green-fg);
+  margin-bottom: var(--spacing-6);
+  border-radius: var(--border-radius-lg);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--color-success);
+}
+
+/* ── Form panel ── */
+.admin-form-panel {
+  padding: var(--spacing-8);
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  max-width: 600px;
+}
+
+.admin-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.admin-form-field label {
+  font-weight: var(--font-weight-medium);
+  color: var(--ink);
+  font-size: var(--font-size-sm);
+}
+
+.admin-form-field input,
+.admin-form-field select,
+.admin-form-field textarea {
+  width: 100%;
+  padding: var(--spacing-3);
+  border: 1px solid var(--line);
+  border-radius: var(--border-radius-lg);
+  background: white;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.admin-form-field input:focus-visible,
+.admin-form-field select:focus-visible,
+.admin-form-field textarea:focus-visible {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(31, 58, 90, 0.12);
+}
+
+.admin-form-field textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.admin-form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  cursor: pointer;
+  color: var(--ink);
+  font-size: var(--font-size-sm);
+}
+
+.admin-form .btn {
+  align-self: flex-start;
 }

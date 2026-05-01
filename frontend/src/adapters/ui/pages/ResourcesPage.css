@@ -3,6 +3,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.resource-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .resource-card h3 {
