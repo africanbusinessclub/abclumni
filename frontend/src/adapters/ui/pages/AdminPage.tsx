@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
-import type { AdminStats, AdminUser } from '../../../domain/types'
+import type { AdminStats, AdminUser, EventItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { Button } from '../components/Button'
+import { RichTextEditor } from '../components/RichTextEditor'
 import { LayoutDashboard, Newspaper, FolderOpen } from 'lucide-react'
 import './AdminPage.css'
 
@@ -18,21 +19,29 @@ export function AdminPage() {
     }, [location.hash])
     const [users, setUsers] = useState<AdminUser[]>([])
     const [stats, setStats] = useState<AdminStats | null>(null)
+    const [events, setEvents] = useState<EventItem[]>([])
 
     // Forms
     const [articleForm, setArticleForm] = useState({ title: '', content: '', category: '', tags: [] as string[], urgent: false })
     const [resourceForm, setResourceForm] = useState({ title: '', type: 'pdf', url: '', description: '', memberOnly: true })
-    const [eventForm, setEventForm] = useState({ title: '', description: '', url: '' })
+    const [eventForm, setEventForm] = useState({ title: '', description: '', url: '', coverImage: '' })
+    const [coverImageFile, setCoverImageFile] = useState<File | null>(null)
+    const [coverImagePreview, setCoverImagePreview] = useState<string>('')
     const [statusMessage, setStatusMessage] = useState('')
 
     useEffect(() => {
         let isMounted = true
         async function bootstrap() {
             try {
-                const [usersResp, statsResp] = await Promise.all([platformGateway.getAdminUsers(), platformGateway.getAdminStats()])
+                const [usersResp, statsResp, eventsResp] = await Promise.all([
+                    platformGateway.getAdminUsers(),
+                    platformGateway.getAdminStats(),
+                    platformGateway.getEvents()
+                ])
                 if (!isMounted) return
                 setUsers(usersResp.data.items)
                 setStats(statsResp.data)
+                setEvents(eventsResp.data.items)
             } catch (e) {
                 console.error(e)
             }
@@ -86,12 +95,33 @@ export function AdminPage() {
     async function handlePublishEvent(e: React.FormEvent) {
         e.preventDefault()
         try {
-            await platformGateway.publishEvent(eventForm)
+            let coverImage = eventForm.coverImage
+            if (coverImageFile) {
+                const uploadResp = await platformGateway.uploadFile(coverImageFile)
+                coverImage = uploadResp.data.url
+            }
+            await platformGateway.publishEvent({ ...eventForm, coverImage })
             setStatusMessage('Événement publié avec succès!')
-            setEventForm({ title: '', description: '', url: '' })
+            setEventForm({ title: '', description: '', url: '', coverImage: '' })
+            setCoverImageFile(null)
+            setCoverImagePreview('')
+            const eventsResp = await platformGateway.getEvents()
+            setEvents(eventsResp.data.items)
             setTimeout(() => setStatusMessage(''), 3000)
         } catch (error) {
             setStatusMessage(getApiErrorMessage(error, 'Erreur lors de la publication.'))
+        }
+    }
+
+    async function handleDeleteEvent(id: string) {
+        if (!confirm('Supprimer cet événement ?')) return
+        try {
+            await platformGateway.deleteEvent(id)
+            setEvents(prev => prev.filter(ev => ev.id !== id))
+            setStatusMessage('Événement supprimé.')
+            setTimeout(() => setStatusMessage(''), 3000)
+        } catch (error) {
+            setStatusMessage(getApiErrorMessage(error, 'Erreur lors de la suppression.'))
         }
     }
 
@@ -345,16 +375,68 @@ export function AdminPage() {
                                     <input id="event-title" minLength={5} value={eventForm.title} onChange={e => setEventForm({ ...eventForm, title: e.target.value })} required />
                                 </div>
                                 <div className="admin-form-field">
-                                    <label htmlFor="event-url">Lien</label>
+                                    <label htmlFor="event-cover">Image de couverture</label>
+                                    <input
+                                        id="event-cover"
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp,image/gif"
+                                        onChange={e => {
+                                            const file = e.target.files?.[0] ?? null
+                                            setCoverImageFile(file)
+                                            setCoverImagePreview(file ? URL.createObjectURL(file) : '')
+                                        }}
+                                    />
+                                    {coverImagePreview && (
+                                        <img src={coverImagePreview} alt="Aperçu" className="event-cover-preview" />
+                                    )}
+                                </div>
+                                <div className="admin-form-field">
+                                    <label htmlFor="event-url">Lien de l'événement</label>
                                     <input id="event-url" type="url" placeholder="https://..." value={eventForm.url} onChange={e => setEventForm({ ...eventForm, url: e.target.value })} required />
                                 </div>
                                 <div className="admin-form-field">
-                                    <label htmlFor="event-description">Description</label>
-                                    <textarea id="event-description" rows={3} value={eventForm.description} onChange={e => setEventForm({ ...eventForm, description: e.target.value })} />
+                                    <label>Description</label>
+                                    <RichTextEditor
+                                        value={eventForm.description}
+                                        onChange={(html) => setEventForm({ ...eventForm, description: html })}
+                                        placeholder="Décrivez l'événement..."
+                                    />
                                 </div>
                                 <Button type="submit">Publier l'événement</Button>
                             </form>
                         </div>
+
+                        {events.length > 0 && (
+                            <div className="admin-table-wrapper admin-events-list">
+                                <h2 className="admin-events-list-title">Événements publiés</h2>
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Titre</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {events.map(ev => (
+                                            <tr key={ev.id}>
+                                                <td>{ev.title}</td>
+                                                <td>{new Date(ev.createdAt).toLocaleDateString('fr-FR')}</td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        className="admin-delete-btn"
+                                                        onClick={() => handleDeleteEvent(ev.id)}
+                                                    >
+                                                        Supprimer
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </>
                 )}
             </main>

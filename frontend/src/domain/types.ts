@@ -161,6 +161,7 @@ export interface EventItem {
     title: string;
     description: string;
     url: string;
+    coverImage: string;
     createdAt: string;
 }
 
@@ -222,4 +223,5 @@ export interface PublishEventPayload {
     title: string;
     description: string;
     url: string;
+    coverImage?: string;
 }

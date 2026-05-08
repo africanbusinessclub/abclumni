@@ -72,6 +72,9 @@ function createApp() {
     app.use(express.json({ limit: "1mb" }));
     app.use(morgan("dev"));
 
+    // Serve uploaded files (event cover images, etc.)
+    app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
+
     app.use("/api/v1", (_req, res, next) => {
         res.setHeader("Cache-Control", "no-store");
         res.setHeader("Pragma", "no-cache");

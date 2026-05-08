@@ -32,9 +32,22 @@ export function EventsPage() {
                 <div className="card-grid">
                     {items.map((item) => (
                         <article key={item.id} className="panel event-card">
-                            <h3>{item.title}</h3>
-                            {item.description && <p>{item.description}</p>}
-                            <a href={item.url} target="_blank" rel="noreferrer">Voir le lien</a>
+                            {item.coverImage && (
+                                <div className="event-cover">
+                                    <img src={item.coverImage} alt={item.title} className="event-cover-img" />
+                                </div>
+                            )}
+                            <div className="event-card-body">
+                                <h3>{item.title}</h3>
+                                {item.description && (
+                                    <div
+                                        className="event-description"
+                                        // description is HTML from rich text editor authored by trusted admins only
+                                        dangerouslySetInnerHTML={{ __html: item.description }}
+                                    />
+                                )}
+                                <a href={item.url} target="_blank" rel="noreferrer">Voir le lien</a>
+                            </div>
                         </article>
                     ))}
                 </div>

@@ -80,7 +80,8 @@ const resourceSchema = z.object({
 const eventSchema = z.object({
     title: z.string().min(5),
     description: z.string().default(""),
-    url: z.string().url()
+    url: z.string().url(),
+    coverImage: z.string().optional()
 });
 
 type RegisterInput = z.infer<typeof registerSchema>;

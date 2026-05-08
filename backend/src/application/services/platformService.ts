@@ -533,8 +533,9 @@ function createPlatformService({
         const eventData = {
             id: idGenerator.newId(),
             title: sanitize(payload.title),
-            description: sanitize(payload.description),
+            description: payload.description,
             url: payload.url,
+            coverImage: sanitize(payload.coverImage || ""),
             createdAt: new Date()
         };
 
@@ -546,6 +547,17 @@ function createPlatformService({
         }
 
         return { ok: true, event: { ...event, createdAt: event.createdAt.toISOString() } };
+    }
+
+    async function adminDeleteEvent(adminUserId: string, eventId: string) {
+        const admin = await findActiveUserById(adminUserId);
+        if (!admin) throw new Error("INVALID_USER_SESSION");
+
+        const event = await db.event.findUnique({ where: { id: eventId } });
+        if (!event) throw new Error("EVENT_NOT_FOUND");
+
+        await db.event.delete({ where: { id: eventId } });
+        return { ok: true };
     }
 
     async function adminUsers() {
@@ -669,6 +681,7 @@ function createPlatformService({
         exportUsersCsvRecords,
         adminCreateResource,
         adminCreateEvent,
+        adminDeleteEvent,
         getUserForAuth
     };
 }

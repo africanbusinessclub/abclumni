@@ -96,5 +96,6 @@ model Event {
   title       String
   description String
   url         String
+  coverImage  String   @default("")
   createdAt   DateTime @default(now())
 }

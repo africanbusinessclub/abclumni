@@ -76,6 +76,16 @@ export const platformGateway = {
     publishEvent(payload: PublishEventPayload) {
         return apiClient.post<{ event: unknown }>('/admin/events', payload)
     },
+    deleteEvent(id: string) {
+        return apiClient.delete<{ ok: true }>(`/admin/events/${id}`)
+    },
+    uploadFile(file: File) {
+        const form = new FormData()
+        form.append('file', file)
+        return apiClient.post<{ url: string }>('/admin/upload', form, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+    },
     updateAdminUser(id: string, key: 'role' | 'status', value: UserRole | UserStatus) {
         return apiClient.patch(`/admin/users/${id}/${key}`, { [key]: value })
     },

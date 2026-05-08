@@ -133,7 +133,8 @@ export function DashboardPage() {
                                 {item.type === 'profile' ? <UserCircle size={18} /> : item.type === 'article' ? <Newspaper size={18} /> : <Diamond size={18} />}
                             </span>
                             <div className="notif-content">
-                                <p><strong>{item.type}</strong> {item.message}</p>
+                                <strong>{item.type}</strong>
+                                <p>{item.message}</p>
                                 <span>{timeAgo(item.createdAt)}</span>
                             </div>
                         </div>

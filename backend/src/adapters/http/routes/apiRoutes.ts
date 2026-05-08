@@ -1,6 +1,10 @@
 import express, { type Request, type Response } from "express";
 import { stringify } from "csv-stringify/sync";
 import rateLimit from "express-rate-limit";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { randomUUID } from "crypto";
 import {
   articleSchema,
   eventSchema,
@@ -11,6 +15,24 @@ import {
 } from "../../../application/validation/schemas";
 import type { PlatformService } from "../../../application/services/platformService";
 import type { AuthMiddleware } from "../middlewares/auth";
+
+const UPLOADS_DIR = path.resolve(process.cwd(), "uploads");
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, `${randomUUID()}${ext}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (_req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    cb(null, allowed.includes(file.mimetype));
+  },
+});
 
 function hasErrorCode(error: unknown, code: string): boolean {
   return error instanceof Error && error.message === code;
@@ -36,6 +58,20 @@ function createApiRouter({
   router.get("/api/v1/health", async (_req: Request, res: Response) => {
     res.json({ ok: true, service: "abc-alumni-api" });
   });
+
+  router.post(
+    "/api/v1/admin/upload",
+    authMiddleware.authRequired,
+    authMiddleware.adminRequired,
+    upload.single("file"),
+    (req: Request, res: Response) => {
+      if (!req.file) {
+        return res.status(400).json({ error: "Fichier invalide ou manquant (JPG, PNG, WEBP, GIF, max 5 Mo)" });
+      }
+      const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 4000}`;
+      return res.status(201).json({ url: `${baseUrl}/uploads/${req.file.filename}` });
+    },
+  );
 
   router.post(
     "/api/v1/auth/register",
@@ -320,6 +356,22 @@ function createApiRouter({
       return res
         .status(201)
         .json(await platformService.adminCreateEvent(req.user!.id, parsed.data));
+    },
+  );
+
+  router.delete(
+    "/api/v1/admin/events/:id",
+    authMiddleware.authRequired,
+    authMiddleware.adminRequired,
+    async (req: Request, res: Response) => {
+      try {
+        return res.json(await platformService.adminDeleteEvent(req.user!.id, String(req.params.id)));
+      } catch (error) {
+        if (hasErrorCode(error, "EVENT_NOT_FOUND")) {
+          return res.status(404).json({ error: "Événement introuvable" });
+        }
+        throw error;
+      }
     },
   );
 

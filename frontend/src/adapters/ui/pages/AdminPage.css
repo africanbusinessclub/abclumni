@@ -521,3 +521,37 @@
 .admin-form .btn {
   align-self: flex-start;
 }
+.admin-delete-btn {
+  padding: 4px 12px;
+  border: 1px solid #e53e3e;
+  border-radius: 6px;
+  background: none;
+  color: #e53e3e;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-delete-btn:hover {
+  background: #e53e3e;
+  color: #fff;
+}
+
+.admin-events-list {
+  margin-top: 2rem;
+}
+
+.admin-events-list-title {
+  padding: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.event-cover-preview {
+  margin-top: 0.5rem;
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
