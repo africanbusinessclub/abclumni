@@ -105,6 +105,23 @@ export function DashboardPage() {
 
             <div className="dashboard-section section-split">
                 <div className="section-header">
+                    <h2>Dernières actualités</h2>
+                    <Link to="/news" className="section-link">Voir tout</Link>
+                </div>
+                <div className="news-list">
+                    {state.data.latestArticles.length === 0 && <p className="empty-text">Aucune actualité disponible.</p>}
+                    {state.data.latestArticles.map((article) => (
+                        <div key={article.id} className="news-item panel" onClick={() => navigate(`/news/${article.id}`)} style={{ cursor: 'pointer' }}>
+                            <span className="news-category">{article.category}</span>
+                            <p className="news-title">{article.title}</p>
+                            <small>{new Date(article.publishedAt).toLocaleDateString()}</small>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="dashboard-section section-split">
+                <div className="section-header">
                     <h2>Notifications récentes</h2>
                     {recentNotifs.length > 0 && <Link to="/notifications" className="section-link">Voir tout</Link>}
                 </div>

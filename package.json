@@ -1,5 +1,18 @@
 {
   "devDependencies": {
-    "@types/node": "^25.6.0"
+    "@types/node": "^25.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.2"
+  },
+  "scripts": {
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "frontend/src/**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'cd frontend && node_modules/.bin/eslint --max-warnings=0 --no-warn-ignored \"${@}\"' --"
+    ],
+    "backend/src/**/*.ts": [
+      "bash -c 'cd backend && npx tsc --noEmit'"
+    ]
   }
 }

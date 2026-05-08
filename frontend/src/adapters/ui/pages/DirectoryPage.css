@@ -154,23 +154,79 @@
 
 .filter-bar {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
   flex-wrap: wrap;
 }
 
 .filter-bar select {
-  padding: 0.5rem;
-  border-radius: 4px;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+  border-radius: var(--border-radius-lg);
   border: 1px solid var(--line);
-  background: var(--panel);
+  background-color: var(--panel);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.9rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   font-size: var(--font-size-sm);
   color: var(--ink);
-  min-height: 44px;
+  min-height: 40px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  white-space: nowrap;
 }
 
-.filter-select--right {
+.filter-bar select:hover {
+  border-color: var(--ink-muted);
+}
+
+.filter-bar select:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(31, 58, 90, 0.10);
+}
+
+.filter-sort {
   margin-left: auto;
+}
+
+@media (max-width: 639px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .filter-bar select {
+    width: 100%;
+  }
+
+  .filter-sort-wrapper {
+    border-top: 1px solid var(--line);
+    padding-top: 0.625rem;
+    margin-top: 0.125rem;
+  }
+
+  .filter-sort {
+    margin-left: 0;
+  }
 }
 
 .alumni-card--clickable {

@@ -96,54 +96,58 @@ export function DirectoryPage() {
             </div>
 
             <div className="filter-bar panel">
-                <select
-                    aria-label="Filtrer par disponibilité"
-                    title="Filtrer par disponibilité"
-                    value={query.availability}
-                    onChange={(e) => {
-                        const newQuery = { ...query, availability: e.target.value }
-                        setQuery(newQuery)
-                        void load(newQuery)
-                    }}
-                >
-                    <option value="">Disponibilité : Toutes</option>
-                    <option value="networking">Networking</option>
-                    <option value="mentoring">Mentorat</option>
-                    <option value="recruiting">Recrutement</option>
-                </select>
+                <div className="filter-controls">
+                    <select
+                        aria-label="Filtrer par disponibilité"
+                        title="Filtrer par disponibilité"
+                        value={query.availability}
+                        onChange={(e) => {
+                            const newQuery = { ...query, availability: e.target.value }
+                            setQuery(newQuery)
+                            void load(newQuery)
+                        }}
+                    >
+                        <option value="">Disponibilité : Toutes</option>
+                        <option value="networking">Networking</option>
+                        <option value="mentoring">Mentorat</option>
+                        <option value="recruiting">Recrutement</option>
+                    </select>
 
-                <select
-                    aria-label="Filtrer par secteur"
-                    title="Filtrer par secteur"
-                    value={query.sector}
-                    onChange={(e) => {
-                        const newQuery = { ...query, sector: e.target.value }
-                        setQuery(newQuery)
-                        void load(newQuery)
-                    }}
-                >
-                    <option value="">Secteur : Tous</option>
-                    <option value="finance">Finance</option>
-                    <option value="tech">Tech</option>
-                    <option value="consulting">Consulting</option>
-                    <option value="health">Santé</option>
-                </select>
+                    <select
+                        aria-label="Filtrer par secteur"
+                        title="Filtrer par secteur"
+                        value={query.sector}
+                        onChange={(e) => {
+                            const newQuery = { ...query, sector: e.target.value }
+                            setQuery(newQuery)
+                            void load(newQuery)
+                        }}
+                    >
+                        <option value="">Secteur : Tous</option>
+                        <option value="finance">Finance</option>
+                        <option value="tech">Tech</option>
+                        <option value="consulting">Consulting</option>
+                        <option value="health">Santé</option>
+                    </select>
+                </div>
 
-                <select
-                    aria-label="Trier les résultats"
-                    title="Trier les résultats"
-                    className="filter-select--right"
-                    value={query.sort}
-                    onChange={(e) => {
-                        const newQuery = { ...query, sort: e.target.value as DirectoryQuery['sort'] }
-                        setQuery(newQuery)
-                        void load(newQuery)
-                    }}
-                >
-                    <option value="relevance">Trier par pertinence</option>
-                    <option value="name">Trier par nom</option>
-                    <option value="promotion">Trier par promotion</option>
-                </select>
+                <div className="filter-sort-wrapper">
+                    <select
+                        aria-label="Trier les résultats"
+                        title="Trier les résultats"
+                        className="filter-sort"
+                        value={query.sort}
+                        onChange={(e) => {
+                            const newQuery = { ...query, sort: e.target.value as DirectoryQuery['sort'] }
+                            setQuery(newQuery)
+                            void load(newQuery)
+                        }}
+                    >
+                        <option value="relevance">Trier par pertinence</option>
+                        <option value="name">Trier par nom</option>
+                        <option value="promotion">Trier par promotion</option>
+                    </select>
+                </div>
             </div>
 
             {result.loading && <SkeletonGrid />}
