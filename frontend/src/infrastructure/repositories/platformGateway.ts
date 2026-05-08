@@ -85,10 +85,9 @@ export const platformGateway = {
         const resp = await apiClient.post<{ path: string }>('/admin/upload', form, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
-        // Derive the backend origin from VITE_API_BASE_URL by stripping the /api/v1 suffix
-        const base = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000/api/v1')
-            .replace(/\/api\/v1\/?$/, '')
-        return { ...resp, data: { url: `${base}${resp.data.path}` } }
+        // Store as root-relative path (/uploads/...) so it resolves
+        // through the frontend origin (proxied to the backend).
+        return { ...resp, data: { url: resp.data.path } }
     },
     updateAdminUser(id: string, key: 'role' | 'status', value: UserRole | UserStatus) {
         return apiClient.patch(`/admin/users/${id}/${key}`, { [key]: value })
