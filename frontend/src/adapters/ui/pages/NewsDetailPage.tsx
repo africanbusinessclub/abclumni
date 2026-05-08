@@ -15,7 +15,6 @@ export function NewsDetailPage() {
 
     useEffect(() => {
         if (!id) return
-        setLoading(true)
         platformGateway.getArticle(id)
             .then((res) => setArticle(res.data))
             .catch(() => setError(true))

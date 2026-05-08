@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
 import type { AdminStats, AdminUser } from '../../../domain/types'
@@ -10,9 +10,12 @@ import './AdminPage.css'
 export function AdminPage() {
     const location = useLocation()
     const navigate = useNavigate()
-    const [activeTab, setActiveTab] = useState<'members' | 'news' | 'resources' | 'events'>(
-        ['#news', '#resources', '#events'].includes(location.hash) ? (location.hash.substring(1) as any) : 'members'
-    )
+    const activeTab = useMemo(() => {
+        if (location.hash === '#news') return 'news' as const
+        if (location.hash === '#resources') return 'resources' as const
+        if (location.hash === '#events') return 'events' as const
+        return 'members' as const
+    }, [location.hash])
     const [users, setUsers] = useState<AdminUser[]>([])
     const [stats, setStats] = useState<AdminStats | null>(null)
 
@@ -52,16 +55,7 @@ export function AdminPage() {
         return (name || '??').substring(0, 2).toUpperCase()
     }
 
-    // Effect to handle URL hash changes directly
-    useEffect(() => {
-        if (location.hash === '#news') setActiveTab('news')
-        else if (location.hash === '#resources') setActiveTab('resources')
-        else if (location.hash === '#events') setActiveTab('events')
-        else setActiveTab('members')
-    }, [location.hash])
-
     const handleTabClick = (tab: 'members' | 'news' | 'resources' | 'events') => {
-        setActiveTab(tab)
         navigate(`/admin#${tab}`, { replace: true })
     }
 

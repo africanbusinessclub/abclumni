@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useState, useMemo } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
 import type { LoginPayload, RegisterPayload } from '../../../domain/types'
 import { Button } from '../components/Button'
@@ -10,20 +10,13 @@ export function AuthPage({
     onLogin,
     onRegister
 }: {
-    onLogin: (payload: LoginPayload) => Promise<void>
-    onRegister: (payload: RegisterPayload) => Promise<void>
+    onLogin: (_payload: LoginPayload) => Promise<void>
+    onRegister: (_payload: RegisterPayload) => Promise<void>
 }) {
     const [searchParams] = useSearchParams()
-    const navigate = useNavigate()
-    const [mode, setMode] = useState<'login' | 'register'>(
-        searchParams.get('m') === 'register' ? 'register' : 'login'
-    )
-
-    useEffect(() => {
+    const mode = useMemo(() => {
         const m = searchParams.get('m')
-        if (m === 'login' || m === 'register') {
-            setMode(m)
-        }
+        return (m === 'login' || m === 'register') ? m : 'login'
     }, [searchParams])
 
     const [credentials, setCredentials] = useState({

@@ -21,7 +21,9 @@ export function NotificationsPage() {
     }
 
     useEffect(() => {
-        void load(false)
+        platformGateway.getNotifications()
+            .then(response => setItems(response.data.items))
+            .finally(() => setLoading(false))
     }, [])
 
     const update = async (id: string, type: 'read' | 'archive') => {

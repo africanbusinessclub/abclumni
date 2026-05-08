@@ -26,7 +26,9 @@ export function NewsPage() {
     }
 
     useEffect(() => {
-        void load('', false)
+        platformGateway.getArticles({})
+            .then(response => setItems(response.data.items))
+            .finally(() => setLoading(false))
     }, [])
 
     return (
