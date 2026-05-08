@@ -79,12 +79,16 @@ export const platformGateway = {
     deleteEvent(id: string) {
         return apiClient.delete<{ ok: true }>(`/admin/events/${id}`)
     },
-    uploadFile(file: File) {
+    async uploadFile(file: File) {
         const form = new FormData()
         form.append('file', file)
-        return apiClient.post<{ url: string }>('/admin/upload', form, {
+        const resp = await apiClient.post<{ path: string }>('/admin/upload', form, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
+        // Derive the backend origin from VITE_API_BASE_URL by stripping the /api/v1 suffix
+        const base = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000/api/v1')
+            .replace(/\/api\/v1\/?$/, '')
+        return { ...resp, data: { url: `${base}${resp.data.path}` } }
     },
     updateAdminUser(id: string, key: 'role' | 'status', value: UserRole | UserStatus) {
         return apiClient.patch(`/admin/users/${id}/${key}`, { [key]: value })

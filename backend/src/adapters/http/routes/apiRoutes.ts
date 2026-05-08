@@ -68,8 +68,8 @@ function createApiRouter({
       if (!req.file) {
         return res.status(400).json({ error: "Fichier invalide ou manquant (JPG, PNG, WEBP, GIF, max 5 Mo)" });
       }
-      const baseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 4000}`;
-      return res.status(201).json({ url: `${baseUrl}/uploads/${req.file.filename}` });
+      // Return a root-relative path; the frontend prefixes it with the backend origin.
+      return res.status(201).json({ path: `/uploads/${req.file.filename}` });
     },
   );
 

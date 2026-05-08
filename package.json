@@ -12,7 +12,7 @@
       "bash -c 'cd frontend && node_modules/.bin/eslint --max-warnings=0 --no-warn-ignored \"${@}\"' --"
     ],
     "backend/src/**/*.ts": [
-      "bash -c 'cd backend && npx tsc --noEmit'"
+      "bash -c 'cd backend && npx prisma generate && npx tsc --noEmit'"
     ]
   }
 }

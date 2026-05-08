@@ -24,6 +24,8 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-root}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-abclumni}?schema=public
     ports:
       - "4000:4000"
+    volumes:
+      - uploads:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -47,3 +49,4 @@ services:
 
 volumes:
   pgdata:
+  uploads:
