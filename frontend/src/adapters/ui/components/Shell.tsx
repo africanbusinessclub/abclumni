@@ -180,10 +180,6 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                 </aside>
                 <main className="app-content">{children}</main>
             </div>
-            <footer className="app-footer">
-                <AbcLogo size={28} />
-                <span>© {new Date().getFullYear()} Alumni ABC · African Business Club</span>
-            </footer>
             <BottomNav user={user} unreadCount={unreadCount} />
         </div>
     )

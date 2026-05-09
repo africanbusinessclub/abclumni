@@ -269,17 +269,6 @@
 
 .mobile-only { display: none !important; }
 
-.app-footer {
-  background: var(--brand);
-  color: rgba(255,255,255,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-4);
-  padding: var(--spacing-4) var(--spacing-10);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.03em;
-}
 
 @media (max-width: 768px) {
   .mobile-only {
@@ -370,7 +359,4 @@
     padding-bottom: calc(1.5rem + 60px);
   }
 
-  .app-footer {
-    display: none;
-  }
 }
