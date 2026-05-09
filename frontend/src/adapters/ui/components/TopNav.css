@@ -47,8 +47,7 @@
 .admin-link { position: absolute; right: var(--spacing-8); top: var(--spacing-20); font-size: var(--font-size-sm); text-decoration: none; color: var(--ink-soft); }
 
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: 240px 1fr;
+  display: block;
   min-height: calc(100vh - 80px);
   background: white;
 }
@@ -128,17 +127,15 @@
 }
 
 .app-content {
+  margin-left: 240px;
   padding: var(--spacing-10) var(--spacing-12);
   background: white;
-  width: 100%;
   box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
   .dashboard-grid {
-    grid-template-columns: 1fr;
-    display: flex;
-    flex-direction: column;
+    display: block;
   }
   .top-nav {
     flex-wrap: wrap;
@@ -189,6 +186,7 @@
     padding: 0.5rem 1rem !important;
   }
   .app-content {
+    margin-left: 0;
     padding: 1.5rem 1rem calc(60px + var(--spacing-6));
   }
   .admin-link {
