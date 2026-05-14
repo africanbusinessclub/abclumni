@@ -4,6 +4,7 @@ import { getApiErrorMessage } from '../../../domain/httpError'
 import type { DashboardData, NotificationItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
+import { Avatar } from '../components/Avatar'
 import { useAuthState } from '../../../application/hooks/useAuthState'
 import { UserCircle, Newspaper, Diamond } from 'lucide-react'
 import './DashboardPage.css'
@@ -13,18 +14,6 @@ type DashboardState = {
     data: DashboardData | null
     notifications: NotificationItem[]
     error: string
-}
-
-function getAvatarColor(name: string) {
-    const chars = name.charCodeAt(0) || 0
-    if (chars % 4 === 0) return 'avatar-blue'
-    if (chars % 4 === 1) return 'avatar-orange'
-    if (chars % 4 === 2) return 'avatar-green'
-    return 'avatar-purple'
-}
-
-function getInitials(name: string) {
-    return (name || '??').substring(0, 2).toUpperCase()
 }
 
 function timeAgo(dateStr: string) {
@@ -93,9 +82,7 @@ export function DashboardPage() {
                     {state.data.suggestions.length === 0 && <p className="empty-text">Aucune suggestion pour le moment.</p>}
                     {state.data.suggestions.map((item) => (
                         <div key={item.id} className="panel suggestion-card" onClick={() => navigate(`/members/${item.id}`)}>
-                            <div className={'avatar avatar-lg ' + getAvatarColor(item.fullName)}>
-                                {getInitials(item.fullName)}
-                            </div>
+                            <Avatar name={item.fullName} photo={item.photo} size="avatar-lg" />
                             <h4>{item.fullName}</h4>
                             <p>{item.position || 'Role non défini'}, {item.company || 'Entreprise inconnue'}</p>
                         </div>
