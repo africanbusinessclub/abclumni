@@ -1,9 +1,11 @@
-import { type Dispatch, type FormEvent, type SetStateAction, useState } from 'react'
+import { type Dispatch, type FormEvent, type SetStateAction, useRef, useState } from 'react'
 import { getApiErrorMessage } from '../../../domain/httpError'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { splitCsv } from '../../../domain/splitCsv'
-import type { AuthUser, Availability, ProfileUpdatePayload } from '../../../domain/types'
+import type { AuthUser, Availability, Experience, ProfileUpdatePayload } from '../../../domain/types'
 import { Button } from '../components/Button'
+import { Avatar } from '../components/Avatar'
+import { Camera, Loader2 } from 'lucide-react'
 import './ProfilePage.css'
 
 type ProfilePageProps = {
@@ -31,6 +33,7 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
         linkedin: user.profile.linkedin || '',
         phone: user.profile.phone || '',
         availability: user.profile.availability,
+        experience: user.profile.experience || '',
         isMasked: user.profile.isMasked,
         visibility: user.profile.visibility || {
             email: true,
@@ -47,6 +50,27 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
     }))
     const [status, setStatus] = useState('')
     const [busy, setBusy] = useState(false)
+    const [photoUploading, setPhotoUploading] = useState(false)
+    const photoInputRef = useRef<HTMLInputElement>(null)
+
+    const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (!file) return
+        setPhotoUploading(true)
+        setStatus('')
+        try {
+            const response = await platformGateway.uploadProfilePhoto(file)
+            const newPhoto = response.data.profile.photo
+            setForm((prev) => ({ ...prev, photo: newPhoto }))
+            onUserUpdate((prev) => (prev ? { ...prev, profile: response.data.profile } : prev))
+            setStatus('Photo mise à jour.')
+        } catch (error) {
+            setStatus(getApiErrorMessage(error, 'Impossible de mettre à jour la photo'))
+        } finally {
+            setPhotoUploading(false)
+            if (photoInputRef.current) photoInputRef.current.value = ''
+        }
+    }
 
     const save = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -86,6 +110,32 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
         <section className="page-stack">
             <h1>Profil & Confidentialité</h1>
             <form className="panel stack-form" onSubmit={save}>
+                <div className="photo-upload-section">
+                    <label className="photo-avatar-trigger" aria-label="Modifier la photo de profil">
+                        <Avatar
+                            name={`${form.firstName} ${form.lastName}`}
+                            photo={form.photo || null}
+                            size="avatar-xl"
+                            className="photo-avatar"
+                        />
+                        <span className="photo-avatar-overlay" aria-hidden="true">
+                            {photoUploading
+                                ? <Loader2 size={22} className="photo-spinner" />
+                                : <Camera size={22} />}
+                        </span>
+                        <input
+                            ref={photoInputRef}
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp,image/gif"
+                            className="photo-file-input"
+                            onChange={handlePhotoChange}
+                            disabled={photoUploading}
+                        />
+                    </label>
+                    <p className="photo-hint">
+                        {photoUploading ? 'Envoi en cours…' : 'Cliquer pour modifier · JPG, PNG, WEBP · max 5 Mo'}
+                    </p>
+                </div>
                 <div className="grid-two">
                     <label>Prénom<input value={form.firstName || ''} onChange={(event) => setForm((prev) => ({ ...prev, firstName: event.target.value }))} /></label>
                     <label>Nom de famille<input value={form.lastName || ''} onChange={(event) => setForm((prev) => ({ ...prev, lastName: event.target.value }))} /></label>
@@ -93,6 +143,9 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
                 <div className="grid-two">
                     <label>Promotion<input value={form.promotion || ''} onChange={(event) => setForm((prev) => ({ ...prev, promotion: event.target.value }))} /></label>
                     <label>Disponibilité<select value={form.availability || 'none'} onChange={(event) => setForm((prev) => ({ ...prev, availability: event.target.value as Availability }))}><option value="none">Non renseigné</option><option value="networking">Networking</option><option value="mentoring">Mentorat</option><option value="recruiting">Recrutement</option></select></label>
+                </div>
+                <div className="grid-two">
+                    <label>Expérience<select value={form.experience || ''} onChange={(event) => setForm((prev) => ({ ...prev, experience: event.target.value as Experience }))}><option value="">Non renseigné</option><option value="junior">Junior (0–3 ans)</option><option value="junior_plus">Junior+ (3–5 ans)</option><option value="senior">Sénior (5–10 ans)</option><option value="senior_plus">Sénior+ (10–15 ans)</option><option value="expert">Expert (+15 ans)</option></select></label>
                 </div>
                 <div className="grid-two">
                     <label>Poste<input value={form.position || ''} onChange={(event) => setForm((prev) => ({ ...prev, position: event.target.value }))} /></label>

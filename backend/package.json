@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "African Business Club alumni platform API",
+  "description": "African Business Club platform API",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",

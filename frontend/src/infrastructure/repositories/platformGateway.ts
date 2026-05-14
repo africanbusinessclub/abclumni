@@ -58,6 +58,13 @@ export const platformGateway = {
     updateProfile(payload: ProfileUpdatePayload) {
         return apiClient.put<{ profile: PublicProfile }>('/me/profile', payload)
     },
+    async uploadProfilePhoto(file: File) {
+        const form = new FormData()
+        form.append('photo', file)
+        return apiClient.post<{ profile: PublicProfile }>('/me/photo', form, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+    },
     deleteAccount() {
         return apiClient.delete<{ ok: true; message: string }>('/me')
     },

@@ -34,6 +34,7 @@ function makeUser(overrides: Partial<User> = {}): User {
             skills: [],
             interests: [],
             availability: "networking",
+            experience: "",
             isMasked: false,
             visibility: {
                 email: true,

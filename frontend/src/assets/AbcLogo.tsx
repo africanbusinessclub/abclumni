@@ -11,7 +11,7 @@ export function AbcLogo({ size = 36 }: AbcLogoProps) {
     return (
         <img
             src="/logo.png"
-            alt="African Business Club - Alumni ABC"
+            alt="African Business Club"
             width={width}
             height={height}
             className="abc-logo"

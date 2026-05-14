@@ -5,6 +5,80 @@
   gap: var(--spacing-6);
 }
 
+.photo-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--line);
+}
+
+.photo-avatar-trigger {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+}
+
+.photo-avatar-trigger .photo-avatar {
+  width: 88px;
+  height: 88px;
+  font-size: 1.75rem;
+  display: block;
+  transition: filter var(--transition-fast);
+}
+
+.photo-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.42);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.photo-avatar-trigger:hover .photo-avatar-overlay,
+.photo-avatar-trigger:focus-within .photo-avatar-overlay {
+  opacity: 1;
+}
+
+.photo-avatar-trigger:hover .photo-avatar {
+  filter: brightness(0.85);
+}
+
+.photo-avatar-trigger:focus-within {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.photo-spinner {
+  animation: spin 0.9s linear infinite;
+}
+
+.photo-file-input {
+  display: none;
+}
+
+.photo-hint {
+  font-size: var(--font-size-xs);
+  color: var(--ink-muted);
+  text-align: center;
+}
+
 .grid-two {
   display: grid;
   grid-template-columns: 1fr 1fr;

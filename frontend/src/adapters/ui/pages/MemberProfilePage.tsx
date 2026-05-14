@@ -4,21 +4,8 @@ import { getApiErrorMessage } from '../../../domain/httpError'
 import type { PublicProfile } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { ExternalLink, Phone, Mail, MapPin, Briefcase, ArrowLeft } from 'lucide-react'
+import { Avatar } from '../components/Avatar'
 import './MemberProfilePage.css'
-
-function getAvatarColor(name: string) {
-    const chars = name.charCodeAt(0) || 0
-    if (chars % 4 === 0) return 'avatar-blue'
-    if (chars % 4 === 1) return 'avatar-orange'
-    if (chars % 4 === 2) return 'avatar-green'
-    return 'avatar-purple'
-}
-
-function getInitials(name: string) {
-    const parts = (name || '??').split(' ')
-    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase()
-    return (name || '??').substring(0, 2).toUpperCase()
-}
 
 function getAvailabilityLabel(value: string) {
     if (value === 'networking') return 'Networking'
@@ -32,6 +19,15 @@ function getAvailabilityColor(label: string) {
     if (label === 'Mentorat') return 'pill-green'
     if (label === 'Recrutement') return 'pill-amber'
     return 'pill-gray'
+}
+
+function getExperienceLabel(value: string) {
+    if (value === 'junior') return 'Junior (0–3 ans)'
+    if (value === 'junior_plus') return 'Junior+ (3–5 ans)'
+    if (value === 'senior') return 'Sénior (5–10 ans)'
+    if (value === 'senior_plus') return 'Sénior+ (10–15 ans)'
+    if (value === 'expert') return 'Expert (+15 ans)'
+    return null
 }
 
 type State = { loading: boolean; profile: PublicProfile | null; error: string }
@@ -82,9 +78,7 @@ export function MemberProfilePage() {
                 <div className="member-profile-layout">
                     {/* Left card */}
                     <aside className="panel member-profile-aside">
-                        <div className={'avatar avatar-xl ' + getAvatarColor(state.profile.fullName)}>
-                            {getInitials(state.profile.fullName)}
-                        </div>
+                        <Avatar name={state.profile.fullName} photo={state.profile.photo} size="avatar-xl" />
                         <h1 className="member-name">{state.profile.fullName}</h1>
                         {state.profile.promotion && (
                             <p className="member-promotion">Promotion {state.profile.promotion}</p>
@@ -93,6 +87,14 @@ export function MemberProfilePage() {
                             const label = getAvailabilityLabel(state.profile.availability)
                             return label ? (
                                 <span className={'availability-pill ' + getAvailabilityColor(label)}>
+                                    {label}
+                                </span>
+                            ) : null
+                        })()}
+                        {state.profile.experience && (() => {
+                            const label = getExperienceLabel(state.profile.experience)
+                            return label ? (
+                                <span className='availability-pill pill-gray'>
                                     {label}
                                 </span>
                             ) : null

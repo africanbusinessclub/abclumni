@@ -113,6 +113,7 @@ function createPlatformService({
                         skills: payload.skills.map((item) => sanitize(item)).filter(Boolean),
                         interests: payload.interests.map((item) => sanitize(item)).filter(Boolean),
                         availability: payload.availability,
+                        experience: "",
                         isMasked: false,
                         visibility: {
                             email: true,

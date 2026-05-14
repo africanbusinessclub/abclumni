@@ -1,4 +1,5 @@
 export type Availability = "networking" | "mentoring" | "recruiting" | "none";
+export type Experience = "junior" | "junior_plus" | "senior" | "senior_plus" | "expert" | "";
 export type UserRole = "member" | "moderator" | "admin";
 export type UserStatus = "active" | "inactive" | "pending";
 
@@ -33,6 +34,7 @@ export interface PublicProfile {
     skills: string[] | null;
     interests: string[] | null;
     availability: Availability;
+    experience: Experience;
     isMasked: boolean;
     visibility?: ProfileVisibility;
 }
@@ -184,6 +186,7 @@ export interface ProfileUpdatePayload {
     skills: string[];
     interests: string[];
     availability: Availability;
+    experience: Experience;
     isMasked: boolean;
     visibility: ProfileVisibility;
 }

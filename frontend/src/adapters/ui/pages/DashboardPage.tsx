@@ -88,7 +88,7 @@ export function DashboardPage() {
             </div>
 
             <div className="dashboard-section section-split">
-                <h2>Alumni suggérés</h2>
+                <h2>Membres suggérés</h2>
                 <div className="suggestions-grid">
                     {state.data.suggestions.length === 0 && <p className="empty-text">Aucune suggestion pour le moment.</p>}
                     {state.data.suggestions.map((item) => (

@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import type { AuthUser } from '../../../domain/types'
 import { Button } from './Button'
+import { Avatar } from './Avatar'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { AbcLogo } from '../../../assets/AbcLogo'
 import { Bell, CalendarDays, LayoutDashboard, Users, Newspaper, FolderOpen, UserCircle, ShieldCheck, LogOut } from 'lucide-react'
@@ -17,18 +18,6 @@ type ShellProps = {
 type GuardProps = {
     user: AuthUser | null
     children: ReactNode
-}
-
-function getAvatarColor(name: string) {
-    const chars = name?.charCodeAt(0) || 0
-    if (chars % 4 === 0) return 'avatar-blue'
-    if (chars % 4 === 1) return 'avatar-orange'
-    if (chars % 4 === 2) return 'avatar-green'
-    return 'avatar-purple'
-}
-
-function getInitials(name: string) {
-    return (name || '??').substring(0, 2).toUpperCase()
 }
 
 export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => void }) {
@@ -66,11 +55,11 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
                     {unreadCount > 0 && <span className="bell-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>}
                 </button>
                 <div
-                    className={'avatar ' + getAvatarColor(user?.profile?.fullName || '')}
+                    className="avatar-btn"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     style={{ cursor: 'pointer' }}
                 >
-                    {getInitials(user?.profile?.fullName || '')}
+                    <Avatar name={user?.profile?.fullName || ''} photo={user?.profile?.photo} />
                 </div>
 
                 {dropdownOpen && (
@@ -128,9 +117,7 @@ function BottomNav({ user, unreadCount }: { user: AuthUser; unreadCount: number 
             </Link>
             <Link to="/profile" className={isActive('/profile') || isActive('/notifications') ? 'active' : ''}>
                 <span className="bottom-nav-icon bottom-nav-avatar-wrap">
-                    <span className={'avatar avatar-sm ' + getAvatarColor(user?.profile?.fullName || '')}>
-                        {getInitials(user?.profile?.fullName || '')}
-                    </span>
+                    <Avatar name={user?.profile?.fullName || ''} photo={user?.profile?.photo} size="avatar-sm" />
                     {unreadCount > 0 && <span className="bottom-nav-dot"></span>}
                 </span>
                 <span>Moi</span>
@@ -157,9 +144,7 @@ export function Shell({ user, onLogout, children }: ShellProps) {
             <div className="dashboard-grid">
                 <aside className="dashboard-sidebar">
                     <div className="sidebar-profile">
-                        <div className={'avatar avatar-lg ' + getAvatarColor(profile?.fullName || '')}>
-                            {getInitials(profile?.fullName || '')}
-                        </div>
+                        <Avatar name={profile?.fullName || ''} photo={profile?.photo} size="avatar-lg" />
                         <h4>{profile?.fullName || 'Sans nom'}</h4>
                         <span className="promo">Promo {profile?.promotion || 'NC'}</span>
                     </div>

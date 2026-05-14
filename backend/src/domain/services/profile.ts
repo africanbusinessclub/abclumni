@@ -39,6 +39,7 @@ function presentProfile(user: User, viewer: Pick<User, "id" | "role"> | null | u
         skills: field("skills", profile.skills),
         interests: field("interests", profile.interests),
         availability: profile.availability,
+        experience: profile.experience,
         isMasked: profile.isMasked,
         visibility: isOwner || isAdmin ? profile.visibility : undefined
     };

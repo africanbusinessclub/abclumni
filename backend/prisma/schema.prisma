@@ -41,6 +41,7 @@ model Profile {
   skills       String[]
   interests    String[]
   availability String // networking, mentoring, recruiting, none
+  experience   String   @default("") // junior, junior_plus, senior, senior_plus, expert
   isMasked     Boolean  @default(false)
   visibility   Json // Storing ProfileVisibility as JSON for simplicity
 }

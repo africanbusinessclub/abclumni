@@ -5,6 +5,7 @@ import { initialDirectoryQuery } from '../../../domain/directoryQuery'
 import { DirectoryQuery, PublicProfile } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
+import { Avatar } from '../components/Avatar'
 import { Search, Users } from 'lucide-react'
 import './DirectoryPage.css'
 
@@ -13,18 +14,6 @@ type DirectoryState = {
     items: PublicProfile[]
     error: string
     total: number
-}
-
-function getAvatarColor(name: string) {
-    const chars = name.charCodeAt(0) || 0
-    if (chars % 4 === 0) return 'avatar-blue'
-    if (chars % 4 === 1) return 'avatar-orange'
-    if (chars % 4 === 2) return 'avatar-green'
-    return 'avatar-purple'
-}
-
-function getInitials(name: string) {
-    return (name || '??').substring(0, 2).toUpperCase()
 }
 
 function getAvailabilityLabel(value: string) {
@@ -84,7 +73,7 @@ export function DirectoryPage() {
                     <span className="search-icon"><Search size={18} /></span>
                     <input
                         type="text"
-                        placeholder="Rechercher un alumni par nom, entreprise, compétence..."
+                        placeholder="Rechercher un membre ou partenaire par nom, entreprise, compétence..."
                         value={query.q}
                         onChange={(e) => {
                             const newQuery = { ...query, q: e.target.value }
@@ -155,16 +144,14 @@ export function DirectoryPage() {
             {!result.loading && !result.error && result.items.length === 0 && (
                 <div className="empty-state panel">
                     <Users size={40} className="empty-state-icon" />
-                    <p>Aucun alumni trouvé pour cette recherche.</p>
+                    <p>Aucun membre trouvé pour cette recherche.</p>
                 </div>
             )}
             {!result.loading && !result.error && result.items.length > 0 && (
                 <div className="alumni-grid">
                     {result.items.map((item) => (
                         <article key={item.id} className="alumni-card alumni-card--clickable panel" onClick={() => navigate(`/members/${item.id}`)}>
-                            <div className={'avatar avatar-lg ' + getAvatarColor(item.fullName)}>
-                                {getInitials(item.fullName)}
-                            </div>
+                            <Avatar name={item.fullName} photo={item.photo} size="avatar-lg" />
                             <h3>{item.fullName}</h3>
                             <p>{item.position || 'Poste non renseigné'}, {item.company || 'Entreprise inconnue'}</p>
                             {item.availability && item.availability !== 'none' && (() => {

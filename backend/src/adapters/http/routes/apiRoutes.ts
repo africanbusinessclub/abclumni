@@ -162,6 +162,28 @@ function createApiRouter({
     },
   );
 
+  router.post(
+    "/api/v1/me/photo",
+    authMiddleware.authRequired,
+    upload.single("photo"),
+    async (req: Request, res: Response) => {
+      if (!req.file) {
+        return res.status(400).json({ error: "Fichier invalide ou manquant (JPG, PNG, WEBP, GIF, max 5 Mo)" });
+      }
+      const photoPath = `/uploads/${req.file.filename}`;
+      try {
+        return res.json(
+          await platformService.updateMyProfile(req.user!.id, { photo: photoPath }),
+        );
+      } catch (error) {
+        if (hasErrorCode(error, "USER_NOT_FOUND")) {
+          return res.status(404).json({ error: "Utilisateur introuvable" });
+        }
+        throw error;
+      }
+    },
+  );
+
   router.delete(
     "/api/v1/me",
     authMiddleware.authRequired,

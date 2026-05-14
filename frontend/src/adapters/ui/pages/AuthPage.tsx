@@ -67,7 +67,7 @@ export function AuthPage({
             <div className="auth-card">
                 <div className="auth-brand">
                     <AbcLogo size={44} />
-                    <p className="auth-tagline">Réseau des alumnis de l'African Business Club</p>
+                    <p className="auth-tagline">Réseau des membres et partenaires de l'African Business Club</p>
                 </div>
 
                 <h2 className="auth-title">

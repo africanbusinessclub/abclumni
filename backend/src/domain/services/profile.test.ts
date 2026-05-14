@@ -28,6 +28,7 @@ function makeUser(overrides: Partial<User> = {}): User {
             skills: ["TypeScript", "React"],
             interests: ["Entrepreneurship"],
             availability: "networking",
+            experience: "",
             isMasked: false,
             visibility: {
                 email: true,

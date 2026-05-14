@@ -45,6 +45,7 @@ const profileUpdateSchema = z.object({
     skills: z.array(z.string()).optional(),
     interests: z.array(z.string()).optional(),
     availability: z.enum(["networking", "mentoring", "recruiting", "none"]).optional(),
+    experience: z.enum(["junior", "junior_plus", "senior", "senior_plus", "expert", ""]).optional(),
     isMasked: z.boolean().optional(),
     visibility: z
         .object({

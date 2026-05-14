@@ -36,6 +36,8 @@
 .bell-badge { position: absolute; top: 1px; right: 1px; min-width: 18px; height: 18px; padding: 0 4px; background: var(--brand-alt); color: white; border-radius: 999px; border: 2px solid white; font-size: 10px; font-weight: var(--font-weight-semibold); line-height: 14px; text-align: center; pointer-events: none; }
 
 .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: var(--font-weight-semibold); font-size: var(--font-size-sm); }
+img.avatar { object-fit: cover; background: var(--bg-soft); display: block; }
+.avatar-btn { display: contents; }
 
 .avatar-orange { background: var(--color-avatar-orange); }
 .avatar-blue { background: var(--color-avatar-blue); color: var(--color-avatar-blue-fg); }

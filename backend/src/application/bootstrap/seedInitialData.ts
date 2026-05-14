@@ -115,10 +115,10 @@ async function seedInitialData({
         data: [
             {
                 id: idGenerator.newId(),
-                title: "Bienvenue sur la plateforme Alumni ABC",
-                slug: "bienvenue-plateforme-alumni-abc",
+                title: "Bienvenue sur la plateforme ABC",
+                slug: "bienvenue-plateforme-abc",
                 content:
-                    "La plateforme permet de trouver des alumni, partager des ressources et suivre la vie associative en un seul endroit.",
+                    "La plateforme permet de trouver des membres et partenaires, partager des ressources et suivre la vie associative en un seul endroit.",
                 category: "vie associative",
                 tags: ["plateforme", "lancement"],
                 coverImage: "",
@@ -132,7 +132,7 @@ async function seedInitialData({
                 id: idGenerator.newId(),
                 title: "Ouverture du programme de mentorat",
                 slug: "ouverture-programme-mentorat",
-                content: "Le programme de mentorat met en relation les promotions recentes et les alumni seniors.",
+                content: "Le programme de mentorat met en relation les promotions récentes et les membres seniors.",
                 category: "carriere",
                 tags: ["mentorat", "carriere"],
                 coverImage: "",
