@@ -94,7 +94,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
     )
 }
 
-function BottomNav({ user, unreadCount }: { user: AuthUser; unreadCount: number }) {
+function BottomNav() {
     const location = useLocation()
     const isActive = (path: string) => location.pathname.startsWith(path)
 
@@ -120,26 +120,12 @@ function BottomNav({ user, unreadCount }: { user: AuthUser; unreadCount: number 
                 <span className="bottom-nav-icon"><Briefcase size={22} /></span>
                 <span>Emplois</span>
             </Link>
-            <Link to="/profile" className={isActive('/profile') || isActive('/notifications') ? 'active' : ''}>
-                <span className="bottom-nav-icon bottom-nav-avatar-wrap">
-                    <Avatar name={user?.profile?.fullName || ''} photo={user?.profile?.photo} size="avatar-sm" />
-                    {unreadCount > 0 && <span className="bottom-nav-dot"></span>}
-                </span>
-                <span>Moi</span>
-            </Link>
         </nav>
     )
 }
 
 export function Shell({ user, onLogout, children }: ShellProps) {
     const location = useLocation()
-    const [unreadCount, setUnreadCount] = useState(0)
-
-    useEffect(() => {
-        platformGateway.getDashboard()
-            .then(res => setUnreadCount(res.data.unreadNotifications))
-            .catch(() => setUnreadCount(0))
-    }, [location.pathname])
 
     const profile = user?.profile
 
@@ -171,7 +157,7 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                 </aside>
                 <main className="app-content">{children}</main>
             </div>
-            <BottomNav user={user} unreadCount={unreadCount} />
+            <BottomNav />
         </div>
     )
 }
