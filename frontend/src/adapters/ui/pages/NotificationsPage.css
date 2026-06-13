@@ -11,9 +11,15 @@
   align-items: center;
   padding: var(--spacing-4);
   border: 1px solid var(--line);
-  border-radius: var(--border-radius-lg);
-  background-color: var(--bg-soft);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  border-radius: var(--radius-xl);
+  background-color: var(--panel);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-base);
+}
+
+.notice-item:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 .notice-main {

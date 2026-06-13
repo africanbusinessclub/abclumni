@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import './styles/design-tokens.css';
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -11,6 +19,7 @@ body {
   font-family: var(--font-family-sans);
   color: var(--ink);
   background: var(--bg);
+  line-height: var(--line-height-normal);
 }
 
 #root {
@@ -19,34 +28,48 @@ body {
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4, h5, h6 {
   margin: 0;
-  font-family: var(--font-family-serif);
-  letter-spacing: -0.03em;
+  font-family: var(--font-family-display);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
 }
 
 p {
   margin: 0;
 }
 
-button,
-input,
-select,
-textarea {
+button, input, select, textarea {
   font: inherit;
+  color: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(31, 58, 90, 0.15);
+  color: var(--ink);
+}
+
+/* Smooth scroll */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Panel base */
 .panel {
   border: 1px solid var(--line);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--radius-lg);
   background: var(--panel);
-  box-shadow: var(--shadow);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .auth-shell {

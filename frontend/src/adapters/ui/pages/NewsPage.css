@@ -41,12 +41,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-base);
 }
 
 .article-card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-card-hover);
   transform: translateY(-2px);
+  border-color: var(--brand);
 }
 
 .article-meta {
@@ -57,11 +62,13 @@
 }
 
 .article-meta span {
-  background-color: var(--brand-alt);
+  background: var(--gradient-accent);
   color: white;
-  padding: var(--spacing-1) var(--spacing-2);
-  border-radius: var(--border-radius-sm);
-  font-weight: var(--font-weight-medium);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.02em;
 }
 
 .article-meta small {

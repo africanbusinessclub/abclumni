@@ -6,7 +6,7 @@ import { platformGateway } from '../../../infrastructure/repositories/platformGa
 import { SkeletonGrid } from '../components/SkeletonGrid'
 import { Avatar } from '../components/Avatar'
 import { useAuthState } from '../../../application/hooks/useAuthState'
-import { UserCircle, Newspaper, Diamond } from 'lucide-react'
+import { UserCircle, Newspaper, Diamond, Users, Bell, FileText } from 'lucide-react'
 import './DashboardPage.css'
 
 type DashboardState = {
@@ -63,16 +63,31 @@ export function DashboardPage() {
 
             <div className="kpi-grid">
                 <div className="panel kpi-card">
-                    <h2>{state.data.suggestions.length > 0 ? state.data.suggestions.length : 0}</h2>
-                    <p>Membres suggérés</p>
+                    <div className="kpi-icon kpi-icon-suggestions">
+                        <Users size={22} />
+                    </div>
+                    <div className="kpi-body">
+                        <h2>{state.data.suggestions.length > 0 ? state.data.suggestions.length : 0}</h2>
+                        <p>Membres suggérés</p>
+                    </div>
                 </div>
                 <div className="panel kpi-card">
-                    <h2>{state.data.unreadNotifications}</h2>
-                    <p>Notifications non lues</p>
+                    <div className="kpi-icon kpi-icon-notifications">
+                        <Bell size={22} />
+                    </div>
+                    <div className="kpi-body">
+                        <h2>{state.data.unreadNotifications}</h2>
+                        <p>Notifications non lues</p>
+                    </div>
                 </div>
                 <div className="panel kpi-card">
-                    <h2>{state.data.latestArticles.length}</h2>
-                    <p>Dernières actualités</p>
+                    <div className="kpi-icon kpi-icon-news">
+                        <FileText size={22} />
+                    </div>
+                    <div className="kpi-body">
+                        <h2>{state.data.latestArticles.length}</h2>
+                        <p>Dernières actualités</p>
+                    </div>
                 </div>
             </div>
 
