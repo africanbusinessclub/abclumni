@@ -103,6 +103,22 @@ export function DirectoryPage() {
                     </select>
 
                     <select
+                        aria-label="Filtrer par type de profil"
+                        title="Filtrer par type de profil"
+                        value={query.profileType}
+                        onChange={(e) => {
+                            const newQuery = { ...query, profileType: e.target.value }
+                            setQuery(newQuery)
+                            void load(newQuery)
+                        }}
+                    >
+                        <option value="">Type : Tous</option>
+                        <option value="alumni">Alumni</option>
+                        <option value="adherent">Adhérent</option>
+                        <option value="membre">Membre</option>
+                    </select>
+
+                    <select
                         aria-label="Filtrer par secteur"
                         title="Filtrer par secteur"
                         value={query.sector}

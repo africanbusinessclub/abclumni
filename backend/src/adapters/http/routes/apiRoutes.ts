@@ -8,6 +8,7 @@ import { randomUUID } from "crypto";
 import {
   articleSchema,
   eventSchema,
+  jobOfferSchema,
   loginSchema,
   profileUpdateSchema,
   registerSchema,
@@ -456,6 +457,33 @@ function createApiRouter({
     },
   );
 
+  router.patch(
+    "/api/v1/admin/users/:id/profileType",
+    authMiddleware.authRequired,
+    authMiddleware.adminRequired,
+    async (req: Request, res: Response) => {
+      const profileType = String(req.body.profileType || "").toLowerCase();
+      if (!["alumni", "adherent", "membre"].includes(profileType)) {
+        return res.status(400).json({ error: "Type de profil invalide" });
+      }
+
+      try {
+        return res.json(
+          await platformService.adminUpdateProfileType(
+            String(req.params.id),
+            profileType,
+          ),
+        );
+      } catch (error) {
+        if (hasErrorCode(error, "USER_NOT_FOUND"))
+          return res.status(404).json({ error: "Utilisateur introuvable" });
+        if (hasErrorCode(error, "INVALID_PROFILE_TYPE"))
+          return res.status(400).json({ error: "Type de profil invalide" });
+        throw error;
+      }
+    },
+  );
+
   router.get(
     "/api/v1/admin/users/export.csv",
     authMiddleware.authRequired,
@@ -479,6 +507,64 @@ function createApiRouter({
     authMiddleware.adminRequired,
     async (_req: Request, res: Response) => {
       return res.json(await platformService.adminStats());
+    },
+  );
+
+  // ── Job Offers ────────────────────────────────────────────────────────────
+
+  router.get(
+    "/api/v1/jobs",
+    authMiddleware.authRequired,
+    async (_req: Request, res: Response) => {
+      return res.json(await platformService.listJobOffers());
+    },
+  );
+
+  router.post(
+    "/api/v1/jobs",
+    authMiddleware.authRequired,
+    async (req: Request, res: Response) => {
+      const parsed = jobOfferSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({
+          error: "Données de l'offre invalides",
+          issues: parsed.error.issues,
+        });
+      }
+
+      try {
+        return res.status(201).json(
+          await platformService.createJobOffer(req.user!.id, parsed.data),
+        );
+      } catch (error) {
+        if (hasErrorCode(error, "INVALID_USER_SESSION")) {
+          return res.status(401).json({ error: "Session invalide" });
+        }
+        throw error;
+      }
+    },
+  );
+
+  router.delete(
+    "/api/v1/jobs/:id",
+    authMiddleware.authRequired,
+    async (req: Request, res: Response) => {
+      try {
+        const isAdmin = req.user!.role === "admin";
+        return res.json(
+          await platformService.deleteJobOffer(
+            req.user!.id,
+            String(req.params.id),
+            isAdmin,
+          ),
+        );
+      } catch (error) {
+        if (hasErrorCode(error, "JOB_NOT_FOUND"))
+          return res.status(404).json({ error: "Offre introuvable" });
+        if (hasErrorCode(error, "FORBIDDEN"))
+          return res.status(403).json({ error: "Action non autorisée" });
+        throw error;
+      }
     },
   );
 

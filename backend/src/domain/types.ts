@@ -2,6 +2,7 @@ export type UserRole = "member" | "moderator" | "admin";
 export type UserStatus = "active" | "inactive" | "pending";
 export type Availability = "networking" | "mentoring" | "recruiting" | "none";
 export type Experience = "junior" | "junior_plus" | "senior" | "senior_plus" | "expert" | "";
+export type ProfileType = "alumni" | "adherent" | "membre";
 
 export interface ProfileVisibility {
     email: boolean;
@@ -30,6 +31,7 @@ export interface UserProfile {
     interests: string[];
     availability: Availability;
     experience: Experience;
+    profileType: ProfileType;
     isMasked: boolean;
     visibility: ProfileVisibility;
 }
@@ -96,11 +98,26 @@ export interface Event {
     createdAt: string;
 }
 
+export interface JobOffer {
+    id: string;
+    title: string;
+    company: string;
+    description: string;
+    contractType: string;
+    location: string;
+    contactEmail: string;
+    salary: string;
+    externalUrl: string;
+    authorId: string;
+    createdAt: string;
+}
+
 export interface DatabaseState {
     users: User[];
     articles: Article[];
     resources: Resource[];
     events: Event[];
+    jobOffers: JobOffer[];
     notifications: Notification[];
 }
 
@@ -125,6 +142,7 @@ export interface PresentedProfile {
     interests: string[] | null;
     availability: Availability;
     experience: Experience;
+    profileType: ProfileType;
     isMasked: boolean;
     visibility?: ProfileVisibility;
 }

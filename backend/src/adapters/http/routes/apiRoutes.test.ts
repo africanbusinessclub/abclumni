@@ -35,6 +35,7 @@ function makeUser(overrides: Partial<User> = {}): User {
             interests: [],
             availability: "networking",
             experience: "",
+            profileType: "membre",
             isMasked: false,
             visibility: {
                 email: true,

@@ -20,6 +20,7 @@ const registerSchema = z.object({
     skills: z.array(z.string()).default([]),
     interests: z.array(z.string()).default([]),
     availability: z.enum(["networking", "mentoring", "recruiting", "none"]).default("none"),
+    profileType: z.enum(["alumni", "adherent", "membre"]).default("membre"),
     acceptedTerms: z.boolean().refine((value: boolean) => value === true, {
         message: "Vous devez accepter les conditions d'utilisation"
     })
@@ -46,6 +47,7 @@ const profileUpdateSchema = z.object({
     interests: z.array(z.string()).optional(),
     availability: z.enum(["networking", "mentoring", "recruiting", "none"]).optional(),
     experience: z.enum(["junior", "junior_plus", "senior", "senior_plus", "expert", ""]).optional(),
+    profileType: z.enum(["alumni", "adherent", "membre"]).optional(),
     isMasked: z.boolean().optional(),
     visibility: z
         .object({
@@ -85,12 +87,24 @@ const eventSchema = z.object({
     coverImage: z.string().optional()
 });
 
+const jobOfferSchema = z.object({
+    title: z.string().min(5),
+    company: z.string().min(1),
+    description: z.string().min(20),
+    contractType: z.enum(["cdi", "cdd", "stage", "freelance", "alternance"]),
+    location: z.string().min(1),
+    contactEmail: z.string().email(),
+    salary: z.string().default(""),
+    externalUrl: z.string().default("")
+});
+
 type RegisterInput = z.infer<typeof registerSchema>;
 type LoginInput = z.infer<typeof loginSchema>;
 type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>;
 type ArticleInput = z.infer<typeof articleSchema>;
 type ResourceInput = z.infer<typeof resourceSchema>;
 type EventInput = z.infer<typeof eventSchema>;
+type JobOfferInput = z.infer<typeof jobOfferSchema>;
 
-export { registerSchema, loginSchema, profileUpdateSchema, articleSchema, resourceSchema, eventSchema };
-export type { RegisterInput, LoginInput, ProfileUpdateInput, ArticleInput, ResourceInput, EventInput };
+export { registerSchema, loginSchema, profileUpdateSchema, articleSchema, resourceSchema, eventSchema, jobOfferSchema };
+export type { RegisterInput, LoginInput, ProfileUpdateInput, ArticleInput, ResourceInput, EventInput, JobOfferInput };

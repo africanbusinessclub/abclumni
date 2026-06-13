@@ -7,6 +7,7 @@ import type {
     DirectoryQuery,
     DirectoryResponse,
     EventsResponse,
+    JobOffersResponse,
     LoginPayload,
     NewsArticleDetail,
     NewsResponse,
@@ -15,6 +16,7 @@ import type {
     ProfileUpdatePayload,
     PublishArticlePayload,
     PublishEventPayload,
+    PublishJobPayload,
     RegisterPayload,
     ResourcesResponse,
     UserRole,
@@ -99,7 +101,19 @@ export const platformGateway = {
     updateAdminUser(id: string, key: 'role' | 'status', value: UserRole | UserStatus) {
         return apiClient.patch(`/admin/users/${id}/${key}`, { [key]: value })
     },
+    updateAdminProfileType(id: string, profileType: string) {
+        return apiClient.patch(`/admin/users/${id}/profileType`, { profileType })
+    },
     exportUsersCsv() {
         return apiClient.get('/admin/users/export.csv', { responseType: 'blob' })
+    },
+    getJobs() {
+        return apiClient.get<JobOffersResponse>('/jobs')
+    },
+    publishJob(payload: PublishJobPayload) {
+        return apiClient.post<{ ok: true; job: unknown }>('/jobs', payload)
+    },
+    deleteJob(id: string) {
+        return apiClient.delete<{ ok: true }>(`/jobs/${id}`)
     }
 }

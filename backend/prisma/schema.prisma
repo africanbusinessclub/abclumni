@@ -19,6 +19,7 @@ model User {
   profile       Profile?
   loginHistory  LoginHistory[]
   articles      Article[]
+  jobOffers     JobOffer[]
   notifications Notification[]
 }
 
@@ -42,6 +43,7 @@ model Profile {
   interests    String[]
   availability String // networking, mentoring, recruiting, none
   experience   String   @default("") // junior, junior_plus, senior, senior_plus, expert
+  profileType  String   @default("membre") // alumni, adherent, membre
   isMasked     Boolean  @default(false)
   visibility   Json // Storing ProfileVisibility as JSON for simplicity
 }
@@ -99,4 +101,19 @@ model Event {
   url         String
   coverImage  String   @default("")
   createdAt   DateTime @default(now())
+}
+
+model JobOffer {
+  id           String   @id @default(uuid())
+  title        String
+  company      String
+  description  String
+  contractType String // cdi, cdd, stage, freelance, alternance
+  location     String
+  contactEmail String
+  salary       String   @default("")
+  externalUrl  String   @default("")
+  authorId     String
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
 }

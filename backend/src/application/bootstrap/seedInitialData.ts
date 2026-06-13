@@ -52,6 +52,7 @@ async function seedInitialData({
                     skills: ["community", "governance"],
                     interests: ["mentoring"],
                     availability: "networking",
+                    profileType: "membre",
                     isMasked: false,
                     visibility: {
                         email: true,
@@ -95,6 +96,7 @@ async function seedInitialData({
                     skills: ["strategy", "finance"],
                     interests: ["impact", "entrepreneurship"],
                     availability: "mentoring",
+                    profileType: "membre",
                     isMasked: false,
                     visibility: {
                         email: true,

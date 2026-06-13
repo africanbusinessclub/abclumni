@@ -125,6 +125,17 @@ export function AdminPage() {
         }
     }
 
+    async function handleProfileTypeChange(userId: string, profileType: string) {
+        try {
+            await platformGateway.updateAdminProfileType(userId, profileType)
+            setUsers(prev => prev.map(u => u.id === userId ? { ...u, profile: { ...u.profile, profileType: profileType as 'alumni' | 'adherent' | 'membre' } } : u))
+            setStatusMessage('Type de profil mis à jour.')
+            setTimeout(() => setStatusMessage(''), 3000)
+        } catch (error) {
+            setStatusMessage(getApiErrorMessage(error, 'Erreur lors de la mise à jour du type.'))
+        }
+    }
+
     return (
         <div className="admin-layout">
             <aside className="admin-sidebar">
@@ -214,6 +225,7 @@ export function AdminPage() {
                                     <tr>
                                         <th>Membre</th>
                                         <th>Promotion</th>
+                                        <th>Type</th>
                                         <th>Secteur</th>
                                         <th>Statut</th>
                                         <th>Inscription</th>
@@ -234,6 +246,17 @@ export function AdminPage() {
                                                 </div>
                                             </td>
                                             <td data-label="Promotion">{user.profile.promotion || '2022'}</td>
+                                            <td data-label="Type">
+                                                <select
+                                                    className="admin-inline-select"
+                                                    value={user.profile.profileType || 'membre'}
+                                                    onChange={(e) => handleProfileTypeChange(user.id, e.target.value)}
+                                                >
+                                                    <option value="alumni">Alumni</option>
+                                                    <option value="adherent">Adhérent</option>
+                                                    <option value="membre">Membre</option>
+                                                </select>
+                                            </td>
                                             <td data-label="Secteur">{user.profile.skills?.[0] || 'Conseil'}</td>
                                             <td data-label="Statut">
                                                 <span className={`status-pill ${user.status === 'active' ? 'status-active' : 'status-pending'}`}>
@@ -255,6 +278,7 @@ export function AdminPage() {
                                                     </div>
                                                 </td>
                                                 <td data-label="Promotion">2022</td>
+                                                <td data-label="Type">Membre</td>
                                                 <td data-label="Secteur">Conseil</td>
                                                 <td data-label="Statut"><span className="status-pill status-active">Actif</span></td>
                                                 <td data-label="Inscription">Janv. 2023</td>
@@ -270,6 +294,7 @@ export function AdminPage() {
                                                     </div>
                                                 </td>
                                                 <td data-label="Promotion">2021</td>
+                                                <td data-label="Type">Alumni</td>
                                                 <td data-label="Secteur">Tech</td>
                                                 <td data-label="Statut"><span className="status-pill status-active">Actif</span></td>
                                                 <td data-label="Inscription">Mars 2022</td>
@@ -285,6 +310,7 @@ export function AdminPage() {
                                                     </div>
                                                 </td>
                                                 <td data-label="Promotion">2023</td>
+                                                <td data-label="Type">Adhérent</td>
                                                 <td data-label="Secteur">Data</td>
                                                 <td data-label="Statut"><span className="status-pill status-pending">En attente</span></td>
                                                 <td data-label="Inscription">Mars 2026</td>

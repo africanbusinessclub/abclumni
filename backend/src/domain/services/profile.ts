@@ -40,6 +40,7 @@ function presentProfile(user: User, viewer: Pick<User, "id" | "role"> | null | u
         interests: field("interests", profile.interests),
         availability: profile.availability,
         experience: profile.experience,
+        profileType: profile.profileType,
         isMasked: profile.isMasked,
         visibility: isOwner || isAdmin ? profile.visibility : undefined
     };

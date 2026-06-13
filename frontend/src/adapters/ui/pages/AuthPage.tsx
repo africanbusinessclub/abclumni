@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
-import type { LoginPayload, RegisterPayload } from '../../../domain/types'
+import type { LoginPayload, ProfileType, RegisterPayload } from '../../../domain/types'
 import { Button } from '../components/Button'
 import { AbcLogo } from '../../../assets/AbcLogo'
 import './AuthPage.css'
@@ -25,6 +25,7 @@ export function AuthPage({
         firstName: '',
         lastName: '',
         promotion: '',
+        profileType: 'membre' as ProfileType,
         acceptedTerms: false
     })
     const [loading, setLoading] = useState(false)
@@ -44,6 +45,7 @@ export function AuthPage({
                     firstName: credentials.firstName,
                     lastName: credentials.lastName,
                     promotion: credentials.promotion,
+                    profileType: credentials.profileType,
                     acceptedTerms: credentials.acceptedTerms,
                     company: '',
                     sector: '',
@@ -110,6 +112,18 @@ export function AuthPage({
                                     onChange={(e) => setCredentials({ ...credentials, promotion: e.target.value })}
                                     required
                                 />
+                            </div>
+                            <div className="auth-form-field">
+                                <label htmlFor="profileType">Type de profil</label>
+                                <select
+                                    id="profileType"
+                                    value={credentials.profileType}
+                                    onChange={(e) => setCredentials({ ...credentials, profileType: e.target.value as ProfileType })}
+                                >
+                                    <option value="alumni">Alumni</option>
+                                    <option value="adherent">Adhérent</option>
+                                    <option value="membre">Membre</option>
+                                </select>
                             </div>
                         </>
                     )}

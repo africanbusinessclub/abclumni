@@ -2,7 +2,7 @@ import { type Dispatch, type FormEvent, type SetStateAction, useRef, useState } 
 import { getApiErrorMessage } from '../../../domain/httpError'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { splitCsv } from '../../../domain/splitCsv'
-import type { AuthUser, Availability, Experience, ProfileUpdatePayload } from '../../../domain/types'
+import type { AuthUser, Availability, Experience, ProfileType, ProfileUpdatePayload } from '../../../domain/types'
 import { Button } from '../components/Button'
 import { Avatar } from '../components/Avatar'
 import { Camera, Loader2 } from 'lucide-react'
@@ -34,6 +34,7 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
         phone: user.profile.phone || '',
         availability: user.profile.availability,
         experience: user.profile.experience || '',
+        profileType: user.profile.profileType || 'membre',
         isMasked: user.profile.isMasked,
         visibility: user.profile.visibility || {
             email: true,
@@ -146,6 +147,7 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
                 </div>
                 <div className="grid-two">
                     <label>Expérience<select value={form.experience || ''} onChange={(event) => setForm((prev) => ({ ...prev, experience: event.target.value as Experience }))}><option value="">Non renseigné</option><option value="junior">Junior (0–3 ans)</option><option value="junior_plus">Junior+ (3–5 ans)</option><option value="senior">Sénior (5–10 ans)</option><option value="senior_plus">Sénior+ (10–15 ans)</option><option value="expert">Expert (+15 ans)</option></select></label>
+                    <label>Type de profil<select value={form.profileType} onChange={(event) => setForm((prev) => ({ ...prev, profileType: event.target.value as ProfileType }))}><option value="alumni">Alumni</option><option value="adherent">Adhérent</option><option value="membre">Membre</option></select></label>
                 </div>
                 <div className="grid-two">
                     <label>Poste<input value={form.position || ''} onChange={(event) => setForm((prev) => ({ ...prev, position: event.target.value }))} /></label>

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { presentProfile } from "../../domain/services/profile";
 import { sanitize, slugify } from "../../domain/services/text";
-import type { ArticleInput, EventInput, LoginInput, ProfileUpdateInput, RegisterInput, ResourceInput } from "../validation/schemas";
+import type { ArticleInput, EventInput, JobOfferInput, LoginInput, ProfileUpdateInput, RegisterInput, ResourceInput } from "../validation/schemas";
 import type {
     IdGenerator,
     Notification,
@@ -113,6 +113,7 @@ function createPlatformService({
                         skills: payload.skills.map((item) => sanitize(item)).filter(Boolean),
                         interests: payload.interests.map((item) => sanitize(item)).filter(Boolean),
                         availability: payload.availability,
+                        profileType: sanitize(payload.profileType || "membre"),
                         experience: "",
                         isMasked: false,
                         visibility: {
@@ -244,6 +245,7 @@ function createPlatformService({
         const sector = getQueryText(query, "sector").toLowerCase();
         const city = getQueryText(query, "city").toLowerCase();
         const availability = getQueryText(query, "availability");
+        const profileType = getQueryText(query, "profileType");
         const sort = getQueryText(query, "sort", "relevance");
         const page = Math.max(getQueryNumber(query, "page", 1), 1);
         const pageSize = Math.min(Math.max(getQueryNumber(query, "pageSize", 12), 1), 50);
@@ -270,6 +272,7 @@ function createPlatformService({
         if (sector) alumni = alumni.filter((entry) => (entry.profile.sector || "").toLowerCase().includes(sector));
         if (city) alumni = alumni.filter((entry) => (entry.profile.city || "").toLowerCase().includes(city));
         if (availability) alumni = alumni.filter((entry) => entry.profile.availability === availability);
+        if (profileType) alumni = alumni.filter((entry) => entry.profile.profileType === profileType);
 
         alumni = alumni.map((entry) => {
             const haystack = [
@@ -608,6 +611,18 @@ function createPlatformService({
         return { ok: true, userId, role };
     }
 
+    async function adminUpdateProfileType(userId: string, profileType: string) {
+        const user = await db.user.findUnique({ where: { id: userId }, include: { profile: true } });
+        if (!user || !user.profile) throw new Error("USER_NOT_FOUND");
+        if (!["alumni", "adherent", "membre"].includes(profileType)) throw new Error("INVALID_PROFILE_TYPE");
+        await db.profile.update({
+            where: { userId },
+            data: { profileType }
+        });
+        await createNotification(userId, "account", `Votre type de profil a ete modifie en: ${profileType}.`);
+        return { ok: true, userId, profileType };
+    }
+
     async function adminStats() {
         const activeMembers = await db.user.count({ where: { status: "active" } });
         const inactiveMembers = await db.user.count({ where: { status: "inactive" } });
@@ -654,6 +669,48 @@ function createPlatformService({
         });
     }
 
+    async function createJobOffer(authorId: string, payload: JobOfferInput) {
+        const author = await findActiveUserById(authorId);
+        if (!author) throw new Error("INVALID_USER_SESSION");
+
+        const jobData = {
+            id: idGenerator.newId(),
+            title: sanitize(payload.title),
+            company: sanitize(payload.company),
+            description: sanitize(payload.description),
+            contractType: payload.contractType,
+            location: sanitize(payload.location),
+            contactEmail: payload.contactEmail,
+            salary: sanitize(payload.salary || ""),
+            externalUrl: sanitize(payload.externalUrl || ""),
+            authorId: author.id,
+            createdAt: new Date()
+        };
+
+        const job = await db.jobOffer.create({ data: jobData });
+        return { ok: true, job: { ...job, createdAt: job.createdAt.toISOString() } };
+    }
+
+    async function listJobOffers() {
+        const jobsFromDb = await db.jobOffer.findMany({
+            orderBy: { createdAt: "desc" }
+        });
+        return {
+            items: jobsFromDb.map((j: any) => ({
+                ...j,
+                createdAt: j.createdAt.toISOString()
+            }))
+        };
+    }
+
+    async function deleteJobOffer(userId: string, jobId: string, isAdmin: boolean) {
+        const job = await db.jobOffer.findUnique({ where: { id: jobId } });
+        if (!job) throw new Error("JOB_NOT_FOUND");
+        if (!isAdmin && job.authorId !== userId) throw new Error("FORBIDDEN");
+        await db.jobOffer.delete({ where: { id: jobId } });
+        return { ok: true };
+    }
+
     async function getUserForAuth(userId: string): Promise<User | null> {
         return findActiveUserById(userId);
     }
@@ -678,11 +735,15 @@ function createPlatformService({
         adminUsers,
         adminUpdateStatus,
         adminUpdateRole,
+        adminUpdateProfileType,
         adminStats,
         exportUsersCsvRecords,
         adminCreateResource,
         adminCreateEvent,
         adminDeleteEvent,
+        createJobOffer,
+        listJobOffers,
+        deleteJobOffer,
         getUserForAuth
     };
 }

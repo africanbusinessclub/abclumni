@@ -1,5 +1,6 @@
 export type Availability = "networking" | "mentoring" | "recruiting" | "none";
 export type Experience = "junior" | "junior_plus" | "senior" | "senior_plus" | "expert" | "";
+export type ProfileType = "alumni" | "adherent" | "membre";
 export type UserRole = "member" | "moderator" | "admin";
 export type UserStatus = "active" | "inactive" | "pending";
 
@@ -35,6 +36,7 @@ export interface PublicProfile {
     interests: string[] | null;
     availability: Availability;
     experience: Experience;
+    profileType: ProfileType;
     isMasked: boolean;
     visibility?: ProfileVisibility;
 }
@@ -67,6 +69,7 @@ export interface RegisterPayload {
     skills: string[];
     interests: string[];
     availability: Availability;
+    profileType: ProfileType;
     acceptedTerms: boolean;
 }
 
@@ -94,6 +97,7 @@ export interface DirectoryQuery {
     sector: string;
     city: string;
     availability: string;
+    profileType: string;
     sort: "relevance" | "name" | "promotion";
 }
 
@@ -187,6 +191,7 @@ export interface ProfileUpdatePayload {
     interests: string[];
     availability: Availability;
     experience: Experience;
+    profileType: ProfileType;
     isMasked: boolean;
     visibility: ProfileVisibility;
 }
@@ -227,4 +232,33 @@ export interface PublishEventPayload {
     description: string;
     url: string;
     coverImage?: string;
+}
+
+export interface JobOfferItem {
+    id: string;
+    title: string;
+    company: string;
+    description: string;
+    contractType: string;
+    location: string;
+    contactEmail: string;
+    salary: string;
+    externalUrl: string;
+    authorId: string;
+    createdAt: string;
+}
+
+export interface JobOffersResponse {
+    items: JobOfferItem[];
+}
+
+export interface PublishJobPayload {
+    title: string;
+    company: string;
+    description: string;
+    contractType: string;
+    location: string;
+    contactEmail: string;
+    salary: string;
+    externalUrl: string;
 }

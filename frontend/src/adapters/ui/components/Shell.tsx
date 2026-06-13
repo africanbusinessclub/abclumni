@@ -6,7 +6,7 @@ import { Button } from './Button'
 import { Avatar } from './Avatar'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { AbcLogo } from '../../../assets/AbcLogo'
-import { Bell, CalendarDays, LayoutDashboard, Users, Newspaper, FolderOpen, UserCircle, ShieldCheck, LogOut } from 'lucide-react'
+import { Bell, Briefcase, CalendarDays, LayoutDashboard, Users, Newspaper, FolderOpen, UserCircle, ShieldCheck, LogOut } from 'lucide-react'
 import './TopNav.css'
 
 type ShellProps = {
@@ -74,6 +74,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
                             <Link to="/directory" onClick={() => setDropdownOpen(false)}><Users size={16} /> Annuaire</Link>
                             <Link to="/news" onClick={() => setDropdownOpen(false)}><Newspaper size={16} /> Actualités</Link>
                             <Link to="/events" onClick={() => setDropdownOpen(false)}><CalendarDays size={16} /> Événements</Link>
+                            <Link to="/jobs" onClick={() => setDropdownOpen(false)}><Briefcase size={16} /> Emplois</Link>
                             <Link to="/resources" onClick={() => setDropdownOpen(false)}><FolderOpen size={16} /> Ressources</Link>
                             <hr />
                         </div>
@@ -115,6 +116,10 @@ function BottomNav({ user, unreadCount }: { user: AuthUser; unreadCount: number 
                 <span className="bottom-nav-icon"><CalendarDays size={22} /></span>
                 <span>Événements</span>
             </Link>
+            <Link to="/jobs" className={isActive('/jobs') ? 'active' : ''}>
+                <span className="bottom-nav-icon"><Briefcase size={22} /></span>
+                <span>Emplois</span>
+            </Link>
             <Link to="/profile" className={isActive('/profile') || isActive('/notifications') ? 'active' : ''}>
                 <span className="bottom-nav-icon bottom-nav-avatar-wrap">
                     <Avatar name={user?.profile?.fullName || ''} photo={user?.profile?.photo} size="avatar-sm" />
@@ -154,6 +159,7 @@ export function Shell({ user, onLogout, children }: ShellProps) {
                         <Link to="/directory" className={location.pathname.startsWith('/directory') ? 'active' : ''}><span className="icon"><Users size={18} /></span> Annuaire</Link>
                         <Link to="/news" className={location.pathname.startsWith('/news') ? 'active' : ''}><span className="icon"><Newspaper size={18} /></span> Actualités</Link>
                         <Link to="/events" className={location.pathname.startsWith('/events') ? 'active' : ''}><span className="icon"><CalendarDays size={18} /></span> Événements</Link>
+                        <Link to="/jobs" className={location.pathname.startsWith('/jobs') ? 'active' : ''}><span className="icon"><Briefcase size={18} /></span> Emplois</Link>
                         <Link to="/resources" className={location.pathname.startsWith('/resources') ? 'active' : ''}><span className="icon"><FolderOpen size={18} /></span> Ressources</Link>
                         {user?.role === 'admin' && (
                             <Link to="/admin" className={location.pathname.startsWith('/admin') ? 'active' : ''}><span className="icon"><ShieldCheck size={18} /></span> Administration</Link>

@@ -6,5 +6,6 @@ export const initialDirectoryQuery: DirectoryQuery = {
     sector: '',
     city: '',
     availability: '',
+    profileType: '',
     sort: 'relevance'
 }
