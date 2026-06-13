@@ -12,7 +12,8 @@ Internet
    ▼
 Host Nginx (port 443 / 80)  ← TLS termination via Certbot
    ├─ / → frontend container (port 8080 on host)
-   └─ /api/ → backend container (port 4000 on host)
+   ├─ /api/ → backend container (port 4000 on host)
+   └─ /uploads/ → backend container (port 4000 on host, static files)
          │
          ▼
      PostgreSQL container (internal network only)
@@ -163,6 +164,17 @@ cat > /etc/nginx/sites-available/abclumni << 'EOF'
 server {
     listen 80;
     server_name yourdomain.com www.yourdomain.com;
+
+    # Uploaded files (event cover images, profile photos) — proxy directly to backend
+    location /uploads/ {
+        proxy_pass         http://localhost:4000/uploads/;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
 
     # Frontend (React SPA)
     location / {
