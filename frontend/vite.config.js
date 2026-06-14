@@ -18,8 +18,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['logo.png', 'icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Alumni ABC',
-        short_name: 'Alumni ABC',
+        name: 'Réseau ABC',
+        short_name: 'Réseau ABC',
         description: 'African Business Club Alumni Network',
         theme_color: '#1a1a2e',
         background_color: '#ffffff',
