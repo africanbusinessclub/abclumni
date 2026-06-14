@@ -128,6 +128,26 @@ function createApiRouter({
     },
   );
 
+  router.post(
+    "/api/v1/auth/refresh",
+    authLimiter,
+    async (req: Request, res: Response) => {
+      const { refreshToken } = req.body || {};
+      if (!refreshToken || typeof refreshToken !== "string") {
+        return res.status(400).json({ error: "Refresh token requis" });
+      }
+
+      try {
+        return res.json(await platformService.refresh(refreshToken));
+      } catch (error) {
+        if (hasErrorCode(error, "INVALID_REFRESH_TOKEN")) {
+          return res.status(401).json({ error: "Session expirée, veuillez vous reconnecter" });
+        }
+        throw error;
+      }
+    },
+  );
+
   router.get(
     "/api/v1/me",
     authMiddleware.authRequired,

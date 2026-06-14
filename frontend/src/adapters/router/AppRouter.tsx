@@ -22,15 +22,13 @@ export function AppRouter() {
 
     const login = async (payload: LoginPayload) => {
         const response = await platformGateway.login(payload)
-        auth.setToken(response.data.token)
-        auth.setUser(response.data.user)
+        auth.setAuth(response.data.token, response.data.refreshToken, response.data.user)
         navigate('/dashboard')
     }
 
     const register = async (payload: RegisterPayload) => {
         const response = await platformGateway.register(payload)
-        auth.setToken(response.data.token)
-        auth.setUser(response.data.user)
+        auth.setAuth(response.data.token, response.data.refreshToken, response.data.user)
         navigate('/dashboard')
     }
 

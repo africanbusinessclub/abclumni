@@ -27,6 +27,7 @@ function createApp() {
     if (!jwtSecret) {
         throw new Error("JWT_SECRET environment variable is required");
     }
+    const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET || `${jwtSecret}-refresh`;
     const defaultOrigins = [
         "http://localhost:5173",
         "http://localhost:5174",
@@ -40,7 +41,7 @@ function createApp() {
     const pool = new Pool({ connectionString: process.env.DATABASE_URL });
     const adapter = new PrismaPg(pool);
     const db = new PrismaClient({ adapter });
-    const tokenService = createTokenService({ secret: jwtSecret });
+    const tokenService = createTokenService({ secret: jwtSecret, refreshSecret: jwtRefreshSecret });
     const passwordService = createPasswordService({ rounds: 12 });
     const idGenerator = createIdGenerator();
 

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { apiClient } from '../../infrastructure/http/apiClient'
 import type { AuthUser } from '../../domain/types'
 
 export function useAuthState() {
     const [token, setToken] = useState(localStorage.getItem('abc_token') || '')
+    const [refreshToken, setRefreshToken] = useState(localStorage.getItem('abc_refresh_token') || '')
     const [user, setUser] = useState<AuthUser | null>(() => {
         const raw = localStorage.getItem('abc_user')
         return raw ? (JSON.parse(raw) as AuthUser) : null
@@ -20,6 +21,14 @@ export function useAuthState() {
     }, [token])
 
     useEffect(() => {
+        if (refreshToken) {
+            localStorage.setItem('abc_refresh_token', refreshToken)
+        } else {
+            localStorage.removeItem('abc_refresh_token')
+        }
+    }, [refreshToken])
+
+    useEffect(() => {
         if (user) {
             localStorage.setItem('abc_user', JSON.stringify(user))
         } else {
@@ -27,10 +36,17 @@ export function useAuthState() {
         }
     }, [user])
 
-    const logout = () => {
-        setToken('')
-        setUser(null)
-    }
+    const setAuth = useCallback((t: string, rt: string, u: AuthUser) => {
+        setToken(t)
+        setRefreshToken(rt)
+        setUser(u)
+    }, [])
 
-    return { token, setToken, user, setUser, logout }
+    const logout = useCallback(() => {
+        setToken('')
+        setRefreshToken('')
+        setUser(null)
+    }, [])
+
+    return { token, setToken, refreshToken, setRefreshToken, setAuth, user, setUser, logout }
 }

@@ -6,7 +6,7 @@ import { platformGateway } from '../../../infrastructure/repositories/platformGa
 import { SkeletonGrid } from '../components/SkeletonGrid'
 import { Avatar } from '../components/Avatar'
 import { useAuthState } from '../../../application/hooks/useAuthState'
-import { UserCircle, Newspaper, Diamond, Users, Bell, FileText } from 'lucide-react'
+import { UserCircle, Newspaper, Diamond, Users, Bell, FileText, Briefcase } from 'lucide-react'
 import './DashboardPage.css'
 
 type DashboardState = {
@@ -87,6 +87,15 @@ export function DashboardPage() {
                     <div className="kpi-body">
                         <h2>{state.data.latestArticles.length}</h2>
                         <p>Dernières actualités</p>
+                    </div>
+                </div>
+                <div className="panel kpi-card">
+                    <div className="kpi-icon kpi-icon-jobs">
+                        <Briefcase size={22} />
+                    </div>
+                    <div className="kpi-body">
+                        <h2>{state.data.totalJobOffers}</h2>
+                        <p>Offres d'emploi</p>
                     </div>
                 </div>
             </div>

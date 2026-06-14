@@ -75,6 +75,7 @@ export interface RegisterPayload {
 
 export interface AuthResponse {
     token: string;
+    refreshToken: string;
     user: AuthUser;
 }
 
@@ -88,6 +89,7 @@ export interface DashboardArticle {
 export interface DashboardData {
     latestArticles: DashboardArticle[];
     unreadNotifications: number;
+    totalJobOffers: number;
     suggestions: PublicProfile[];
 }
 

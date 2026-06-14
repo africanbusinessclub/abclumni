@@ -168,7 +168,13 @@ export interface TokenPayload {
     email: string;
 }
 
+export interface RefreshTokenPayload {
+    sub: string;
+}
+
 export interface TokenService {
     sign: (user: Pick<User, "id" | "role" | "email">) => string;
     verify: (token: string) => TokenPayload;
+    signRefresh: (user: Pick<User, "id">) => string;
+    verifyRefresh: (token: string) => RefreshTokenPayload;
 }

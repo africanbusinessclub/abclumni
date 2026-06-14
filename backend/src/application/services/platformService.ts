@@ -139,6 +139,7 @@ function createPlatformService({
 
         return {
             token: tokenService.sign(user),
+            refreshToken: tokenService.signRefresh(user),
             user: {
                 id: user.id,
                 email: user.email,
@@ -146,6 +147,23 @@ function createPlatformService({
                 status: user.status,
                 profile: presentProfile(user, user)
             }
+        };
+    }
+
+    async function refresh(refreshToken: string) {
+        let payload;
+        try {
+            payload = tokenService.verifyRefresh(refreshToken);
+        } catch {
+            throw new Error("INVALID_REFRESH_TOKEN");
+        }
+
+        const user = await findActiveUserById(payload.sub);
+        if (!user) throw new Error("INVALID_REFRESH_TOKEN");
+
+        return {
+            token: tokenService.sign(user),
+            refreshToken: tokenService.signRefresh(user)
         };
     }
 
@@ -176,6 +194,7 @@ function createPlatformService({
 
         return {
             token: tokenService.sign(user),
+            refreshToken: tokenService.signRefresh(user),
             user: {
                 id: user.id,
                 email: user.email,
@@ -386,6 +405,8 @@ function createPlatformService({
             where: { userId: user.id, readAt: null, archivedAt: null }
         });
 
+        const totalJobOffers = await db.jobOffer.count();
+
         const othersFromDb = await db.user.findMany({
             where: { status: "active", id: { not: user.id } },
             include: { profile: true }
@@ -407,6 +428,7 @@ function createPlatformService({
         return {
             latestArticles,
             unreadNotifications: unreadCount,
+            totalJobOffers,
             suggestions
         };
     }
@@ -718,6 +740,7 @@ function createPlatformService({
     return {
         register,
         login,
+        refresh,
         getMe,
         updateMyProfile,
         deleteMyAccount,
