@@ -16,11 +16,13 @@ model User {
   createdAt       DateTime  @default(now())
   lastLoginAt     DateTime?
 
-  profile       Profile?
-  loginHistory  LoginHistory[]
-  articles      Article[]
-  jobOffers     JobOffer[]
-  notifications Notification[]
+  profile             Profile?
+  loginHistory        LoginHistory[]
+  articles            Article[]
+  jobOffers           JobOffer[]
+  notifications       Notification[]
+  pushSubscriptions   PushSubscription[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Profile {
@@ -46,6 +48,7 @@ model Profile {
   profileType  String   @default("membre") // alumni, adherent, membre
   isMasked     Boolean  @default(false)
   visibility   Json // Storing ProfileVisibility as JSON for simplicity
+  cv           String   @default("")
 }
 
 model LoginHistory {
@@ -92,6 +95,25 @@ model Notification {
   readAt     DateTime?
   archivedAt DateTime?
   createdAt  DateTime  @default(now())
+}
+
+model PushSubscription {
+  id       String @id @default(uuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint String @unique
+  keys     Json
+  device   String @default("unknown")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 }
 
 model Event {
