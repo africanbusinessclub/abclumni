@@ -5,8 +5,9 @@ import type { AuthUser } from '../../../domain/types'
 import { Button } from './Button'
 import { Avatar } from './Avatar'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
+import { usePushNotifications } from '../../../application/hooks/usePushNotifications'
 import { AbcLogo } from '../../../assets/AbcLogo'
-import { Bell, Briefcase, CalendarDays, LayoutDashboard, Users, Newspaper, FolderOpen, UserCircle, ShieldCheck, LogOut } from 'lucide-react'
+import { Bell, BellOff, Briefcase, CalendarDays, LayoutDashboard, Users, Newspaper, FolderOpen, UserCircle, ShieldCheck, LogOut } from 'lucide-react'
 import './TopNav.css'
 
 type ShellProps = {
@@ -26,6 +27,7 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [unreadCount, setUnreadCount] = useState(0)
     const dropdownRef = useRef<HTMLDivElement>(null)
+    const { pushState, subscribe, unsubscribe } = usePushNotifications()
 
     useEffect(() => {
         platformGateway.getDashboard()
@@ -82,6 +84,17 @@ export function TopNav({ user, onLogout }: { user: AuthUser; onLogout: () => voi
                         <Link to="/profile" onClick={() => setDropdownOpen(false)}><UserCircle size={16} /> Mon profil</Link>
                         {user?.role === 'admin' && (
                             <Link to="/admin" onClick={() => setDropdownOpen(false)}><ShieldCheck size={16} /> Administration</Link>
+                        )}
+                        {pushState !== 'unsupported' && (
+                            pushState === 'subscribed' ? (
+                                <button className="push-toggle-btn" onClick={async () => { await unsubscribe(); setDropdownOpen(false); }}>
+                                    <BellOff size={16} /> Désactiver les notifications
+                                </button>
+                            ) : (
+                                <button className="push-toggle-btn" onClick={async () => { await subscribe(); setDropdownOpen(false); }}>
+                                    <Bell size={16} /> Activer les notifications
+                                </button>
+                            )
                         )}
                         <hr />
                         <button className="logout-btn" onClick={() => { setDropdownOpen(false); onLogout(); }}>

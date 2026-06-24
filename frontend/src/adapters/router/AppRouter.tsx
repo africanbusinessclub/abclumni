@@ -4,6 +4,8 @@ import { platformGateway } from '../../infrastructure/repositories/platformGatew
 import { AdminRoute, ProtectedRoute, Shell } from '../ui/components/Shell'
 import type { LoginPayload, RegisterPayload } from '../../domain/types'
 import { AuthPage } from '../ui/pages/AuthPage'
+import { ForgotPasswordPage } from '../ui/pages/ForgotPasswordPage'
+import { ResetPasswordPage } from '../ui/pages/ResetPasswordPage'
 import { DashboardPage } from '../ui/pages/DashboardPage'
 import { DirectoryPage } from '../ui/pages/DirectoryPage'
 import { NewsPage } from '../ui/pages/NewsPage'
@@ -40,6 +42,8 @@ export function AppRouter() {
     return (
         <Routes>
             <Route path="/auth" element={auth.user ? <Navigate to="/dashboard" replace /> : <AuthPage onLogin={login} onRegister={register} />} />
+            <Route path="/forgot-password" element={auth.user ? <Navigate to="/dashboard" replace /> : <ForgotPasswordPage />} />
+            <Route path="/reset-password" element={auth.user ? <Navigate to="/dashboard" replace /> : <ResetPasswordPage />} />
             <Route
                 path="/dashboard"
                 element={<ProtectedRoute user={auth.user}><Shell user={auth.user!} onLogout={logout}><DashboardPage /></Shell></ProtectedRoute>}

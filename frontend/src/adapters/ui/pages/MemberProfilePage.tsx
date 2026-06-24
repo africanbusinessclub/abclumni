@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../../domain/httpError'
 import type { PublicProfile } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
-import { ExternalLink, Phone, Mail, MapPin, Briefcase, ArrowLeft } from 'lucide-react'
+import { ExternalLink, Phone, Mail, MapPin, Briefcase, ArrowLeft, FileText, Download } from 'lucide-react'
 import { Avatar } from '../components/Avatar'
 import './MemberProfilePage.css'
 
@@ -147,6 +147,26 @@ export function MemberProfilePage() {
                             <div className="panel member-section">
                                 <h2>Secteur</h2>
                                 <p>{state.profile.sector}</p>
+                            </div>
+                        )}
+
+                        {state.profile.cv && (
+                            <div className="panel member-section">
+                                <h2>CV</h2>
+                                <div className="cv-download-row">
+                                    <FileText size={18} className="cv-download-icon" />
+                                    <span>Curriculum Vitae</span>
+                                    <a
+                                        href={state.profile.cv}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="cv-download-link"
+                                        download
+                                    >
+                                        <Download size={16} />
+                                        Télécharger
+                                    </a>
+                                </div>
                             </div>
                         )}
 

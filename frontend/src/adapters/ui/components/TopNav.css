@@ -301,6 +301,22 @@ img.avatar { object-fit: cover; background: var(--bg-soft); display: block; }
   color: var(--danger);
 }
 
+.user-dropdown .push-toggle-btn {
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.user-dropdown .push-toggle-btn:hover {
+  color: var(--brand);
+}
+
 .mobile-only { display: none !important; }
 
 

@@ -6,7 +6,7 @@ import { platformGateway } from '../../../infrastructure/repositories/platformGa
 import { SkeletonGrid } from '../components/SkeletonGrid'
 import { Avatar } from '../components/Avatar'
 import { useAuthState } from '../../../application/hooks/useAuthState'
-import { UserCircle, Newspaper, Diamond, Users, Bell, FileText, Briefcase } from 'lucide-react'
+import { Users, Bell, FileText, Briefcase } from 'lucide-react'
 import './DashboardPage.css'
 
 type DashboardState = {
@@ -14,6 +14,19 @@ type DashboardState = {
     data: DashboardData | null
     notifications: NotificationItem[]
     error: string
+}
+
+function notificationTitle(type: string): string {
+    switch (type) {
+        case 'profile': return 'Profil'
+        case 'profile-view': return 'Visite de profil'
+        case 'news': return 'Actualité'
+        case 'resource': return 'Ressource'
+        case 'event': return 'Événement'
+        case 'system': return 'Système'
+        case 'account': return 'Compte'
+        default: return type
+    }
 }
 
 function timeAgo(dateStr: string) {
@@ -140,11 +153,8 @@ export function DashboardPage() {
                     {recentNotifs.length === 0 && <p className="empty-text">Aucune notification récente.</p>}
                     {recentNotifs.map((item) => (
                         <div key={item.id} className={`notification-item ${!item.readAt ? 'unread' : ''}`}>
-                            <span className={`notif-icon ${item.type === 'profile' ? 'blue' : item.type === 'article' ? 'amber' : 'gray'}`}>
-                                {item.type === 'profile' ? <UserCircle size={18} /> : item.type === 'article' ? <Newspaper size={18} /> : <Diamond size={18} />}
-                            </span>
                             <div className="notif-content">
-                                <strong>{item.type}</strong>
+                                <strong>{notificationTitle(item.type)}</strong>
                                 <p>{item.message}</p>
                                 <span>{timeAgo(item.createdAt)}</span>
                             </div>

@@ -181,6 +181,46 @@
     50% { opacity: 0.5; }
 }
 
+/* CV Download */
+.cv-download-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-4);
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--border-radius-md);
+}
+
+.cv-download-icon {
+    color: var(--brand);
+    flex-shrink: 0;
+}
+
+.cv-download-row span {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: var(--ink-soft);
+}
+
+.cv-download-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-3);
+    background: var(--brand);
+    color: white;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: background var(--transition-fast);
+}
+
+.cv-download-link:hover {
+    filter: brightness(1.1);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .member-profile-layout {

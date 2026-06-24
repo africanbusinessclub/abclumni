@@ -1,10 +1,23 @@
 import { useEffect, useState } from 'react'
-import { BellOff, Diamond, Newspaper, UserCircle } from 'lucide-react'
+import { BellOff } from 'lucide-react'
 import type { NotificationItem } from '../../../domain/types'
 import { platformGateway } from '../../../infrastructure/repositories/platformGateway'
 import { SkeletonGrid } from '../components/SkeletonGrid'
 import { Button } from '../components/Button'
 import './NotificationsPage.css'
+
+function notificationTitle(type: string): string {
+    switch (type) {
+        case 'profile': return 'Profil'
+        case 'profile-view': return 'Visite de profil'
+        case 'news': return 'Actualité'
+        case 'resource': return 'Ressource'
+        case 'event': return 'Événement'
+        case 'system': return 'Système'
+        case 'account': return 'Compte'
+        default: return type
+    }
+}
 
 export function NotificationsPage() {
     const [items, setItems] = useState<NotificationItem[]>([])
@@ -44,11 +57,8 @@ export function NotificationsPage() {
                     {items.map((item) => (
                         <div key={item.id} className={`notice-item ${item.readAt ? 'read' : ''}`}>
                             <div className="notice-main">
-                                <span className={`notif-icon ${item.type === 'profile' ? 'blue' : item.type === 'article' ? 'amber' : 'gray'}`}>
-                                    {item.type === 'profile' ? <UserCircle size={18} /> : item.type === 'article' ? <Newspaper size={18} /> : <Diamond size={18} />}
-                                </span>
                                 <div className="notice-content">
-                                    <strong>{item.type}</strong>
+                                    <strong>{notificationTitle(item.type)}</strong>
                                     <p>{item.message}</p>
                                     <small>{new Date(item.createdAt).toLocaleString()}</small>
                                 </div>

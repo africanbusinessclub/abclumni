@@ -179,7 +179,10 @@ export function AuthPage({
 
                 <div className="auth-form-footer">
                     {mode === 'login' ? (
-                        <p>Pas encore de compte ? <Link to="?m=register">S'inscrire</Link></p>
+                        <>
+                            <p><Link to="/forgot-password">Mot de passe oublié ?</Link></p>
+                            <p>Pas encore de compte ? <Link to="?m=register">S'inscrire</Link></p>
+                        </>
                     ) : (
                         <p>Déjà un compte ? <Link to="?m=login">Se connecter</Link></p>
                     )}

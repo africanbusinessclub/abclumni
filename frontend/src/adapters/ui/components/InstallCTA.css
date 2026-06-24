@@ -1,0 +1,170 @@
+/* ── Install CTA — Floating bottom banner ── */
+
+.install-cta {
+  position: fixed;
+  bottom: var(--spacing-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  width: min(600px, calc(100vw - var(--spacing-8)));
+  animation: installCtaSlideUp 0.5s var(--transition-spring);
+}
+
+.install-cta--exit {
+  animation: installCtaSlideDown 0.3s var(--transition-fast) forwards;
+}
+
+.install-cta__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04),
+    var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.install-cta__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-brand);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(31, 58, 90, 0.3);
+}
+
+.install-cta__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.install-cta__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--ink);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.install-cta__subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--ink-soft);
+  margin: var(--spacing-px) 0 0;
+  line-height: var(--line-height-tight);
+}
+
+.install-cta__action {
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--gradient-accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--spacing-2) var(--spacing-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(229, 154, 47, 0.3);
+  white-space: nowrap;
+}
+
+.install-cta__action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(229, 154, 47, 0.4);
+}
+
+.install-cta__action:active {
+  transform: translateY(0);
+}
+
+.install-cta__action:focus-visible {
+  outline: 2px solid var(--brand-alt);
+  outline-offset: 2px;
+}
+
+.install-cta__dismiss {
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+  padding: var(--spacing-1);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  margin-left: calc(-1 * var(--spacing-2));
+}
+
+.install-cta__dismiss:hover {
+  color: var(--ink-soft);
+  background: var(--bg-soft);
+}
+
+.install-cta__dismiss:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ── Animations ── */
+
+@keyframes installCtaSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes installCtaSlideDown {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 640px) {
+  .install-cta {
+    bottom: var(--spacing-4);
+    width: calc(100vw - var(--spacing-6));
+  }
+
+  .install-cta__inner {
+    padding: var(--spacing-3) var(--spacing-4);
+    gap: var(--spacing-3);
+    border-radius: var(--radius-xl);
+  }
+
+  .install-cta__icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .install-cta__action {
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+}

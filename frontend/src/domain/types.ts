@@ -39,6 +39,7 @@ export interface PublicProfile {
     profileType: ProfileType;
     isMasked: boolean;
     visibility?: ProfileVisibility;
+    cv: string;
 }
 
 export interface AuthUser {
@@ -196,6 +197,7 @@ export interface ProfileUpdatePayload {
     profileType: ProfileType;
     isMasked: boolean;
     visibility: ProfileVisibility;
+    cv: string;
 }
 
 export interface AdminUser {

@@ -30,6 +30,12 @@ export const platformGateway = {
     register(payload: RegisterPayload) {
         return apiClient.post<AuthResponse>('/auth/register', payload)
     },
+    forgotPassword(email: string) {
+        return apiClient.post<{ ok: true; message: string }>('/auth/forgot-password', { email })
+    },
+    resetPassword(token: string, password: string) {
+        return apiClient.post<{ ok: true }>('/auth/reset-password', { token, password })
+    },
     getDashboard() {
         return apiClient.get<DashboardData>('/dashboard')
     },
@@ -64,6 +70,13 @@ export const platformGateway = {
         const form = new FormData()
         form.append('photo', file)
         return apiClient.post<{ profile: PublicProfile }>('/me/photo', form, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+    },
+    async uploadCv(file: File) {
+        const form = new FormData()
+        form.append('cv', file)
+        return apiClient.post<{ profile: PublicProfile }>('/me/cv', form, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
     },
@@ -115,5 +128,15 @@ export const platformGateway = {
     },
     deleteJob(id: string) {
         return apiClient.delete<{ ok: true }>(`/jobs/${id}`)
-    }
+    },
+    // ── Push notifications ──────────────────────────────────────────────────
+    getVapidPublicKey() {
+        return apiClient.get<{ publicKey: string }>('/push/public-key')
+    },
+    subscribePush(body: { endpoint: string; keys: Record<string, string>; device?: string }) {
+        return apiClient.post<{ ok: true }>('/push/subscribe', body)
+    },
+    unsubscribePush(body: { endpoint: string }) {
+        return apiClient.delete<{ ok: true }>('/push/subscribe', { data: body })
+    },
 }

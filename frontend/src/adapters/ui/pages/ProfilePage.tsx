@@ -5,7 +5,7 @@ import { splitCsv } from '../../../domain/splitCsv'
 import type { AuthUser, Availability, Experience, ProfileType, ProfileUpdatePayload } from '../../../domain/types'
 import { Button } from '../components/Button'
 import { Avatar } from '../components/Avatar'
-import { Camera, Loader2 } from 'lucide-react'
+import { Camera, FileText, Loader2, Trash2 } from 'lucide-react'
 import './ProfilePage.css'
 
 type ProfilePageProps = {
@@ -47,12 +47,15 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
             interests: true
         },
         skills: (user.profile.skills || []).join(', '),
-        interests: (user.profile.interests || []).join(', ')
+        interests: (user.profile.interests || []).join(', '),
+        cv: user.profile.cv || '',
     }))
     const [status, setStatus] = useState('')
     const [busy, setBusy] = useState(false)
     const [photoUploading, setPhotoUploading] = useState(false)
+    const [cvUploading, setCvUploading] = useState(false)
     const photoInputRef = useRef<HTMLInputElement>(null)
+    const cvInputRef = useRef<HTMLInputElement>(null)
 
     const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -70,6 +73,40 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
         } finally {
             setPhotoUploading(false)
             if (photoInputRef.current) photoInputRef.current.value = ''
+        }
+    }
+
+    const handleCvChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (!file) return
+        setCvUploading(true)
+        setStatus('')
+        try {
+            const response = await platformGateway.uploadCv(file)
+            const newCv = response.data.profile.cv
+            setForm((prev) => ({ ...prev, cv: newCv }))
+            onUserUpdate((prev) => (prev ? { ...prev, profile: response.data.profile } : prev))
+            setStatus('CV mis à jour.')
+        } catch (error) {
+            setStatus(getApiErrorMessage(error, "Impossible de mettre à jour le CV"))
+        } finally {
+            setCvUploading(false)
+            if (cvInputRef.current) cvInputRef.current.value = ''
+        }
+    }
+
+    const handleRemoveCv = async () => {
+        setCvUploading(true)
+        setStatus('')
+        try {
+            const response = await platformGateway.updateProfile({ ...form, skills: splitCsv(form.skills), interests: splitCsv(form.interests), cv: '' })
+            onUserUpdate((prev) => (prev ? { ...prev, profile: response.data.profile } : prev))
+            setForm((prev) => ({ ...prev, cv: '' }))
+            setStatus('CV supprimé.')
+        } catch (error) {
+            setStatus(getApiErrorMessage(error, "Impossible de supprimer le CV"))
+        } finally {
+            setCvUploading(false)
         }
     }
 
@@ -137,6 +174,54 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
                         {photoUploading ? 'Envoi en cours…' : 'Cliquer pour modifier · JPG, PNG, WEBP · max 5 Mo'}
                     </p>
                 </div>
+
+                <div className="cv-upload-section">
+                    <label className="cv-upload-label">CV (PDF)</label>
+                    {form.cv ? (
+                        <div className="cv-current">
+                            <FileText size={20} className="cv-icon" />
+                            <a
+                                href={form.cv}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="cv-link"
+                            >
+                                CV actuel
+                            </a>
+                            <button
+                                type="button"
+                                className="cv-remove-btn"
+                                onClick={handleRemoveCv}
+                                disabled={cvUploading}
+                                title="Supprimer le CV"
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                        </div>
+                    ) : (
+                        <p className="cv-empty">Aucun CV téléchargé</p>
+                    )}
+                    <label className="cv-upload-trigger">
+                        {cvUploading ? (
+                            <>
+                                <Loader2 size={18} className="cv-spinner" />
+                                Envoi en cours…
+                            </>
+                        ) : (
+                            'Télécharger un CV'
+                        )}
+                        <input
+                            ref={cvInputRef}
+                            type="file"
+                            accept="application/pdf"
+                            className="cv-file-input"
+                            onChange={handleCvChange}
+                            disabled={cvUploading}
+                        />
+                    </label>
+                    <p className="cv-hint">PDF uniquement · max 5 Mo</p>
+                </div>
+
                 <div className="grid-two">
                     <label>Prénom<input value={form.firstName || ''} onChange={(event) => setForm((prev) => ({ ...prev, firstName: event.target.value }))} /></label>
                     <label>Nom de famille<input value={form.lastName || ''} onChange={(event) => setForm((prev) => ({ ...prev, lastName: event.target.value }))} /></label>
@@ -185,7 +270,7 @@ export function ProfilePage({ user, onUserUpdate, onLogout }: ProfilePageProps) 
 
                 <div className="form-actions">
                     <Button type="submit" disabled={busy}>{busy ? 'Sauvegarde...' : 'Enregistrer'}</Button>
-                    <Button type="button" variant="danger" onClick={deleteAccount}>Supprimer le compte</Button>
+                    <button type="button" className="danger-link" onClick={deleteAccount}>Supprimer le compte</button>
                 </div>
                 {status && <p>{status}</p>}
             </form>
