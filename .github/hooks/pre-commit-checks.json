@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "if echo \"$CLAUDE_TOOL_NAME\" | grep -qE '^(run_in_terminal|create_and_run_task)$'; then changed=$(git diff --cached --name-only 2>/dev/null); if echo \"$changed\" | grep -qE 'backend/src/.*\\.ts$'; then cd /Users/charles/Documents/abclumni/backend && npx prisma generate --silent && npx tsc --noEmit || exit 2; fi; if echo \"$changed\" | grep -qE 'frontend/src/.*\\.(ts|tsx|js|jsx)$'; then cd /Users/charles/Documents/abclumni/frontend && node_modules/.bin/eslint --max-warnings=0 src || exit 2; fi; fi",
+        "timeout": 60
+      }
+    ]
+  }
+}
