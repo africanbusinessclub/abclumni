@@ -40,7 +40,8 @@ function makeUser(overrides: Partial<User> = {}): User {
                 position: true,
                 skills: true,
                 interests: true
-            }
+            },
+            cv: ""
         },
         ...overrides
     };

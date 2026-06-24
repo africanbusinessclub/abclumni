@@ -8,10 +8,12 @@ import { randomUUID } from "crypto";
 import {
   articleSchema,
   eventSchema,
+  forgotPasswordSchema,
   jobOfferSchema,
   loginSchema,
   profileUpdateSchema,
   registerSchema,
+  resetPasswordSchema,
   resourceSchema,
 } from "../../../application/validation/schemas";
 import type { PlatformService } from "../../../application/services/platformService";
@@ -31,6 +33,21 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
   fileFilter: (_req, file, cb) => {
     const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    cb(null, allowed.includes(file.mimetype));
+  },
+});
+
+const cvUpload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, `${randomUUID()}${ext}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (_req, file, cb) => {
+    const allowed = ["application/pdf"];
     cb(null, allowed.includes(file.mimetype));
   },
 });
@@ -148,6 +165,47 @@ function createApiRouter({
     },
   );
 
+  router.post(
+    "/api/v1/auth/forgot-password",
+    authLimiter,
+    async (req: Request, res: Response) => {
+      const parsed = forgotPasswordSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Adresse e-mail invalide" });
+      }
+
+      await platformService.requestPasswordReset(parsed.data);
+      // Always return success to prevent email enumeration
+      return res.json({ ok: true, message: "Si cette adresse existe, un e-mail de réinitialisation a été envoyé." });
+    },
+  );
+
+  router.post(
+    "/api/v1/auth/reset-password",
+    authLimiter,
+    async (req: Request, res: Response) => {
+      const parsed = resetPasswordSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Données invalides", issues: parsed.error.issues });
+      }
+
+      try {
+        return res.json(await platformService.resetPassword(parsed.data));
+      } catch (error) {
+        if (hasErrorCode(error, "INVALID_RESET_TOKEN")) {
+          return res.status(400).json({ error: "Lien de réinitialisation invalide" });
+        }
+        if (hasErrorCode(error, "RESET_TOKEN_USED")) {
+          return res.status(400).json({ error: "Ce lien a déjà été utilisé" });
+        }
+        if (hasErrorCode(error, "RESET_TOKEN_EXPIRED")) {
+          return res.status(400).json({ error: "Ce lien a expiré. Veuillez refaire une demande." });
+        }
+        throw error;
+      }
+    },
+  );
+
   router.get(
     "/api/v1/me",
     authMiddleware.authRequired,
@@ -195,6 +253,28 @@ function createApiRouter({
       try {
         return res.json(
           await platformService.updateMyProfile(req.user!.id, { photo: photoPath }),
+        );
+      } catch (error) {
+        if (hasErrorCode(error, "USER_NOT_FOUND")) {
+          return res.status(404).json({ error: "Utilisateur introuvable" });
+        }
+        throw error;
+      }
+    },
+  );
+
+  router.post(
+    "/api/v1/me/cv",
+    authMiddleware.authRequired,
+    cvUpload.single("cv"),
+    async (req: Request, res: Response) => {
+      if (!req.file) {
+        return res.status(400).json({ error: "Fichier invalide ou manquant (PDF, max 5 Mo)" });
+      }
+      const cvPath = `/uploads/${req.file.filename}`;
+      try {
+        return res.json(
+          await platformService.updateMyProfile(req.user!.id, { cv: cvPath }),
         );
       } catch (error) {
         if (hasErrorCode(error, "USER_NOT_FOUND")) {
@@ -332,6 +412,43 @@ function createApiRouter({
           return res.status(404).json({ error: "Notification introuvable" });
         throw error;
       }
+    },
+  );
+
+  // ── Push subscription ──────────────────────────────────────────────────────
+
+  router.get(
+    "/api/v1/push/public-key",
+    (_req: Request, res: Response) => {
+      const key = process.env.VAPID_PUBLIC_KEY;
+      if (!key) return res.status(404).json({ error: "Push notifications not configured" });
+      return res.json({ publicKey: key });
+    },
+  );
+
+  router.post(
+    "/api/v1/push/subscribe",
+    authMiddleware.authRequired,
+    async (req: Request, res: Response) => {
+      const { endpoint, keys, device } = req.body || {};
+      if (!endpoint || !keys || typeof endpoint !== "string") {
+        return res.status(400).json({ error: "Subscription (endpoint + keys) requise" });
+      }
+      return res.json(
+        await platformService.subscribePush(req.user!.id, { endpoint, keys }, device || undefined),
+      );
+    },
+  );
+
+  router.delete(
+    "/api/v1/push/subscribe",
+    authMiddleware.authRequired,
+    async (req: Request, res: Response) => {
+      const { endpoint } = req.body || {};
+      if (!endpoint || typeof endpoint !== "string") {
+        return res.status(400).json({ error: "Endpoint requis" });
+      }
+      return res.json(await platformService.unsubscribePush(req.user!.id, endpoint));
     },
   );
 

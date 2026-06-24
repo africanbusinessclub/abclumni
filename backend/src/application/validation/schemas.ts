@@ -49,6 +49,7 @@ const profileUpdateSchema = z.object({
     experience: z.enum(["junior", "junior_plus", "senior", "senior_plus", "expert", ""]).optional(),
     profileType: z.enum(["alumni", "adherent", "membre"]).optional(),
     isMasked: z.boolean().optional(),
+    cv: z.string().optional(),
     visibility: z
         .object({
             email: z.boolean().optional(),
@@ -98,6 +99,20 @@ const jobOfferSchema = z.object({
     externalUrl: z.string().default("")
 });
 
+const forgotPasswordSchema = z.object({
+    email: z.string().email()
+});
+
+const resetPasswordSchema = z.object({
+    token: z.string().min(1),
+    password: z
+        .string()
+        .min(8)
+        .regex(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule")
+        .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
+        .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
+});
+
 type RegisterInput = z.infer<typeof registerSchema>;
 type LoginInput = z.infer<typeof loginSchema>;
 type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>;
@@ -106,5 +121,8 @@ type ResourceInput = z.infer<typeof resourceSchema>;
 type EventInput = z.infer<typeof eventSchema>;
 type JobOfferInput = z.infer<typeof jobOfferSchema>;
 
-export { registerSchema, loginSchema, profileUpdateSchema, articleSchema, resourceSchema, eventSchema, jobOfferSchema };
-export type { RegisterInput, LoginInput, ProfileUpdateInput, ArticleInput, ResourceInput, EventInput, JobOfferInput };
+type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+
+export { registerSchema, loginSchema, profileUpdateSchema, articleSchema, resourceSchema, eventSchema, jobOfferSchema, forgotPasswordSchema, resetPasswordSchema };
+export type { RegisterInput, LoginInput, ProfileUpdateInput, ArticleInput, ResourceInput, EventInput, JobOfferInput, ForgotPasswordInput, ResetPasswordInput };

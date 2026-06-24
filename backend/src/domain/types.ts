@@ -34,6 +34,7 @@ export interface UserProfile {
     profileType: ProfileType;
     isMasked: boolean;
     visibility: ProfileVisibility;
+    cv: string;
 }
 
 export interface LoginHistoryEntry {
@@ -145,6 +146,7 @@ export interface PresentedProfile {
     profileType: ProfileType;
     isMasked: boolean;
     visibility?: ProfileVisibility;
+    cv: string;
 }
 
 export interface FileDatabase {
@@ -177,4 +179,8 @@ export interface TokenService {
     verify: (token: string) => TokenPayload;
     signRefresh: (user: Pick<User, "id">) => string;
     verifyRefresh: (token: string) => RefreshTokenPayload;
+}
+
+export interface MailService {
+    sendMail: (to: string, subject: string, html: string) => Promise<void>;
 }

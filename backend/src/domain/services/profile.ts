@@ -42,7 +42,8 @@ function presentProfile(user: User, viewer: Pick<User, "id" | "role"> | null | u
         experience: profile.experience,
         profileType: profile.profileType,
         isMasked: profile.isMasked,
-        visibility: isOwner || isAdmin ? profile.visibility : undefined
+        visibility: isOwner || isAdmin ? profile.visibility : undefined,
+        cv: profile.cv,
     };
 }
 

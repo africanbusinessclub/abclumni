@@ -1,7 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import crypto from "crypto";
+import webpush from "web-push";
 import { presentProfile } from "../../domain/services/profile";
 import { sanitize, slugify } from "../../domain/services/text";
-import type { ArticleInput, EventInput, JobOfferInput, LoginInput, ProfileUpdateInput, RegisterInput, ResourceInput } from "../validation/schemas";
+import type { ArticleInput, EventInput, ForgotPasswordInput, JobOfferInput, LoginInput, ProfileUpdateInput, RegisterInput, ResetPasswordInput, ResourceInput } from "../validation/schemas";
+import { createMailService } from "../../infrastructure/email/mailService";
 import type {
     IdGenerator,
     Notification,
@@ -48,7 +51,7 @@ function createPlatformService({
     idGenerator: IdGenerator;
 }) {
     async function createNotification(userId: string, type: string, message: string) {
-        return db.notification.create({
+        const note = await db.notification.create({
             data: {
                 id: idGenerator.newId(),
                 userId,
@@ -56,6 +59,134 @@ function createPlatformService({
                 message
             }
         });
+
+        // Dispatch push notification to all user devices (fire-and-forget)
+        sendPushToUser(userId, type, message).catch((err) => {
+            console.error(`Push dispatch failed for user ${userId}:`, (err as Error).message);
+        });
+
+        return note;
+    }
+
+    async function sendPushToUser(userId: string, type: string, message: string) {
+        if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) return;
+
+        const subs = await db.pushSubscription.findMany({ where: { userId } });
+        if (subs.length === 0) return;
+
+        const payload = JSON.stringify({ type, message, timestamp: Date.now() });
+
+        const results = await Promise.allSettled(
+            subs.map((sub) =>
+                webpush.sendNotification(
+                    {
+                        endpoint: sub.endpoint,
+                        keys: sub.keys as any,
+                    },
+                    payload,
+                ),
+            ),
+        );
+
+        // Clean up expired subscriptions
+        for (let i = 0; i < results.length; i++) {
+            const result = results[i];
+            if (result.status === "rejected") {
+                const err = result.reason;
+                // 404/410 means the subscription is no longer valid
+                if (err && (err.statusCode === 404 || err.statusCode === 410)) {
+                    await db.pushSubscription.delete({ where: { id: subs[i].id } }).catch(() => { });
+                }
+            }
+        }
+    }
+
+    async function subscribePush(userId: string, subscription: { endpoint: string; keys: Record<string, string> }, device?: string) {
+        // Upsert: replace any existing subscription with the same endpoint
+        const existing = await db.pushSubscription.findUnique({ where: { endpoint: subscription.endpoint } });
+        if (existing) {
+            await db.pushSubscription.update({
+                where: { id: existing.id },
+                data: { userId, keys: subscription.keys as any, device: device || "unknown" },
+            });
+        } else {
+            await db.pushSubscription.create({
+                data: {
+                    id: idGenerator.newId(),
+                    userId,
+                    endpoint: subscription.endpoint,
+                    keys: subscription.keys as any,
+                    device: device || "unknown",
+                },
+            });
+        }
+        return { ok: true };
+    }
+
+    async function unsubscribePush(userId: string, endpoint: string) {
+        await db.pushSubscription.deleteMany({ where: { userId, endpoint } });
+        return { ok: true };
+    }
+
+    async function requestPasswordReset(payload: ForgotPasswordInput) {
+        const email = payload.email.toLowerCase();
+        const user = await db.user.findUnique({ where: { email } });
+
+        // Always return success to prevent email enumeration
+        if (!user) return { ok: true };
+
+        // Generate a random token and store its hash
+        const token = crypto.randomBytes(32).toString("hex");
+        const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+        await db.passwordResetToken.create({
+            data: {
+                id: idGenerator.newId(),
+                userId: user.id,
+                tokenHash,
+                expiresAt: new Date(Date.now() + 3600 * 1000), // 1 hour
+            },
+        });
+
+        // Send email
+        const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+        const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
+        const mailService = createMailService();
+        await mailService.sendMail(
+            email,
+            "Réinitialisation de votre mot de passe — ABC Alumni",
+            `<p>Bonjour,</p>
+<p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+<p><a href="${resetUrl}">Cliquez ici pour réinitialiser votre mot de passe</a></p>
+<p>Ce lien expire dans 1 heure.</p>
+<p>Si vous n'avez pas demandé cette réinitialisation, ignorez cet e-mail.</p>`,
+        );
+
+        return { ok: true };
+    }
+
+    async function resetPassword(payload: ResetPasswordInput) {
+        const { token, password } = payload;
+        const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+        const resetToken = await db.passwordResetToken.findUnique({ where: { tokenHash } });
+        if (!resetToken) throw new Error("INVALID_RESET_TOKEN");
+        if (resetToken.usedAt) throw new Error("RESET_TOKEN_USED");
+        if (resetToken.expiresAt < new Date()) throw new Error("RESET_TOKEN_EXPIRED");
+
+        // Update the user's password
+        await db.user.update({
+            where: { id: resetToken.userId },
+            data: { passwordHash: passwordService.hash(password) },
+        });
+
+        // Mark token as used
+        await db.passwordResetToken.update({
+            where: { id: resetToken.id },
+            data: { usedAt: new Date() },
+        });
+
+        return { ok: true };
     }
 
     async function findActiveUserById(userId: string): Promise<User | null> {
@@ -767,7 +898,11 @@ function createPlatformService({
         createJobOffer,
         listJobOffers,
         deleteJobOffer,
-        getUserForAuth
+        getUserForAuth,
+        subscribePush,
+        unsubscribePush,
+        requestPasswordReset,
+        resetPassword,
     };
 }
 

@@ -4,6 +4,7 @@ import express, { type ErrorRequestHandler } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
+import webpush from "web-push";
 import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -44,6 +45,18 @@ function createApp() {
     const tokenService = createTokenService({ secret: jwtSecret, refreshSecret: jwtRefreshSecret });
     const passwordService = createPasswordService({ rounds: 12 });
     const idGenerator = createIdGenerator();
+
+    // Web Push / VAPID setup
+    const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
+    const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
+    const vapidSubject = process.env.VAPID_SUBJECT || "mailto:admin@abc.local";
+
+    if (vapidPublicKey && vapidPrivateKey) {
+        webpush.setVapidDetails(vapidSubject, vapidPublicKey, vapidPrivateKey);
+        console.log("Web Push initialized with VAPID keys");
+    } else {
+        console.warn("VAPID keys not configured — push notifications disabled");
+    }
 
     seedInitialData({ db, idGenerator, passwordService }).catch((err) => {
         console.error("Failed to seed initial data:", err);
