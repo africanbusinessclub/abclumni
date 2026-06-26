@@ -2,13 +2,46 @@
   padding: var(--spacing-2) 0;
 }
 
-/* Search Bar */
+/* ==========================================================================
+   Page Header
+   ========================================================================== */
+
+.directory-header {
+  margin-bottom: var(--spacing-6);
+}
+
+.directory-header-text {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-4);
+}
+
+.directory-header h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--ink);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.directory-count {
+  font-size: var(--font-size-sm);
+  color: var(--ink-muted);
+  font-weight: var(--font-weight-medium);
+  background: var(--bg-soft);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================================================
+   Search Bar
+   ========================================================================== */
+
 .search-bar-container {
   display: flex;
   align-items: center;
   gap: var(--spacing-4);
   padding: var(--spacing-2) var(--spacing-5);
-  margin-bottom: var(--spacing-6);
+  margin-bottom: var(--spacing-4);
   background: var(--panel);
   border: 1.5px solid var(--line);
   border-radius: var(--radius-xl);
@@ -47,29 +80,156 @@
   color: var(--ink-muted);
 }
 
-/* Filter Bar */
+.search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--bg-muted);
+  color: var(--ink-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.search-clear:hover {
+  background: var(--ink-muted);
+  color: var(--panel);
+}
+
+.search-clear:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Filter Bar
+   ========================================================================== */
+
 .filter-bar {
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-5);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.filter-bar-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--spacing-4);
-  padding: var(--spacing-4) var(--spacing-5);
-  margin-bottom: var(--spacing-6);
-  background: var(--bg-soft);
+  gap: var(--spacing-3);
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  background: var(--panel);
+  color: var(--ink-soft);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-toggle:hover {
+  border-color: var(--ink-muted);
+  color: var(--ink);
+}
+
+.filter-toggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.filter-toggle--active {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-light);
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  background: var(--brand);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.filter-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.sort-label {
+  font-size: var(--font-size-sm);
+  color: var(--ink-muted);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.sort-options {
+  display: flex;
+  gap: var(--spacing-1);
+  background: var(--bg-muted);
+  border-radius: var(--radius-lg);
+  padding: 3px;
+}
+
+.sort-chip {
+  padding: var(--spacing-1) var(--spacing-3);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sort-chip:hover {
+  color: var(--ink);
+}
+
+.sort-chip:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
+}
+
+.sort-chip--active {
+  background: var(--panel);
+  color: var(--ink);
   box-shadow: var(--shadow-xs);
+  font-weight: var(--font-weight-semibold);
 }
 
 .filter-controls {
   display: flex;
   gap: var(--spacing-3);
   flex-wrap: wrap;
+  margin-top: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--line);
 }
 
-.filter-bar select,
-.filter-sort {
+.filter-controls select {
   padding: var(--spacing-2) var(--spacing-4);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -85,35 +245,116 @@
   appearance: none;
 }
 
-.filter-bar select:hover,
-.filter-sort:hover {
+.filter-controls select:hover {
   border-color: var(--ink-muted);
   color: var(--ink);
 }
 
-.filter-bar select:focus,
-.filter-sort:focus {
+.filter-controls select:focus-visible {
   border-color: var(--brand);
   box-shadow: 0 0 0 3px rgba(31, 58, 90, 0.08);
 }
 
-.filter-sort {
-  margin-left: auto;
+/* ==========================================================================
+   Active Filter Chips
+   ========================================================================== */
+
+.active-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-5);
 }
 
-/* Alumni Grid */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-1) var(--spacing-1) var(--spacing-3);
+  background: var(--brand-light);
+  border: 1px solid rgba(31, 58, 90, 0.15);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--brand);
+  transition: all var(--transition-fast);
+}
+
+.filter-chip-label {
+  color: var(--ink-muted);
+  font-weight: var(--font-weight-normal);
+}
+
+.filter-chip-value {
+  font-weight: var(--font-weight-semibold);
+}
+
+.filter-chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--brand);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-chip-remove:hover {
+  background: rgba(31, 58, 90, 0.15);
+}
+
+.filter-chip-remove:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+.filter-clear-all {
+  padding: var(--spacing-1) var(--spacing-3);
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+.filter-clear-all:hover {
+  color: var(--danger);
+}
+
+.filter-clear-all:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Alumni Grid
+   ========================================================================== */
+
 .alumni-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: var(--spacing-5);
 }
 
+/* ==========================================================================
+   Alumni Card
+   ========================================================================== */
+
 .alumni-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--spacing-8) var(--spacing-6);
+  padding: var(--spacing-8) var(--spacing-6) var(--spacing-6);
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
@@ -151,11 +392,33 @@
   outline-offset: 2px;
 }
 
+.alumni-card:active {
+  transform: translateY(-2px);
+}
+
+/* Card type accent bar */
+.alumni-card.type-alumni::before {
+  background: var(--gradient-brand);
+}
+
+.alumni-card.type-adherent::before {
+  background: var(--gradient-accent);
+}
+
+.alumni-card.type-membre::before {
+  background: linear-gradient(135deg, #059669 0%, #34D399 100%);
+}
+
+/* Avatar area */
+.alumni-card-avatar {
+  position: relative;
+  margin-bottom: var(--spacing-4);
+}
+
 .alumni-card .avatar-lg {
   width: 72px;
   height: 72px;
   font-size: 1.5rem;
-  margin-bottom: var(--spacing-4);
   transition: transform var(--transition-base);
   box-shadow: var(--shadow-sm);
 }
@@ -165,20 +428,85 @@
   box-shadow: var(--shadow-md);
 }
 
-.alumni-card h3 {
+/* Profile type badge (on avatar) */
+.profile-type-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -6px;
+  font-size: 0.6rem;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--panel);
+  white-space: nowrap;
+}
+
+.type-alumni .profile-type-badge {
+  background: var(--brand);
+  color: #fff;
+}
+
+.type-adherent .profile-type-badge {
+  background: var(--brand-alt);
+  color: #fff;
+}
+
+.type-membre .profile-type-badge {
+  background: var(--color-success);
+  color: #fff;
+}
+
+/* Card text */
+.alumni-card-name {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   color: var(--ink);
-  margin-bottom: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
+  line-height: var(--line-height-tight);
 }
 
-.alumni-card p {
+.alumni-card-role {
   font-size: var(--font-size-sm);
   color: var(--ink-soft);
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--spacing-1);
   line-height: var(--line-height-normal);
 }
 
+.alumni-card-company {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: var(--spacing-1);
+  color: var(--ink-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* Meta info row */
+.alumni-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-2) 0;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  width: 100%;
+}
+
+.alumni-card-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--ink-muted);
+}
+
+/* Availability pill */
 .availability-pill {
   font-size: var(--font-size-xs);
   padding: var(--spacing-1) var(--spacing-3);
@@ -192,12 +520,64 @@
 .pill-amber { background: var(--color-badge-amber-bg); color: var(--color-badge-amber-fg); }
 .pill-gray  { background: var(--color-badge-gray-bg); color: var(--color-badge-gray-fg); }
 
-/* Empty State */
+/* ==========================================================================
+   Skeleton Card
+   ========================================================================== */
+
+.alumni-card--skeleton {
+  cursor: default;
+  pointer-events: none;
+}
+
+.alumni-card--skeleton::before {
+  display: none;
+}
+
+.skeleton-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: var(--bg-muted);
+  margin-bottom: var(--spacing-4);
+  animation: skeleton-pulse 1.8s ease-in-out infinite;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-muted);
+  margin-bottom: var(--spacing-2);
+  animation: skeleton-pulse 1.8s ease-in-out infinite;
+}
+
+.skeleton-line--name {
+  width: 60%;
+  height: 18px;
+}
+
+.skeleton-line--role {
+  width: 80%;
+}
+
+.skeleton-line--meta {
+  width: 50%;
+  margin-top: var(--spacing-3);
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
+
 .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-4);
+  gap: var(--spacing-3);
   padding: var(--spacing-16) var(--spacing-8);
   text-align: center;
   color: var(--ink-muted);
@@ -209,26 +589,95 @@
 .empty-state-icon {
   color: var(--ink-muted);
   opacity: 0.5;
+  margin-bottom: var(--spacing-2);
 }
 
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.empty-state p {
+  font-size: var(--font-size-sm);
+  color: var(--ink-muted);
+  max-width: 340px;
+  line-height: var(--line-height-relaxed);
+}
+
+.empty-state-action {
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-5);
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--brand);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.empty-state-action:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+.empty-state-action:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
 @media (max-width: 639px) {
+  .directory-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+
   .alumni-grid {
     grid-template-columns: 1fr;
   }
-  .filter-bar {
+
+  .filter-bar-top {
     flex-direction: column;
     align-items: stretch;
-    gap: var(--spacing-3);
   }
+
+  .filter-sort-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-2);
+  }
+
+  .sort-options {
+    justify-content: center;
+  }
+
   .filter-controls {
     flex-direction: column;
-    align-items: stretch;
   }
-  .filter-bar select,
-  .filter-sort {
+
+  .filter-controls select {
     width: 100%;
   }
-  .filter-sort {
-    margin-left: 0;
+
+  .alumni-card {
+    padding: var(--spacing-6) var(--spacing-4) var(--spacing-5);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .alumni-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .alumni-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

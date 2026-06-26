@@ -8,3 +8,7 @@ backend/data/db.json
 .env
 .DS_Store
 .github/skills
+
+# Données sensibles (CSV alumni, etc.)
+frontend/public/*.csv
+frontend/public/*.xlsx
