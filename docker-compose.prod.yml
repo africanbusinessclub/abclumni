@@ -20,8 +20,6 @@ services:
     image: ghcr.io/${GITHUB_REPOSITORY:-atepir/abclumni}/backend:${IMAGE_TAG:-latest}
     restart: unless-stopped
     env_file: .env
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-root}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-abclumni}?schema=public
     ports:
       - "4000:4000"
     volumes:
