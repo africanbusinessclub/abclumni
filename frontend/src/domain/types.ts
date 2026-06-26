@@ -102,6 +102,8 @@ export interface DirectoryQuery {
     availability: string;
     profileType: string;
     sort: "relevance" | "name" | "promotion";
+    page: number;
+    pageSize: number;
 }
 
 export interface DirectoryResponse {

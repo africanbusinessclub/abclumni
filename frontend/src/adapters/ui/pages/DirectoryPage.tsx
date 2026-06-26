@@ -90,57 +90,80 @@ export function DirectoryPage() {
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const navigate = useNavigate()
 
-    const load = useCallback(async (nextQuery: DirectoryQuery, options = { showLoading: true }) => {
-        if (options.showLoading) {
+    const load = useCallback(async (nextQuery: DirectoryQuery, options: { append?: boolean; resetItems?: boolean } = {}) => {
+        const { append = false, resetItems = false } = options
+        if (resetItems || !append) {
             setResult((prev) => ({ ...prev, loading: true, error: '' }))
+        } else {
+            setResult((prev) => ({ ...prev, loading: true }))
         }
         try {
-            const params = Object.fromEntries(Object.entries(nextQuery).filter(([, value]) => value)) as Record<string, string>
+            const params = {
+                ...Object.fromEntries(Object.entries(nextQuery).filter(([, value]) => value !== '' && value !== undefined && value !== null)),
+                page: String(nextQuery.page),
+                pageSize: String(nextQuery.pageSize),
+            } as Record<string, string>
             const response = await platformGateway.getAlumni(params)
-            setResult({ loading: false, items: response.data.items, total: response.data.meta.total, error: '' })
+            setResult((prev) => ({
+                loading: false,
+                items: append ? [...prev.items, ...response.data.items] : response.data.items,
+                total: response.data.meta.total,
+                error: '',
+            }))
         } catch (error) {
-            setResult({ loading: false, items: [], total: 0, error: getApiErrorMessage(error, 'Impossible de charger l\'annuaire') })
+            setResult({ loading: false, items: append ? result.items : [], total: 0, error: getApiErrorMessage(error, 'Impossible de charger l\'annuaire') })
         }
-    }, [])
+    }, [result.items])
 
     const handleSearchChange = useCallback((value: string) => {
-        const newQuery = { ...query, q: value }
+        const newQuery = { ...query, q: value, page: 1 }
         setQuery(newQuery)
         if (debounceRef.current) clearTimeout(debounceRef.current)
         debounceRef.current = setTimeout(() => {
-            void load(newQuery, { showLoading: false })
+            void load(newQuery)
         }, DEBOUNCE_MS)
     }, [query, load])
 
     const handleFilterChange = useCallback((key: string, value: string) => {
-        const newQuery = { ...query, [key]: value }
+        const newQuery = { ...query, [key]: value, page: 1 }
         setQuery(newQuery)
         void load(newQuery)
     }, [query, load])
 
     const handleSortChange = useCallback((value: string) => {
-        const newQuery = { ...query, sort: value as DirectoryQuery['sort'] }
+        const newQuery = { ...query, sort: value as DirectoryQuery['sort'], page: 1 }
         setQuery(newQuery)
         void load(newQuery)
     }, [query, load])
 
     const clearFilter = useCallback((key: string) => {
-        const newQuery = { ...query, [key]: '' }
+        const newQuery = { ...query, [key]: '', page: 1 }
         setQuery(newQuery)
         void load(newQuery)
     }, [query, load])
 
     const clearAllFilters = useCallback(() => {
-        const newQuery = { ...query, availability: '', profileType: '', sector: '' }
+        const newQuery = { ...query, availability: '', profileType: '', sector: '', page: 1 }
         setQuery(newQuery)
         void load(newQuery)
+    }, [query, load])
+
+    const handleLoadMore = useCallback(() => {
+        const nextPage = query.page + 1
+        const newQuery = { ...query, page: nextPage }
+        setQuery(newQuery)
+        void load(newQuery, { append: true })
     }, [query, load])
 
     useEffect(() => {
         let isMounted = true
         async function bootstrap() {
             try {
-                const response = await platformGateway.getAlumni()
+                const params = {
+                    page: String(initialDirectoryQuery.page),
+                    pageSize: String(initialDirectoryQuery.pageSize),
+                } as Record<string, string>
+                const response = await platformGateway.getAlumni(params)
                 if (!isMounted) return
                 setResult({ loading: false, items: response.data.items, total: response.data.meta.total, error: '' })
             } catch (error) {
@@ -163,6 +186,7 @@ export function DirectoryPage() {
 
     const filterChips = buildFilterChips(query)
     const hasActiveFilters = filterChips.length > 0
+    const hasMore = !result.loading && !result.error && result.items.length < result.total
 
     return (
         <section className="directory-page">
@@ -297,8 +321,8 @@ export function DirectoryPage() {
                 </div>
             )}
 
-            {/* Results */}
-            {result.loading && (
+            {/* Initial loading skeleton */}
+            {result.loading && result.items.length === 0 && (
                 <div className="alumni-grid">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <div key={i} className="alumni-card alumni-card--skeleton panel" aria-hidden="true">
@@ -400,6 +424,33 @@ export function DirectoryPage() {
                             </article>
                         )
                     })}
+                </div>
+            )}
+
+            {/* Progressive loading (when loading more) */}
+            {result.loading && result.items.length > 0 && (
+                <div className="alumni-grid" aria-hidden="true">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={`skel-${i}`} className="alumni-card alumni-card--skeleton panel">
+                            <div className="skeleton-avatar" />
+                            <div className="skeleton-line skeleton-line--name" />
+                            <div className="skeleton-line skeleton-line--role" />
+                            <div className="skeleton-line skeleton-line--meta" />
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {hasMore && (
+                <div className="load-more-wrapper">
+                    <button
+                        className="load-more-button"
+                        onClick={handleLoadMore}
+                        disabled={result.loading}
+                        type="button"
+                    >
+                        {result.loading ? 'Chargement...' : `Afficher plus de membres (${result.total - result.items.length} restant${result.total - result.items.length !== 1 ? 's' : ''})`}
+                    </button>
                 </div>
             )}
         </section>

@@ -630,6 +630,52 @@
 }
 
 /* ==========================================================================
+   Load More
+   ========================================================================== */
+
+.load-more-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-8) 0 var(--spacing-4);
+}
+
+.load-more-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-8);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-full);
+  background: var(--panel);
+  color: var(--ink-soft);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.load-more-button:hover:not(:disabled) {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.load-more-button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.load-more-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.load-more-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
